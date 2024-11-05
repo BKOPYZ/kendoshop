@@ -80,7 +80,7 @@ WSGI_APPLICATION = "kendoshop.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.sqlite3",
         "NAME": "kendo_shop",
         "USER": "root",
         "PASSWORD": "Jeng_1409",
