@@ -6,6 +6,10 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>SIGNupppppp</h1>
+    <form action="" method="POST">
+      {% csrf_token %} # built in method for security (csrf attack) one person has one token person for authenticated user
+      {{form.as_p}}
+      <button type="submit">Register</button>
+    </form>
   </body>
 </html>
