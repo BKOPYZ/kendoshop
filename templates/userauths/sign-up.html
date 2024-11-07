@@ -14,9 +14,10 @@
     rel="stylesheet">
 </head>
 
-<body>
+<body class="d-flex flex-column">
+  <!--Navigation Bar-->
   <header>
-    <div class="container-fluid secondary-color" style="height:10px;"></div>
+    <div class="container-fluid secondary-color" style="height: 15px;px;"></div>
     <nav class="navbar navbar-expand-lg py-0">
       <div class="container-fluid primary-color">
         <img src="../../static/assets/imgs/kendoshop.png" alt="kendoshop icon" class="navbar-brand icon ms-lg-5" />
@@ -36,13 +37,9 @@
           <!-- Input action and method to search product-->
           <div class="input-group mx-4">
             <input class="form-control outline-secondary" type="search" placeholder="Search" />
-            <button class="btn btn-outline-secondary" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path
-                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-              </svg></button>
+            <button class="btn btn-outline-secondary" type="submit"><img src="../../static/assets/imgs/search.svg"
+                alt="search"></button>
           </div>
-
           <ul class="navbar-nav">
             <li class="nav-item mx-4">
               <a class="nav-link montserrat-light" href="../product/product.html">LOGIN</a>
@@ -56,16 +53,117 @@
     </nav>
   </header>
 
+  <!--Main Body-->
+
+  <section>
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-12 mt-5">
+          <h1 class="montserrat-bold">Sign Up</h1>
+        </div>
+        <div class="col-12 mt-2">
+          <p class="montserrat-light">Your personal information is protected and not be disclosed.</p>
+        </div>
+        <!-- Select Image -->
+        <div class="col-12 mt-2">
+          <div class="mb-1 d-flex justify-content-center">
+            <img id="selectedImage" src="../../static/assets/imgs/human.png" alt="example placeholder"
+              style="width: 100px; height: 100px; border-radius: 100%;" />
+          </div>
+          <button class="btn" id="camera"><label class="form-label text-white m-1" for="customFile1"><img
+                src="../../static/assets/imgs/camera.svg" alt="camera"></label>
+            <input type="file" class="form-control d-none" id="customFile1"
+              onchange="displaySelectedImage(event, 'selectedImage')" />
+            <script src="../../static/assets/js/display.js"></script>
+          </button>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <!-- Input action and method to firstName-->
+        <div class="col-lg-5 col-8 form-floating">
+          <input type="firstName" class="form-control">
+          <label class="mx-2">First name <span style="color: red;">*</span></label>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <!-- Input action and method to lastName-->
+        <div class="col-lg-5 col-8 form-floating mt-4">
+          <input type="lastName" class="form-control">
+          <label class="mx-2">Last name <span style="color: red;">*</span></label>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <!-- Input action and method to email-->
+        <div class="col-lg-5 col-8 form-floating mt-4">
+          <input type="email" class="form-control">
+          <label class="mx-2">Email<span style="color: red;">*</span></label>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <!-- Input action and method to password-->
+        <div class="col-lg-5 col-8 form-floating mt-4">
+          <input type="password" class="form-control">
+          <label class="mx-2">Password <span style="color: red;">*</span></label>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <!-- Input action and method to confirm password-->
+        <div class="col-lg-5 col-8 form-floating mt-4">
+          <input type="password" class="form-control">
+          <label class="mx-2">Confirm Password <span style="color: red;">*</span></label>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <!-- Input action and method to sign up button-->
+        <div class="mx-auto mt-4">
+          <button class="btn btn-dark px-3 montserrat-light">Sign up</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
 
-
-
-
+  <!--
   <form action="/" method="POST">
     {% csrf_token %} # built in method for security (csrf attack) one person
     has one token person for authenticated user {{form.as_p}}
     <button type="submit">Register</button>
   </form>
+  -->
+
+
+  <!-- footer -->
+  <section class="mt-5">
+    <div class="container-fluid secondary-color mt-5">
+      <div class="row ms-2">
+        <div class="col-6 mt-5" style="color: white;">
+          <h3 class=" montserrat-bold ">
+            Your Satisfaction
+            is Our Priority
+            </h2>
+        </div>
+
+      </div>
+      <div class="row ms-2">
+        <div class="col-6 mt-3 mb-5">
+          <p class="montserrat-light" style="color: white; ">
+            we value each customer and aim to make your experience as smooth as possible.
+          </p>
+        </div>
+        <div class="col-6">
+          <div class="d-flex flex-row-reverse">
+            <a href=""><img src="../../static/assets/imgs/facebook.png" alt="facebook" class="px-2 me-lg-5"></a>
+            <a href=""><img src="../../static/assets/imgs/line.png" alt="line" class="px-2"></a>
+            <a href=""><img src="../../static/assets/imgs/instragram.png" alt="instragram" class="px-2"></a>
+          </div>
+          <div class="d-flex flex-row-reverse me-lg-5">
+            <a href="" class="montserrat-light mt-3 me-5" style="color: white; ">Tel : +66 63 4527855</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid secondary-color mt-2" style="height:15px;"></div>
+  </section>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
