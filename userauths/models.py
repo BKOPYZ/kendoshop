@@ -33,3 +33,23 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class MemberAddress(models.Model):
+    member_address_id = models.AutoField(primary_key=True)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    address = models.CharField(max_length=255)
+    road = models.CharField(max_length=255, null=True, blank=True)
+    city = models.CharField(max_length=255)
+    province = models.CharField(max_length=255)
+    postal_code = models.CharField(max_length=255)
+    telephone = models.CharField(max_length=255)
+
+
+class MemberPayment(models.Model):
+    member_payment_id = models.AutoField(primary_key=True)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    payment_type = models.CharField(max_length=255)
+    provider = models.CharField(max_length=255)
+    account_no = models.CharField(max_length=255)
+    expiry_date = models.DateField()
