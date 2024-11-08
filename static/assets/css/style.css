@@ -12,8 +12,8 @@
 }
 
 .montserrat-light {
-  font-family: "Montserrat", serif;
-  font-weight: 500;
+    font-family: "Montserrat", serif;
+    font-weight: 500;
 }
 
 .montserrat-bold {
@@ -27,6 +27,8 @@
 }
 
 #camera {
+    border: 0;
+    background: None;
     position: relative;
     left: 40px;
     bottom: 25px;

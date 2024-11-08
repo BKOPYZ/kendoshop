@@ -6,8 +6,10 @@ from userauths.models import User
 
 def register_view(request):
     context = dict()
-    if request.method == "POST" and (post := request.POST.get("submit", False)):
-
+    if request.method == "POST" and request.POST.get("submit", False):
+        post = request.POST
+        first_name = post.get("firstname", None)
+        last_name = post.get("lastname", None)
         user_profile = post.get("user_profile", None)
         username = post.get("username")
         email = post.get("email")
@@ -31,20 +33,26 @@ def register_view(request):
                 user_profile=user_profile,
                 username=username,
                 email=email,
+                first_name=first_name,
+                last_name=last_name,
+            )
+            new_user.set_password(password)
+            new_user.save()
+            messages.info(request, "Thanks for registering. You are now logged in.")
+            new_user = authenticate(
+                username=email,
                 password=password,
             )
-            new_user.save()
-
-            login_user = authenticate(username=email, password=password)
-
-            login(request, login_user)
+            print("new_user")
+            print(new_user)
+            login(request, new_user)
             return redirect("core:index")
 
         else:
             context["username"] = username
             context["email"] = email
             context["userprofile"] = user_profile
-
+    print("not ok")
     return render(request, "userauths/sign-up.html", context)
 
 
