@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "shortuuid",
     "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
