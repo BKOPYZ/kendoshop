@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "shortuuid",
     "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
     # Custom app
     "core",
     "userauths",
+    "cart",
 ]
 
 MIDDLEWARE = [
@@ -82,9 +82,9 @@ WSGI_APPLICATION = "kendoshop.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "kendo_shop",
-        "USER": "root",
-        "PASSWORD": "Jeng_1409",
+        "NAME": "kendo_shop.db",
+        # "USER": "root",
+        # "PASSWORD": "Jeng_1409",
         "HOST": "localhost",
     }
 }
@@ -141,3 +141,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL = "userauths.User"
+
+CART_SESSION_ID = "cart"
