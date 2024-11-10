@@ -1,3 +1,4 @@
+from email.policy import default
 from sys import prefix
 from unicodedata import decimal
 from django.db import models
@@ -5,6 +6,9 @@ from userauths.models import User
 from django.utils.html import mark_safe
 from shortuuid.django_fields import ShortUUIDField
 from django.contrib.sessions.models import Session
+import datetime
+
+PRODUCT_TYPE = (("sword", "Sword"), ("armor", "Armor"), ("uniform", "Uniform"))
 
 STATUS = (
     ("available", "Available"),
@@ -29,27 +33,22 @@ class Product(models.Model):
     _image_width: int = 50
     _image_height: int = 50
     product_id = models.AutoField(primary_key=True)
-    product_id = ShortUUIDField(
-        unique=True,
-        length=10,
-        max_length=20,
-        prefix="prod",
-        alphabet="abcdefhghijklmnopqrtuvwxyz1234567890",
-    )
     name = models.CharField(max_length=100, default="name of a product")
     description = models.TextField(null=True, blank=True, default="This is a product")
     image = models.ImageField(upload_to="product/", default="product.png")
     price = models.DecimalField(max_digits=99999999, decimal_places=2, default=0.0)
     quantity = models.IntegerField(default=0)
 
-    product_type = models.CharField(max_length=20, default="sword")
+    product_type = models.CharField(
+        choices=PRODUCT_TYPE, max_length=20, default="sword"
+    )
 
-    uniform_size = models.IntegerField(null=True, default=30)
+    uniform_size = models.IntegerField(null=True, blank=True)
 
-    sword_length = models.IntegerField(null=True, default=30)
+    sword_length = models.IntegerField(null=True, blank=True)
 
-    armor_color = models.TextField(blank=True, default="red")
-    armor_size = models.IntegerField(null=True, default=30)
+    armor_color = models.TextField(blank=True, null=True)
+    armor_size = models.IntegerField(null=True, blank=True)
 
     product_status = models.CharField(
         choices=STATUS, max_length=20, default="available"
@@ -67,52 +66,52 @@ class Product(models.Model):
         return self.name
 
 
-
 class ShoppingSession(models.Model):
     # Use Django's session ID to associate with a user's session directly
     session = models.OneToOneField(Session, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now, blank=True)
 
 
 class CartItem(models.Model):
     cart_item_id = models.AutoField(primary_key=True)
     session = models.ForeignKey(ShoppingSession, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=1)
 
-
-class CanceledOrder(models.Model):
-    canceled_order_id = models.AutoField(primary_key=True)
-    order = models.OneToOneField("Order", on_delete=models.CASCADE)
 
 class Promotion(models.Model):
     code = models.CharField(max_length=255, primary_key=True)
-    discount = models.IntegerField()
-    amount = models.IntegerField()
-    end_date = models.DateField()
-
-
-class Order(models.Model):
-    order_id = models.AutoField(primary_key=True)
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
-    payment = models.OneToOneField("Payment", on_delete=models.RESTRICT)
-    promotion_code = models.ForeignKey(
-        Promotion, on_delete=models.RESTRICT, null=True, blank=True
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-
-
-class OrderItem(models.Model):
-    order_item_id = models.AutoField(primary_key=True)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    discount = models.FloatField(default=0.15)
+    amount = models.IntegerField(default=1000)
+    end_date = models.DateField(default=datetime.datetime.now, blank=True, null=True)
 
 
 class Payment(models.Model):
     payment_id = models.AutoField(primary_key=True)
     payment_type = models.CharField(max_length=255)
     provider = models.CharField(max_length=255)
-    total_price = models.FloatField()
-    status = models.IntegerField()
+    total_price = models.FloatField(default=0)
+    status = models.IntegerField(default=1)
+
+
+class Order(models.Model):
+    order_id = models.AutoField(primary_key=True, default=0)
+    member = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    payment = models.OneToOneField(Payment, on_delete=models.RESTRICT, default=0)
+    promotion_code = models.ForeignKey(
+        Promotion, on_delete=models.RESTRICT, null=True, blank=True
+    )
+    created_at = models.DateTimeField(default=datetime.datetime.now, blank=True)
+
+
+class OrderItem(models.Model):
+    order_item_id = models.AutoField(primary_key=True, default=0)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, default=0)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=0)
+    quantity = models.IntegerField(default=1)
+
+
+class CanceledOrder(models.Model):
+    canceled_order_id = models.AutoField(primary_key=True)
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, default=0)

@@ -52,4 +52,4 @@ class UserPayment(models.Model):
     payment_type = models.CharField(max_length=255)
     provider = models.CharField(max_length=255)
     account_no = models.CharField(max_length=255)
-    expiry_date = models.DateField()
+    expiry_date = models.DateField(auto_now_add=True)
