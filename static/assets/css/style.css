@@ -26,10 +26,36 @@
     background-color: #22262C;
 }
 
+.image{
+    border-radius: 10%;
+}
+
+.choice {
+    border: 2px solid black;
+}
+
+
 #camera {
     border: 0;
     background: None;
     position: relative;
     left: 40px;
     bottom: 25px;
+}
+
+#button1 {
+    position: relative;
+    left: 3%;
+    bottom: 100px;
+}
+
+
+@media (min-width: 992px) {
+    #button1 {
+        position: relative;
+        left: 3%;
+        bottom: 170px;
+        width: 12%;
+        height: 40px;
+    }
 }
