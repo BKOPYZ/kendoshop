@@ -1,0 +1,107 @@
+{% extends 'core/header.html' %}{% load static %} {% block wrapper %}
+
+<body class="d-flex flex-column">
+    <div id="header"></div>
+
+    <section>
+        <div class="container-fluid px-lg-5 py-lg-5 py-3">
+            <img src="../../static/assets/imgs/shipping.png" alt="shipping" class="img-fluid image">
+        </div>
+        <div class="container-fluid px-lg-5">
+            <div class="row justify-content-evenly px-4 gap-2">
+                <button class="col-2 btn btn-secondary">All</button>
+                <button class="col-2 btn btn-secondary">Sword</button>
+                <button class="col-2 btn btn-secondary">Armor</button>
+                <button class="col-2 btn btn-secondary">Uniform</button>
+            </div>
+        </div>
+        <div class="container-fluid pt-5 mt-3">
+            <div class="row">
+                <h2 class="col-11  montserrat-bold text-center">All Product</h2>
+                <button class="col-1 btn" data-bs-toggle="collapse" data-bs-target="#collapseCheck"><img
+                        src="../../static/assets/imgs/threedots.svg" alt="three dots"></button>
+                <div class="collapse" id="collapseCheck">
+                    <div class="card card-body" style="width: 10rem; left:80%;">
+                        <p class="card-title text-center">Sorted by</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name=default id="default">
+                            <label class="form-check-label" for="default">
+                                Default
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="lower" id="lower">
+                            <label class="form-check-label" for="lower">
+                                Lower price
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Higher" id="Higher">
+                            <label class="form-check-label" for="Higher">
+                                Higher price
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="name" id="nane">
+                            <label class="form-check-label" for="name">
+                                Higher price
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid pt-5 px-5">
+                <div class="row justify-content-evenly px-lg-5">
+                    <div class="col-4 px-5 row my-3">
+                        <img src="../../static/assets/imgs/squareImage/4.png" alt="uniform"
+                            class="col-lg-10 col-12 image choice">
+                        <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">Kendo
+                            Uniform
+                            Set</p>
+                        <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">2,030 baht</p>
+                    </div>
+                    <div class="col-4 px-5 row my-3">
+                        <img src="../../static/assets/imgs/squareImage/5.png" alt="hakama"
+                            class="col-lg-10 col-12  image choice">
+                        <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">hakama</p>
+                        <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">2,400 baht</p>
+                    </div>
+                    <div class="col-4 px-5 row my-3">
+                        <img src="../../static/assets/imgs/squareImage/6.png" alt="shinai"
+                            class="col-lg-10 col-12 image choice">
+                        <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">Shinai -
+                            Poong
+                            Rim</p>
+                        <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">1200 baht</p>
+                    </div>
+                    <div class="col-4 px-5 row my-3">
+                        <img src="../../static/assets/imgs/squareImage/7.png" alt="shinai"
+                            class="col-lg-10 col-12 image choice">
+                        <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">Hakama
+                            National Team</p>
+                        <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">1200 baht</p>
+                    </div>
+                    <div class="col-4 px-5 row my-3">
+                        <img src="../../static/assets/imgs/squareImage/8.png" alt="shinai"
+                            class="col-lg-10 col-12 image choice">
+                        <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">Chung Un
+                            2.5
+                            mm</p>
+                        <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">18,000 baht</p>
+                    </div>
+                    <div class="col-4 px-5 row my-3">
+                        <img src="../../static/assets/imgs/squareImage/9.png" alt="shinai"
+                            class="col-lg-10 col-12 image choice">
+                        <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">5 mm DO
+                        </p>
+                        <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">3,200 baht</p>
+                    </div>
+
+                </div>
+            </div>
+
+    </section>
+
+</body>
+{% endblock wrapper %}
+
