@@ -7,7 +7,7 @@ from shortuuid.django_fields import ShortUUIDField
 
 
 def user_directory_path(instance, filename):
-    return f"user_{instance.user.user_id}/{filename}"
+    return f"user/user_{instance.user_id}/{filename}"
 
 
 # Create your models here.
