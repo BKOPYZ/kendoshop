@@ -83,4 +83,4 @@ def login_view(request):
                     request, "user doesnot exist or password does not correct"
                 )
 
-    return render(request, "userauth/login.html", context)
+    return render(request, "userauths/login.html", context)
