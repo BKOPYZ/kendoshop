@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sword</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link href="../../static/assets/css/style.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet" />
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous">
+    </script>
+<script>
+    $(function () {
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+    });
+</script>
+
+<body class="d-flex flex-column">
+    <div id="header"></div>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <button class="btn mt-5 col-3 "><img src="../../static/assets/imgs/arrow.png" alt="arrow"
+                        style="width: 60px;"></button>
+                <h1 class="montserrat-bold text-center col-6 mt-5 pt-1">Add new address</h1>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-8 mt-5">
+                    <div class="card  text-dark " style="background-color: #C4C4C4;">
+                        <div class="card-header px-5 montserrat-bold text-center">Order Summary</div>
+                        <div class="card-body container pb-0 ">
+                            <div class="row">
+                                <p class="col-6">Subtotal: </p>
+                                <p class="col-6">21,230 Baht </p>
+                            </div>
+                            <div class="row pb-5">
+                                <p class="col-6">Shipping: </p>
+                                <p class="col-6">100 Baht </p>
+                            </div>
+
+                            <div class="row bg-dark text-light pt-3 ">
+                                <p class="col-6">Total </p>
+                                <p class="col-6">21,230 Baht</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-12 mt-5 ms-5 ps-5">
+                    <h4 class="montserrat-light mb-4 ms-5">Payment Option</h4>
+
+                    <input type="radio" class="btn-check " name="options" id="option1" data-bs-toggle="collapse"
+                        data-bs-target="#cash" aria-controls="cash">
+                    <label class="btn btn-outline-dark col-8 pt-3 ms-5 d-flex justify-content-start" for="option1">
+                        <p class="montserrat-light">Cash on delivery</p>
+                    </label>
+
+                    <input type="radio" class="btn-check " name="options" id="option2" data-bs-toggle="collapse"
+                        data-bs-target="#qr" aria-controls="qr">
+                    <label class="btn btn-outline-dark col-8 pt-3 ms-5 mt-3 d-flex justify-content-start" for="option2">
+                        <p class="montserrat-light">Qr Prompt Pay</p>
+                    </label>
+
+                    <input type="radio" class="btn-check " name="options" id="option3">
+                    <label class="btn btn-outline-dark col-8 pt-3 ms-5 mt-3 d-flex justify-content-start" for="option3"
+                        data-bs-toggle="collapse" data-bs-target="#credit" aria-controls="credit">
+                        <p class="montserrat-light">Credit card</p>
+                    </label>
+
+                    <div id="accordion">
+                        <div class="collapse mt-5 col-10" id="qr" data-bs-parent="#accordion">
+                            <div class="d-flex justify-content-center">
+                                <img src="../../static/assets/imgs/qr.png" alt="qr">
+                            </div>
+                            <p class="montserrat-light text-center mt-3">Please proceed with the transaction within 1
+                                hour</p>
+                        </div>
+
+                        <div class="collapse mt-5 col-10 ms-5" id="credit" data-bs-parent="#accordion">
+                            <div class="d-flex">
+                                <img src="../../static/assets/imgs/visa.png" alt="visa" style="width: 60px;">
+                                <img src="../../static/assets/imgs/master.png" alt="visa" style="width: 60px;">
+                            </div>
+
+                            <div class="mt-4">
+                                <div class="col-8 form-floating">
+                                    <input name="address" type="text" class="form-control" />
+                                    <label class="mx-2">Card number <span style="color: red">*</span></label>
+                                </div>
+                            </div>
+                            <p class="montserrat-light ms-2 mt-4"> Expiration Date<span style="color: red">*</span></p>
+                            <div class="mt-4 d-flex gap-4">
+                                <div class="col-4 form-floating">
+                                    <input name="city" type="text" class="form-control" />
+                                    <label class="mx-2">Month <span style="color: red">*</span></label>
+                                </div>
+                                <div class="col-4 form-floating">
+                                    <input name="city" type="text" class="form-control" />
+                                    <label class="mx-2">Year <span style="color: red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <div class="col-4 form-floating">
+                                    <input name="city" type="text" class="form-control" />
+                                    <label class="mx-2">Security Code <span style="color: red">*</span></label>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="col-8 form-floating">
+                                    <input name="address" type="text" class="form-control" />
+                                    <label class="mx-2">Cardholder Name <span style="color: red">*</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse mt-5 col-10" id="cash" data-bs-parent="#accordion">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row justify-content-center mt-5">
+                <button class="btn btn-dark w-25 px-3 montserrat-light " type="submit" name="submit" value="True">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer"></div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+</html>
