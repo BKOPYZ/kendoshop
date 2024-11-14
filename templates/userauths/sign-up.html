@@ -20,24 +20,14 @@
 
           <div class="col-12 mt-2">
             <div class="mb-1 d-flex justify-content-center">
-              <img
-                id="selectedImage"
-                src="../../static/assets/imgs/human.png"
-                alt="example placeholder"
-                style="width: 100px; height: 100px; border-radius: 100%"
-              />
+              <img id="selectedImage" src="../../static/assets/imgs/human.png" alt="example placeholder"
+                style="width: 100px; height: 100px; border-radius: 100%" />
             </div>
             <button disabled name="btn" id="camera">
-              <label class="form-label text-white m-1" for="customFile1"
-                ><img src="../../static/assets/imgs/camera.svg" alt="camera"
-              /></label>
-              <input
-                name="user_profile"
-                type="file"
-                class="form-control d-none"
-                id="customFile1"
-                onchange="displaySelectedImage(event, 'selectedImage')"
-              />
+              <label class="form-label text-white m-1" for="customFile1"><img src="../../static/assets/imgs/camera.svg"
+                  alt="camera" /></label>
+              <input name="user_profile" type="file" class="form-control d-none" id="customFile1"
+                onchange="displaySelectedImage(event, 'selectedImage')" />
               <script src="../../static/assets/js/display.js"></script>
             </button>
           </div>
@@ -45,19 +35,15 @@
         <div class="row d-flex justify-content-center">
           <!-- Input action and method to firstName-->
           <div class="col-lg-5 col-8 form-floating">
-            <input name="firstname" type="firstName" class="form-control" />
-            <label class="mx-2"
-              >First name <span style="color: red">*</span></label
-            >
+            <input name="firstname" type="text" class="form-control" />
+            <label class="mx-2">First name <span style="color: red">*</span></label>
           </div>
         </div>
         <div class="row d-flex justify-content-center">
           <!-- Input action and method to lastName-->
           <div class="col-lg-5 col-8 form-floating mt-4">
-            <input name="lastname" type="lastName" class="form-control" />
-            <label class="mx-2"
-              >Last name <span style="color: red">*</span></label
-            >
+            <input name="lastname" type="text" class="form-control" />
+            <label class="mx-2">Last name <span style="color: red">*</span></label>
           </div>
         </div>
         <div class="row d-flex justify-content-center">
@@ -70,43 +56,28 @@
         <div class="row d-flex justify-content-center">
           <!-- Input action and method to email-->
           <div class="col-lg-5 col-8 form-floating mt-4">
-            <input name="username" type="username" class="form-control" />
-            <label class="mx-2"
-              >username<span style="color: red">*</span></label
-            >
+            <input name="username" type="text" class="form-control" />
+            <label class="mx-2">username<span style="color: red">*</span></label>
           </div>
         </div>
         <div class="row d-flex justify-content-center">
           <!-- Input action and method to password-->
           <div class="col-lg-5 col-8 form-floating mt-4">
             <input name="password" type="password" class="form-control" />
-            <label class="mx-2"
-              >Password <span style="color: red">*</span></label
-            >
+            <label class="mx-2">Password <span style="color: red">*</span></label>
           </div>
         </div>
         <div class="row d-flex justify-content-center">
           <!-- Input action and method to confirm password-->
           <div class="col-lg-5 col-8 form-floating mt-4">
-            <input
-              name="confirm_password"
-              type="password"
-              class="form-control"
-            />
-            <label class="mx-2"
-              >Confirm Password <span style="color: red">*</span></label
-            >
+            <input name="confirm_password" type="password" class="form-control" />
+            <label class="mx-2">Confirm Password <span style="color: red">*</span></label>
           </div>
         </div>
         <div class="row d-flex justify-content-center">
           <!-- Input action and method to sign up button-->
           <div class="mx-auto mt-4">
-            <button
-              class="btn btn-dark px-3 montserrat-light"
-              type="submit"
-              name="submit"
-              value="True"
-            >
+            <button class="btn btn-dark px-3 montserrat-light" type="submit" name="submit" value="True">
               Sign up
             </button>
           </div>
