@@ -34,6 +34,10 @@
     border: 2px solid black;
 }
 
+.revert {
+    position: absolute;
+}
+
 
 #camera {
     border: 0;
