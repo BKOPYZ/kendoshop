@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from core.models import Product
+from django.contrib import messages
 import math
 
 PRODUCTS_PER_PAGE = 3
@@ -36,7 +37,7 @@ def product_view(request, category: str | None = None, page: int | None = None):
     before = range(max(1, page - 2), page)
     after = range(page, min(page + 3, num_pages + 1))
 
-    content = {
+    context = {
         "products": page_products,
         "num_pages": num_pages,
         "page": page,
@@ -44,29 +45,16 @@ def product_view(request, category: str | None = None, page: int | None = None):
         "after": after,
         "category": category.capitalize(),
     }
-    return render(request, "core/product.html", content)
+    return render(request, "core/product.html", context)
 
 
-def product_category_view(request, page: int | None = None):
-    all_products = Product.objects.all()
+def product_detail_view(request, product_id: int, **kwargs):
+    try:
+        product = Product.objects.get(product_id=product_id)
 
-    num_products = len(all_products)
+        context = {"product": product}
+        return render(request, "core/product_detail.html", context)
 
-    num_pages = math.ceil(num_products / PRODUCTS_PER_PAGE)
-
-    page = 1 if page is None else page
-
-    page_products = all_products[
-        (page - 1) * PRODUCTS_PER_PAGE : max(num_pages, PRODUCTS_PER_PAGE * page)
-    ]
-    before = range(max(1, page - 2), page)
-    after = range(page, min(page + 3, num_pages + 1))
-
-    content = {
-        "products": page_products,
-        "num_pages": num_pages,
-        "page": page,
-        "before": before,
-        "after": after,
-    }
-    return render(request, "core/product.html", content)
+    except Product.DoesNotExist:
+        messages.warning(request, "product does not exist")
+        return redirect("core:product")
