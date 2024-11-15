@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.conf import settings
 
@@ -84,3 +84,9 @@ def login_view(request):
                 )
 
     return render(request, "userauths/login.html", context)
+
+
+def logout_view(request):
+    logout(request)
+    messages.success("You have logout")
+    return redirect("userauths:login")
