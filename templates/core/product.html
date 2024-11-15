@@ -9,15 +9,15 @@
         </div>
         <div class="container-fluid px-lg-5">
             <div class="row justify-content-evenly px-4 gap-2">
-                <button class="col-2 btn btn-secondary">All</button>
-                <button class="col-2 btn btn-secondary">Sword</button>
-                <button class="col-2 btn btn-secondary">Armor</button>
-                <button class="col-2 btn btn-secondary">Uniform</button>
+                <button class="col-2 btn btn-secondary"><a href="{% url 'core:product'  %}">All</a></button>
+                <button class="col-2 btn btn-secondary" ><a href="{% url 'core:product' category='sword' %}">Sword</a></button>
+                <button class="col-2 btn btn-secondary"><a href="{% url 'core:product' category='armor' %}">Armor</a></button>
+                <button class="col-2 btn btn-secondary"><a href="{% url 'core:product' category='uniform' %}">Uniform</a></button>
             </div>
         </div>
-        <div class="container-fluid pt-5 mt-3">
+        <div class="container-fluid pt-5 mt-3" >
             <div class="row">
-                <h2 class="col-11  montserrat-bold text-center">All Product</h2>
+                <h2 class="col-11  montserrat-bold text-center">{{category}}</h2>
                 <button class="col-1 btn" data-bs-toggle="collapse" data-bs-target="#collapseCheck"><img
                         src="../../static/assets/imgs/threedots.svg" alt="three dots"></button>
                 <div class="collapse" id="collapseCheck">
@@ -67,22 +67,22 @@
 
     </section>
     {% if page|add:-2 > 1 %}
-        <a href="{% url 'core:product' 1 %}">[1]</a>
+        <a href="{% url 'core:product' page=1 %}">[1]</a>
         ...
     {% endif %}
     {% for i in before  %}
-    <a href="{% url 'core:product' i %}">[{{i}}]</a>
+    <a href="{% url 'core:product' page=i %}">[{{i}}]</a>
     {% endfor %}
     {% for i in after  %}
     {% if i == page %}
-    <a href="{% url 'core:product' i %}">[{{i}} here]</a>
+    <a href="{% url 'core:product' page=i %}">[{{i}} here]</a>
     {% else %}
-    <a href="{% url 'core:product' i %}">[{{i}}]</a>
+    <a href="{% url 'core:product' page=i %}">[{{i}}]</a>
     {% endif %}
     {% endfor %}
     {% if page|add:2 < num_pages %}
     ...
-    <a href="{% url 'core:product' num_pages %}">[{{num_pages}}]</a>
+    <a href="{% url 'core:product' page=num_pages %}">[{{num_pages}}]</a>
 
     {% endif %}
 </body>
