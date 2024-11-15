@@ -38,14 +38,19 @@
                         <input class="form-control outline-secondary" type="search" placeholder="Search" />
                         <button class="btn btn-outline-secondary" type="submit"><img
                                 src="../../static/assets/imgs/search.svg" alt="search"></button>
-
                         <ul class="navbar-nav">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item mx-4">
+                                <a class="nav-link montserrat-light" href="{% url 'userauths:logout' %}">logout</a>
+                            </li>
+                        {% else %}
                             <li class="nav-item mx-4">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:login' %}">LOGIN</a>
                             </li>
                             <li class="nav-item mx-4">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:sign-up' %}">SIGNUP</a>
                             </li>
+                        {% endif %}
                         </ul>
                     </div>
                 </div>

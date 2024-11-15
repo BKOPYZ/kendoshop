@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
-from django.conf import settings
-
-User = settings.AUTH_USER_MODEL
+from userauths.models import User
 
 
 def register_view(request):
@@ -88,5 +86,5 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    messages.success("You have logout")
+    messages.success(request, "You have logout")
     return redirect("userauths:login")
