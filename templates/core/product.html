@@ -9,90 +9,100 @@
         </div>
         <div class="container-fluid px-lg-5">
             <div class="row justify-content-evenly px-4 gap-2">
-                <a href="{% url 'core:product' %}"><button class="col-2 btn btn-secondary">All</button></a>
-                <a href="{% url 'core:product' category='sword' %}"><button class="col-2 btn btn-secondary" >Sword</button></a>
-                <a href="{% url 'core:product' category='armor' %}"><button class="col-2 btn btn-secondary">Armor</button></a>
-                <a href="{% url 'core:product' category='uniform' %}"><button class="col-2 btn btn-secondary">Uniform</button></a>
+                <a href="{% url 'core:product' %}" class="col-2 btn btn-secondary">All</a>
+                <a href="{% url 'core:product' category='sword' %}" class="col-2 btn btn-secondary">Sword</a>
+                <a href="{% url 'core:product' category='armor' %}" class="col-2 btn btn-secondary">Armor</a>
+                <a href="{% url 'core:product' category='uniform' %}" class="col-2 btn btn-secondary">Uniform</a>
             </div>
         </div>
-        <div class="container-fluid pt-5 mt-3" >
+        <div class="container-fluid pt-5 mt-3">
             <div class="row">
-                <h2 class="col-11  montserrat-bold text-center">{{category}}</h2>
-                <button class="col-1 btn" data-bs-toggle="collapse" data-bs-target="#collapseCheck"><img
-                        src="{% static 'assets/imgs/threedots.svg' %}" alt="three dots"></button>
+                <h2 class="col-12 montserrat-bold text-center">{{category}}
+                    <button class="btn" data-bs-toggle="collapse" data-bs-target="#collapseCheck"
+                        style="position:absolute; left: 88%">
+                        <img src="{% static 'assets/imgs/threedots.svg' %}" alt="three dots" style="width: 25px;">
+                    </button>
+                </h2>
+
                 <div class="collapse" id="collapseCheck">
                     <div class="card card-body" style="width: 10rem; left:80%;">
                         <p class="card-title text-center">Sorted by</p>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name=default id="default">
+                            <input class="form-check-input" type="radio" name=options id="default">
                             <label class="form-check-label" for="default">
                                 Default
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="lower" id="lower">
+                            <input class="form-check-input" type="radio" name="options" id="lower">
                             <label class="form-check-label" for="lower">
                                 Lower price
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="Higher" id="Higher">
+                            <input class="form-check-input" type="radio" name="options" id="Higher">
                             <label class="form-check-label" for="Higher">
                                 Higher price
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="name" id="nane">
+                            <input class="form-check-input" type="radio" name="options" id="nane">
                             <label class="form-check-label" for="name">
                                 Higher price
                             </label>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button class="mt-3 btn btn-primary w-75">confirm</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="container-fluid pt-5 px-5">
                 <div class="row justify-content-evenly px-lg-5">
-                   
+
                     {% for product in products %}
                     <div class="col-4 px-5 row my-3">
-                    <a href="{% url 'core:product_detail' category=product.product_type product_id=product.product_id%}" >
-                        <div>                
-                            <img src="{{ product.image.url}}" alt="uniform"
-                                class="col-lg-10 col-12 image choice">
-                            <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">{{ product.name }}</p>
-                            <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">{{product.price|floatformat:2}} baht</p>
-                        </div>
+                        <a
+                            href="{% url 'core:product_detail' category=product.product_type product_id=product.product_id%}">
+                            <div>
+                                <img src="{{ product.image.url}}" alt="uniform" class="col-lg-10 col-12 image choice">
+                                <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
+                                    {{product.name}}</p>
+                                <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">
+                                    {{product.price|floatformat:2}} baht</p>
+                            </div>
                         </a>
                     </div>
 
                     {% endfor %}
-                    
+
                 </div>
             </div>
 
     </section>
-    {% if page|add:-2 > 1 %}
-        <a href="{% url 'core:product' page=1 %}">[1]</a>
+    <div class="d-flex justify-content-center">
+        {% if page|add:-2 > 1 %}
+        <a href="{% url 'core:product' page=1 %}" class="btn btn-secondary">[1]</a>
         ...
-    {% endif %}
-    {% for i in before  %}
-    <a href="{% url 'core:product' page=i %}">[{{i}}]</a>
-    {% endfor %}
-    {% for i in after  %}
-    {% if i == page %}
-    <a href="{% url 'core:product' page=i %}">[{{i}} here]</a>
-    {% else %}
-    <a href="{% url 'core:product' page=i %}">[{{i}}]</a>
-    {% endif %}
-    {% endfor %}
-    {% if page|add:2 < num_pages %}
-    ...
-    <a href="{% url 'core:product' page=num_pages %}">[{{num_pages}}]</a>
+        {% endif %}
+        {% for i in before %}
+        <a href="{% url 'core:product' page=i %}" class="btn btn-secondary">[{{i}}]</a>
+        {% endfor %}
+        {% for i in after %}
+        {% if i == page %}
+        <a href="{% url 'core:product' page=i %}" class="btn btn-secondary">[{{i}} here]</a>
+        {% else %}
+        <a href="{% url 'core:product' page=i %}" class="btn btn-secondary">[{{i}}]</a>
+        {% endif %}
+        {% endfor %}
+        {% if page|add:2 < num_pages %} ... <a href="{% url 'core:product' page=num_pages %}" class="btn btn-secondary">
+            [{{num_pages}}]</a>
 
-    {% endif %}
+            {% endif %}
+    </div>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 {% endblock wrapper %}
-
