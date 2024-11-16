@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 def register_view(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect(request.path_info)
+        return redirect("core:home")
 
     context = dict()
     if request.method == "POST" and request.POST.get("submit", False):
@@ -86,7 +86,7 @@ def login_view(request):
 
         try:
             user = User.objects.get(email=email)
-        except User.DoesNotExists:
+        except User.DoesNotExist:
             messages.error(request, "email does not exist")
         else:
             user = authenticate(request, email=email, password=password)
@@ -110,5 +110,11 @@ def logout_view(request):
     return redirect("userauths:login")
 
 
+@login_required(login_url="userauths:login")
 def profile_view(request):
-    pass
+    return render(request, "userauths/profile.html", {})
+
+
+@login_required(redirect_field_name="userauths:login")
+def edit_profile_view(request):
+    return render(request, "userauths/edit_profile.html", {})
