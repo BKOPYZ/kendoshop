@@ -39,24 +39,37 @@
                         <button class="btn btn-outline-secondary" type="submit"><img
                                 src="../../static/assets/imgs/search.svg" alt="search"></button>
                         <ul class="navbar-nav">
-                        {% if user.is_authenticated %}
+                            {% if user.is_authenticated %}
+                            <li class="nav-item mx-4">
+                                <!--Link to cart page-->
+                                <a href="" class="nav-link montserrat-light">
+                                    <img src="../../static/assets/imgs/cart.svg" alt="cart" class="img-fluid"
+                                        style="width:30px ;"></a>
+                            </li>
+                            <li class="nav-item mx-4">
+                                <!--Link to profile page-->
+                                <a href="" class="nav-link montserrat-light">
+                                    <img src="{{user.user_profile}}" alt="profile" class="img-fluid"
+                                        style="width:50px ; border-radius:50%;">
+                                </a>
+                            </li>
                             <li class="nav-item mx-4">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:logout' %}">logout</a>
                             </li>
-                        {% else %}
+                            {% else %}
                             <li class="nav-item mx-4">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:login' %}">LOGIN</a>
                             </li>
                             <li class="nav-item mx-4">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:sign-up' %}">SIGNUP</a>
                             </li>
-                        {% endif %}
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
         </nav>
     </header>
-    
+
 </head>
 {%block wrapper%}
 {%endblock wrapper%}
@@ -79,8 +92,7 @@
             </div>
             <div class="col-6">
                 <div class="d-flex flex-row-reverse">
-                    <a href=""><img src="../../static/assets/imgs/facebook.png" alt="facebook"
-                            class="px-2 me-lg-5"></a>
+                    <a href=""><img src="../../static/assets/imgs/facebook.png" alt="facebook" class="px-2 me-lg-5"></a>
                     <a href=""><img src="../../static/assets/imgs/line.png" alt="line" class="px-2"></a>
                     <a href=""><img src="../../static/assets/imgs/instragram.png" alt="instragram" class="px-2"></a>
                 </div>
