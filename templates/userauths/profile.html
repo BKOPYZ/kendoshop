@@ -13,46 +13,44 @@
       <div class="mb-1 d-flex justify-content-center">
         <img
           id="selectedImage"
-          src="../../static/assets/imgs/human.png"
+          src="{{user.user_profile.url}}"
           alt="example placeholder"
           style="width: 100px; height: 100px; border-radius: 100%"
         />
       </div>
 
-      <button class="btn">
-        <img
-          src="../../static/assets/imgs/edit.svg"
-          alt="edit"
-          style="width: 30px"
-        />
-      </button>
+      <a href="{% url 'userauths:edit_profile' %}">
+        <button class="btn">
+          <img
+            src="{% static 'assets/imgs/edit.svg' %}"
+            alt="edit"
+            style="width: 30px"
+          />
+        </button>
+      </a>
 
       <div class="row d-flex justify-content-center mt-3">
         <div class="col-lg-5 col-8 form-floating">
           <input
-            name="firstname"
+            name="name"
             type="text"
             class="form-control"
-            value="hello"
+            value="{{user.first_name|title}} {{user.last_name|title}}"
             disabled
           />
-          <label class="mx-2"
-            >First name <span style="color: red">*</span></label
-          >
+          <label class="mx-2">Name</label>
         </div>
       </div>
       <div class="row d-flex justify-content-center">
         <div class="col-lg-5 col-8 form-floating mt-4">
           <input
-            name="lastname"
-            type="text"
+            name="username"
+            type="username"
             class="form-control"
-            value="hello"
+            value="{{user.username}}"
             disabled
           />
-          <label class="mx-2"
-            >Last name <span style="color: red">*</span></label
-          >
+          <label class="mx-2">username</label>
         </div>
       </div>
       <div class="row d-flex justify-content-center">
@@ -61,10 +59,10 @@
             name="email"
             type="email"
             class="form-control"
-            value="hello"
+            value="{{user.email}}"
             disabled
           />
-          <label class="mx-2">Email<span style="color: red">*</span></label>
+          <label class="mx-2">Email</label>
         </div>
       </div>
     </div>
@@ -73,6 +71,7 @@
         class="row col-lg-3 col-5 montserrat-bold pb-2"
         style="border-bottom: 5px black solid"
       >
+        <!-- TODO: retreive order record from the database and construct them here -->
         Order Summary
       </h2>
       <div class="card text-dark primary-color">

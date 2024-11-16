@@ -117,4 +117,49 @@ def profile_view(request):
 
 @login_required(redirect_field_name="userauths:login")
 def edit_profile_view(request):
+
+    context = dict()
+
+    if request.method == "POST":
+        post = request.POST
+
+        first_name = post.get("firstname")
+        last_name = post.get("lastname")
+        email = post.get("email")
+
+        context["firstname"] = first_name
+        context["lastname"] = last_name
+        context["email"] = email
+
+        user = User.objects.filter(email=email)
+
+        if user.exists() and user[0].user_id != request.user.user_id:
+            context["email"] = ""
+            messages.error("this email has been used")
+
+        else:
+            user = User.objects.get(user_id=request.user.user_id)
+            user.email = email
+            user.first_name = first_name
+            user.last_name = last_name
+            user_profile = request.FILES.get("user_profile", None)
+            context["userprofile"] = user_profile
+
+            is_profile_None = False
+
+            if user_profile is None:
+                with open("../static/assets/imgs/human.png", "rb") as f:
+                    user_profile = f.read()
+                is_profile_None = True
+
+            user.user_profile = user_profile
+            if not is_profile_None:
+                user.user_profile.save(
+                    "user_profile.png",
+                    File(user_profile),
+                )
+            user.save()
+            messages.success(request, "success")
+            return redirect("userauths:profile")
+
     return render(request, "userauths/edit_profile.html", {})
