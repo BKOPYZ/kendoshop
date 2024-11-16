@@ -82,20 +82,24 @@
     </section>
     <div class="d-flex justify-content-center">
         {% if page|add:-2 > 1 %}
-        <a href="{% url 'core:product' page=1 %}" class="btn btn-secondary">[1]</a>
+        <a href="{% url 'core:product' page=1 %}" class="btn btn-light {% if i == page %} active {% endif %} ">[1]</a>
         ...
         {% endif %}
         {% for i in before %}
-        <a href="{% url 'core:product' page=i %}" class="btn btn-secondary">[{{i}}]</a>
+        <a href="{% url 'core:product' page=i %}"
+            class="btn btn-light {% if i == page %} active {% endif %}">[{{i}}]</a>
         {% endfor %}
         {% for i in after %}
         {% if i == page %}
-        <a href="{% url 'core:product' page=i %}" class="btn btn-secondary">[{{i}} here]</a>
+        <a href="{% url 'core:product' page=i %}" class="btn btn-light {% if i == page %} active {% endif %}">[{{i}}
+            here]</a>
         {% else %}
-        <a href="{% url 'core:product' page=i %}" class="btn btn-secondary">[{{i}}]</a>
+        <a href="{% url 'core:product' page=i %}"
+            class="btn btn-light {% if i == page %} active {% endif %}">[{{i}}]</a>
         {% endif %}
         {% endfor %}
-        {% if page|add:2 < num_pages %} ... <a href="{% url 'core:product' page=num_pages %}" class="btn btn-secondary">
+        {% if page|add:2 < num_pages %} ... <a href="{% url 'core:product' page=num_pages %}"
+            class="btn btn-light {% if i == page %} active {% endif %} ">
             [{{num_pages}}]</a>
 
             {% endif %}
