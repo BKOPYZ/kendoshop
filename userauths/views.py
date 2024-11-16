@@ -1,12 +1,16 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from userauths.models import User
 from django.core.files import File
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 def register_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(request.path_info)
+
     context = dict()
     if request.method == "POST" and request.POST.get("submit", False):
         post = request.POST
@@ -104,3 +108,7 @@ def logout_view(request):
     logout(request)
     messages.success(request, "You have logout")
     return redirect("userauths:login")
+
+
+def profile_view(request):
+    pass

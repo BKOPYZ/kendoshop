@@ -1,18 +1,16 @@
-{% extends 'core/header.html' %}{% load static %}{% load humanize %}
-{% block wrapper %}
-
+{% extends 'core/header.html' %} {% load static %} {% load humanize %} {% block wrapper %}
 <body class="d-flex flex-column">
   <div id="header"></div>
 
   <section>
     <form action="">
-        <button class="btn mt-5 ms-5" onclick="window.history.back()"">
-          <img
-            src="{% static 'assets/imgs/arrow.png' %}"
-            alt="arrow"
-            style="width: 60px"
-          />
-        </button>
+      <a href="javascript:history.go(-1)" class="btn mt-5 ms-5">
+        <img
+          src="{% static 'assets/imgs/arrow.png' %}"
+          alt="arrow"
+          style="width: 60px"
+        />
+      </a>
       <div class="container-fluid">
         <div class="row">
           <div class="col-6 ps-lg-5 ms-lg-5">

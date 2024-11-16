@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from core.models import Product
 from django.contrib import messages
@@ -58,3 +59,8 @@ def product_detail_view(request, product_id: int, **kwargs):
     except Product.DoesNotExist:
         messages.warning(request, "product does not exist")
         return redirect("core:product")
+
+
+def go_back(request):
+
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
