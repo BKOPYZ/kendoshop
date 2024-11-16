@@ -7,7 +7,7 @@ from shortuuid.django_fields import ShortUUIDField
 
 
 def user_directory_path(instance, filename):
-    return f"/user/{filename}"
+    return f"user/user_{instance.user_id}/{filename}"
 
 
 # Create your models here.
@@ -26,7 +26,11 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=20, null=True)
     last_name = models.CharField(max_length=20, null=True)
     telephone = models.CharField(max_length=13, null=True)
-    user_profile = models.ImageField(upload_to=user_directory_path, null=True)
+    user_profile = models.ImageField(
+        upload_to=user_directory_path,
+        null=True,
+        default="../static/assets/imgs/human.png",
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]

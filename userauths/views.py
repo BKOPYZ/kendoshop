@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from userauths.models import User
+from django.core.files import File
+from django.contrib.auth.decorators import login_required
 
 
 def register_view(request):
@@ -10,7 +12,7 @@ def register_view(request):
         post = request.POST
         first_name = post.get("firstname", None)
         last_name = post.get("lastname", None)
-        user_profile = post.get("user_profile", None)
+
         username = post.get("username")
         email = post.get("email")
         password = post.get("password")
@@ -18,9 +20,7 @@ def register_view(request):
 
         context["username"] = username
         context["email"] = email
-        context["userprofile"] = user_profile
 
-        # error_message = ""
         is_valid = True
 
         if User.objects.filter(username=username).exists():
@@ -34,12 +34,27 @@ def register_view(request):
         if is_valid:
             try:
                 new_user = User.objects.create(
-                    user_profile=user_profile,
                     username=username,
                     email=email,
                     first_name=first_name,
                     last_name=last_name,
                 )
+                user_profile = request.FILES.get("user_profile", None)
+                context["userprofile"] = user_profile
+
+                is_profile_None = False
+
+                if user_profile is None:
+                    with open("../static/assets/imgs/human.png", "rb") as f:
+                        user_profile = f.read()
+                    is_profile_None = True
+
+                new_user.user_profile = user_profile
+                if not is_profile_None:
+                    new_user.user_profile.save(
+                        "user_profile.png",
+                        File(user_profile),
+                    )
                 new_user.set_password(password)
                 new_user.save()
                 messages.info(request, "Thanks for registering. You are now logged in.")
@@ -50,6 +65,7 @@ def register_view(request):
                 login(request, new_user)
                 return redirect("core:home")
             except Exception as e:
+                print(e)
                 messages.error(request, e)
     return render(request, "userauths/sign-up.html", context)
 
