@@ -48,9 +48,8 @@
 }
 
 #button1 {
-    position: relative;
-    left: 3%;
-    bottom: 100px;
+    position: absolute;
+
 }
 
 
