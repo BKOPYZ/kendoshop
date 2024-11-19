@@ -25,8 +25,8 @@ class ProductAdmin(admin.ModelAdmin):
         "quantity",
         "product_type",
         "uniform_size",
+        "uniform_color",
         "sword_length",
-        "armor_color",
         "armor_size",
         "product_status",
     ]

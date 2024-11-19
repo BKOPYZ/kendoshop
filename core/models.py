@@ -8,7 +8,32 @@ from shortuuid.django_fields import ShortUUIDField
 from django.contrib.sessions.models import Session
 import datetime
 
+PRODUCT_SIZE = (
+    ("", ""),
+    ("xs", "Extra Small"),
+    ("s", "Small"),
+    ("m", "Medium"),
+    ("l", "Large"),
+    ("xl", "Extra Large"),
+)
+
+
 PRODUCT_TYPE = (("sword", "Sword"), ("armor", "Armor"), ("uniform", "Uniform"))
+
+SHINAI_SIZE = (
+    ("", ""),
+    ("28", "28"),
+    ("30", "30"),
+    ("32", "32"),
+    ("34", "34"),
+    ("36", "36"),
+    ("37", "37"),
+    ("37W", "37 Women"),
+    ("38", "38"),
+    ("38w", "38 Woman"),
+    ("39", "39"),
+    ("39w", "39 Woman"),
+)
 
 STATUS = (
     ("available", "Available"),
@@ -43,12 +68,18 @@ class Product(models.Model):
         choices=PRODUCT_TYPE, max_length=20, default="sword"
     )
 
-    uniform_size = models.IntegerField(null=True, blank=True)
+    uniform_size = models.CharField(
+        null=True, max_length=3, blank=True, choices=PRODUCT_SIZE
+    )
+    uniform_color = models.CharField(null=True, max_length=20, blank=True)
 
-    sword_length = models.IntegerField(null=True, blank=True)
+    sword_length = models.CharField(
+        null=True, max_length=10, blank=True, choices=SHINAI_SIZE
+    )
 
-    armor_color = models.TextField(blank=True, null=True)
-    armor_size = models.IntegerField(null=True, blank=True)
+    armor_size = models.CharField(
+        null=True, max_length=3, blank=True, choices=PRODUCT_SIZE
+    )
 
     product_status = models.CharField(
         choices=STATUS, max_length=20, default="available"
