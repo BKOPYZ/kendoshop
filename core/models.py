@@ -68,7 +68,6 @@ class Product(models.Model):
 
 class ShoppingSession(models.Model):
     session = models.OneToOneField(Session, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=datetime.datetime.now, blank=True)
 
 

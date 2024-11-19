@@ -1,3 +1,4 @@
+<!-- prettier-ignore-->>
 {% extends 'core/header.html' %} {% load static %} {% load humanize %} {% block wrapper %}
 <body class="d-flex flex-column">
   <div id="header"></div>
@@ -35,8 +36,12 @@
                 >
                   +
                 </button>
-                <label class="input-group-text px-4" for="amount" value="0"
-                  >0</label
+                <label
+                  id="quantity"
+                  class="input-group-text px-4"
+                  for="amount"
+                  value="1"
+                  >1</label
                 >
                 <button
                   class="btn btn-secondary px-3"
@@ -63,7 +68,14 @@
               <p class="montserrat-light mt-5 mb-0">Total Price</p>
               <p class="montserrat-bold mt-5 mb-0">1,200 Baht</p>
             </div>
-            <button class="btn btn-dark mt-4 w-50">Add to cart</button>
+            <button
+              type="button"
+              value="{{ product.product_id }}"
+              id="add-cart"
+              class="btn btn-dark mt-4 w-50"
+            >
+              Add to cart
+            </button>
           </div>
         </div>
       </div>
@@ -95,11 +107,31 @@
   </section>
 
   <div id="footer"></div>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+  <!-- please consider under this part i dont know what is this you have to make such that if category is sword add sword lenght -->
+  <script>
+    $(document).on("click", "#add-cart", function (e) {
+      e.preventDefault();
+      $.ajax({
+        type: "POST",
+        url: "{% url 'cart:add_cart' %}",
+        data: {
+          product_id: $("#add-cart").val(),
+          product_qty: $("#quantity").text(),
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: "post",
+        },
+        success: function (json) {
+          document.getElementById("cart_quantity").textContent = json.Quantity;
+        },
+        error: function (xhr, errmsg, err) {},
+      });
+    });
+  </script>
 </body>
-<script
-  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-  crossorigin="anonymous"
-></script>
 
 {% endblock wrapper %}
