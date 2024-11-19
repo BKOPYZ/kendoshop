@@ -1,37 +1,23 @@
 {% extends 'core/header.html' %}{% load static %} {% block wrapper %}
+
 <body class="d-flex flex-column">
   <div id="header"></div>
   <section>
     <div class="container-fluid px-lg-5 py-lg-5 py-3">
-      <img
-        src="{% static 'assets/imgs/kendopic.png' %}"
-        alt="kendopic"
-        class="img-fluid image"
-      />
+      <img src="{% static 'assets/imgs/kendopic.png' %}" alt="kendopic" class="img-fluid image" />
       <button class="btn btn-primary montserrat-light" id="button1">
         Shop Now
       </button>
     </div>
     <div class="container-fluid mb-lg-5">
       <div class="row justify-content-evenly px-lg-5">
-        <a href="{% url 'core:product' category='sword' %}" class="col-4"
-          ><img
-            src="{% static 'assets/imgs/squareImage/1.png' %}"
-            alt="sword"
-            class="px-lg-4 img-fluid image"
-        /></a>
-        <a href="{% url 'core:product' category='armor' %}" class="col-4"
-          ><img
-            src="{% static 'assets/imgs/squareImage/2.png' %}"
-            alt="armor"
-            class="px-lg-4 img-fluid image"
-        /></a>
-        <a href="{% url 'core:product' category='uniform' %}" class="col-4"
-          ><img
-            src="{% static 'assets/imgs/squareImage/3.png' %}"
-            alt="uniform"
-            class="px-lg-4 img-fluid image"
-        /></a>
+        <a href="{% url 'core:product' category='sword' %}" class="col-4 d-flex justify-content-center"><img
+            src="{% static 'assets/imgs/squareImage/1.png' %}" alt="sword" class="col-10 px-lg-4 img-fluid image" /></a>
+        <a href="{% url 'core:product' category='armor' %}" class="col-4 d-flex justify-content-center"><img
+            src="{% static 'assets/imgs/squareImage/2.png' %}" alt="armor" class="col-10 px-lg-4 img-fluid image" /></a>
+        <a href="{% url 'core:product' category='uniform' %}" class="col-4 d-flex justify-content-center"><img
+            src="{% static 'assets/imgs/squareImage/3.png' %}" alt="uniform"
+            class="col-10 px-lg-4 img-fluid image" /></a>
       </div>
     </div>
     <div class="container-fluid pt-5">
@@ -39,90 +25,56 @@
     </div>
     <div class="container-fluid pt-5 px-5">
       <div class="row justify-content-evenly px-lg-5">
-        <div class="col-4 px-5 row my-3">
-          <img
-            src="../../static/assets/imgs/squareImage/4.png"
-            alt="uniform"
-            class="col-lg-10 col-12 image choice"
-          />
-          <p
-            class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
-          >
+        <div class="col-2 px-1  my-3">
+          <img src="../../static/assets/imgs/squareImage/4.png" alt="uniform" class="col-12 image choice" />
+          <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
             Kendo Uniform Set
           </p>
           <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">
             2,030 baht
           </p>
         </div>
-        <div class="col-4 px-5 row my-3">
-          <img
-            src="../../static/assets/imgs/squareImage/5.png"
-            alt="hakama"
-            class="col-lg-10 col-12 image choice"
-          />
-          <p
-            class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
-          >
+        <div class="col-2 px-1  my-3">
+          <img src="../../static/assets/imgs/squareImage/5.png" alt="hakama" class=" col-12 image choice" />
+          <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
             hakama
           </p>
           <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">
             2,400 baht
           </p>
         </div>
-        <div class="col-4 px-5 row my-3">
-          <img
-            src="../../static/assets/imgs/squareImage/6.png"
-            alt="shinai"
-            class="col-lg-10 col-12 image choice"
-          />
-          <p
-            class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
-          >
+        <div class="col-2 px-1  my-3">
+          <img src="../../static/assets/imgs/squareImage/6.png" alt="shinai" class="col-12 image choice" />
+          <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
             Shinai - Poong Rim
           </p>
           <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">
             1200 baht
           </p>
         </div>
-        <div class="col-4 px-5 row my-3">
-          <img
-            src="../../static/assets/imgs/squareImage/7.png"
-            alt="shinai"
-            class="col-lg-10 col-12 image choice"
-          />
-          <p
-            class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
-          >
+        <div class="col-2 px-1  my-3 ">
+          <img src="../../static/assets/imgs/squareImage/7.png" alt="shinai" class="col-12 image choice" />
+          <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
             Hakama National Team
           </p>
           <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">
             1200 baht
           </p>
         </div>
-        <div class="col-4 px-5 row my-3">
-          <img
-            src="../../static/assets/imgs/squareImage/8.png"
-            alt="shinai"
-            class="col-lg-10 col-12 image choice"
-          />
-          <p
-            class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
-          >
+        <div class="col-2 px-1  my-3">
+          <img src="../../static/assets/imgs/squareImage/8.png" alt="shinai" class="col-12 image choice" />
+          <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
             Chung Un 2.5 mm
           </p>
           <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">
             18,000 baht
           </p>
         </div>
-        <div class="col-4 px-5 row my-3">
-          <img
-            src="../../static/assets/imgs/squareImage/9.png"
-            alt="shinai"
-            class="col-lg-10 col-12 image choice"
-          />
-          <p
-            class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
-          >
+      </div>
+      <div class="row justify-content-evenly px-lg-5">
+        <div class="col-2 px-1  my-3">
+          <img src="../../static/assets/imgs/squareImage/9.png" alt="shinai" class="col-12 image choice" />
+          <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
             5 mm DO
           </p>
           <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">
