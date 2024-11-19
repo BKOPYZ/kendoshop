@@ -1,5 +1,5 @@
-<!-- prettier-ignore-->>
-{% extends 'core/header.html' %} {% load static %} {% load humanize %} {% block wrapper %}
+<!-- prettier-ignore-->
+{% extends 'core/header.html' %} {% load static %}{% load humanize %}{% block wrapper %}
 <body class="d-flex flex-column">
   <div id="header"></div>
 
@@ -51,18 +51,108 @@
                   -
                 </button>
               </div>
-              <div class="d-flex gap-5">
-                {% if product.product_type == 'sword'%}
-                <label>length</label>
-                <input type="text" placeholder="30" />
-                {% elif product.product_type == 'armor' %}
-                <label>length</label>
-                <input type="text" placeholder="30" />
-                {% elif product.product_type == 'uniform' %}
-                <label>length</label>
-                <input type="text" placeholder="30" />
-                {% endif %}
-              </div>
+              {% if product.product_type == 'sword'%}
+              <label>length</label>
+              <input type="text" placeholder="30" />
+              {% elif product.product_type == 'uniform' %}
+              <p class="montserrat-light mt-4 mb-2">Select Color</p>
+              <input
+                type="radio"
+                class="btn-check"
+                name="color"
+                id="red"
+                checked
+              />
+              <label
+                for="red"
+                class="btn mx-3 border-2"
+                style="background-color: red; height: 25px; border-radius: 50%"
+              ></label>
+
+              <input
+                type="radio"
+                class="btn-check"
+                name="color"
+                id="blue"
+                checked
+              />
+              <label
+                for="blue"
+                class="btn mx-3 border-2"
+                style="background-color: blue; height: 25px; border-radius: 50%"
+              ></label>
+
+              <input
+                type="radio"
+                class="btn-check"
+                name="color"
+                id="pink"
+                checked
+              />
+              <label
+                for="pink"
+                class="btn mx-3 border-2"
+                style="
+                  background-color: #ff00b7;
+                  height: 25px;
+                  border-radius: 50%;
+                "
+              ></label>
+
+              <p class="montserrat-light mt-4 mb-2">Select Size</p>
+              <input
+                type="radio"
+                class="btn-check"
+                name="size"
+                id="small"
+                value="s"
+                checked
+              />
+              <label class="btn btn-secondary col-2" for="small">S</label>
+
+              <input
+                type="radio"
+                class="btn-check"
+                name="size"
+                id="medium"
+                value="m"
+              />
+              <label class="btn btn-secondary col-2" for="medium">M</label>
+
+              <input
+                type="radio"
+                class="btn-check"
+                name="size"
+                id="large"
+                value="l"
+              />
+              <label class="btn btn-secondary col-2" for="large">L</label>
+              {% elif product.product_type == 'armor' %}
+              <p class="montserrat-light mt-4 mb-2">Select Size</p>
+              <input
+                type="radio"
+                class="btn-check"
+                name="options"
+                id="small"
+                value="s"
+                checked
+              />
+              <label class="btn btn-secondary col-2" for="small">S</label>
+
+              <input
+                type="radio"
+                class="btn-check"
+                name="options"
+                id="medium"
+                value="m"
+              />
+              <label class="btn btn-secondary col-2" for="medium">M</label>
+
+              <input type="radio" class="btn-check" name="options" id="large" />
+              <label class="btn btn-secondary col-2" for="large" value="l"
+                >L</label
+              >
+              {% endif %}
             </div>
             <div class="d-flex gap-5 mb-4">
               <p class="montserrat-light mt-5 mb-0">Total Price</p>
