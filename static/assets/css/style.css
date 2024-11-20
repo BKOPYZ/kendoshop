@@ -46,19 +46,3 @@
     left: 40px;
     bottom: 25px;
 }
-
-#button1 {
-    position: absolute;
-
-}
-
-
-@media (min-width: 992px) {
-    #button1 {
-        position: relative;
-        left: 3%;
-        bottom: 170px;
-        width: 12%;
-        height: 40px;
-    }
-}
