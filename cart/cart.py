@@ -29,7 +29,7 @@ class Cart:
 
         if product.quantity < self.cart[product_id]:
             status = 1
-            self.cart[product_id] -= quantity
+            self.cart[product_id] -= int(quantity)
 
         if self.cart[product_id] <= 0:
             return self.delete(product), 0

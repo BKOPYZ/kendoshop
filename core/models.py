@@ -96,19 +96,6 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-
-class ShoppingSession(models.Model):
-    session = models.OneToOneField(Session, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(default=datetime.datetime.now, blank=True)
-
-
-class CartItem(models.Model):
-    cart_item_id = models.AutoField(primary_key=True, default=0)
-    session = models.ForeignKey(ShoppingSession, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
-
-
 class Promotion(models.Model):
     code = models.CharField(max_length=255, primary_key=True, default="HAPPY")
     discount = models.FloatField(default=0.15)

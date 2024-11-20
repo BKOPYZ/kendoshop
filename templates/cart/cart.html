@@ -1,5 +1,5 @@
-{% extends 'core/header.html' %} {% load humanize %}{% block wrapper %}{% load
-static %}
+<!-- prettier-ignore-->
+{% extends 'core/header.html' %} {% load humanize %}{% block wrapper %}{% load static %}
 <body class="d-flex flex-column">
   <div id="header"></div>
 
@@ -182,7 +182,7 @@ static %}
       },
       success: function (json) {
         document.getElementById(button.value + "_row_product").hidden = true;
-        document.getElementById("cart_quantity").textContent = json.Quantity;
+        document.getElementById("cart_quantity").textContent = json.Quantities;
       },
       error: function (xhr, errmsg, err) {
         console.log(xhr);

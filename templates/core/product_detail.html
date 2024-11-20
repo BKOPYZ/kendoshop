@@ -25,7 +25,8 @@
             <h1 class="montserrat-bold">{{product.name}}</h1>
             <h4 class="montserrat-bold mt-4">
               {{product.price|intcomma}} Baht
-            </h4>
+              <!-- TODO: OAT please implement such that after user click the radio button it will change how many product have left smth like that -->
+            </h4> <h4 class="montserrat-bold" name="quantity_left" id="quantity_left">({{product.quantity}})</h4>
             <div class="d-flex gap-5">
               <p class="montserrat-light mt-5 mb-0">quantity</p>
               <div class="input-group pt-4 mt-3">
@@ -53,48 +54,47 @@
               </div>
               {% if product.product_type == 'sword' %}
               {% for data in length_quantity %}
-                <input type="radio" class="btn-check size" name="size" id ="{{data[0]}}" {% if data[1] <= 0 %} disabled {% endif %} value="{{ data[0] }}"></input>
-                <label class="btn btn-secondary col-2" for="{{ data[0] }}">{{ data[0]}}</label>
+                <input type="radio" class="btn-check length" name="length" id ="{{data.0}}" {% if data.1 <= 0 %} disabled {% endif %} value="{{ data.0 }}"></input>
+                <label class="btn btn-secondary col-2" for="{{ data.0 }}">{{ data.0}}</label>
 
               {% endfor %}
               {% elif product.product_type == 'uniform' %}
               <p class="montserrat-light mt-4 mb-2">Select Color</p>
-              {% for color in all_available_color %}
+              {% for color in distinct_color  %}
               <input
                 type="radio"
                 class="btn-check color"
                 name="color"
-                id="{{color.uniform_color}}"
-                value="{{color.uniform_color}}"
+                id="{{color}}"
+                value="{{color}}"
               />
               <label
-                for="{{color.uniform_color}}"
+                for="{{color}}"
                 class="btn mx-3 border-2"
-                style="background-color: {{color.uniform_color|safe}}; height: 25px; border-radius: 50%"
+                style="background-color: {{color|safe}}; height: 25px; border-radius: 50%"
               ></label>
               {% endfor %}
 
               <p class="montserrat-light mt-4 mb-2">Select Size</p>
-              {% for same_product in all_same_product %}
+              {% for size in distinct_size %}
                 <input type="radio"
                 class="btn-check size"
-                name="size"
-                id="{{same_product.uniform_size}}"
-                value="{{same_product.product_id}}"
-                {% if same_product.quantity <= 0 %} disabled {% endif %} ></input>
-                <label class="btn btn-secondary col-2" for="{{same_product.uniform_size}}">{{same_product.uniform_size}}</label>
+                name="{{size}}"
+                id="{{size}}"
+                value="{{size}}" ></input>
+                <label class="btn btn-secondary col-2" for="{{size}}">{{size}}</label>
               {% endfor %}
 
              
               {% elif product.product_type == 'armor' %}
-              {% for same_product in all_same_product %}
+              {% for data in size_quantity %}
                 <input type="radio"
                 class="btn-check size"
                 name="size"
-                id="{{same_product.armor_size}}"
-                value="{{same_product.product_id}}"
-                {% if same_product.quantity <= 0 %} disabled {% endif %} ></input>
-                <label class="btn btn-secondary col-2" for="{{same_product.armor_size}}">{{same_product.armor_size}}</label>
+                id="{{data.0}}"
+                value="{{data.0}}"
+                {% if data.1 <= 0 %} disabled {% endif %} ></input>
+                <label class="btn btn-secondary col-2" for="{{data.0}}">{{data.0}}</label>
               {% endfor %}
               {% endif %}
             </div>
@@ -150,20 +150,40 @@
   <script>
     $(document).on("click", "#add-cart", function (e) {
       e.preventDefault();
-      $.ajax({
+      var params = {
         type: "POST",
-        url: "{% url 'cart:add_cart' %}",
-        data: {
-          product_id: $("#add-cart").val(),
-          product_qty: $("#quantity").text(),
-          csrfmiddlewaretoken: "{{csrf_token}}",
-          action: "post",
-        },
-        success: function (json) {
+        url: "{% url 'cart:add_cart' %}"}
+      var data = {
+        product_name:$("#add-cart").val(),
+        product_type:"{{product.product_type}}",
+        product_qty: $("#quantity").text(),
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: "post",
+      }
+      if ( "{{ product.product_type }}" == "armor"){
+        data.size = $(".size:checked").val()
+      }
+      else if( "{{product.product_type}}" == "sword"){
+        data.length = $(".length:checked").val()
+      }
+      else if( "{{product.product_type}}" == "uniform"){
+        data.color = $(".color:checked").val()
+        data.size = $(".size:checked").val()
+      }
+      params.data = data
+      params.success = function (json) {
+        if (json.Success){
           document.getElementById("cart_quantity").textContent = json.Quantity;
-        },
-        error: function (xhr, errmsg, err) {},
-      });
+        }
+        else{
+          // handle this part if user doesn't check every part
+          console.log("error")
+        }
+      }
+      params.error = function (xhr, errmsg, err) {}
+      $.ajax(
+        params
+      );
     });
   </script>
 </body>
