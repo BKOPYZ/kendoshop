@@ -64,13 +64,13 @@
                 type="radio"
                 class="btn-check color"
                 name="color"
-                id="{{color}}"
-                value="{{color}}"
+                id="{{color.uniform_color}}"
+                value="{{color.uniform_color}}"
               />
               <label
                 for="{{color}}"
                 class="btn mx-3 border-2"
-                style="background-color: {{color|safe}}; height: 25px; border-radius: 50%"
+                style="background-color: {{color.uniform_color|safe}}; height: 25px; border-radius: 50%"
               ></label>
               {% endfor %}
 
