@@ -53,62 +53,34 @@
               </div>
               {% if product.product_type == 'sword' %}
               {% for same_product in all_same_product %}
-                <input type="radio" class="btn-check" name="size" id ="{{same_product.sword_length}}" {% if same_product.quantity <= 0 %} disabled {% endif %} value="{{same_product.sword_length}}"></input>
+                <input type="radio" class="btn-check size" name="size" id ="{{same_product.sword_length}}" {% if same_product.quantity <= 0 %} disabled {% endif %} value="{{same_product.product_id}}"></input>
                 <label class="btn btn-secondary col-2" for="{{same_product.sword_length}}">{{same_product.sword_length}}</label>
 
               {% endfor %}
               {% elif product.product_type == 'uniform' %}
               <p class="montserrat-light mt-4 mb-2">Select Color</p>
+              {% for color in all_available_color %}
               <input
                 type="radio"
-                class="btn-check"
+                class="btn-check color"
                 name="color"
-                id="red"
-                checked
+                id="{{color}}"
+                value="{{color}}"
               />
               <label
-                for="red"
+                for="{{color}}"
                 class="btn mx-3 border-2"
-                style="background-color: red; height: 25px; border-radius: 50%"
+                style="background-color: {{color|safe}}; height: 25px; border-radius: 50%"
               ></label>
-
-              <input
-                type="radio"
-                class="btn-check"
-                name="color"
-                id="blue"
-                checked
-              />
-              <label
-                for="blue"
-                class="btn mx-3 border-2"
-                style="background-color: blue; height: 25px; border-radius: 50%"
-              ></label>
-
-              <input
-                type="radio"
-                class="btn-check"
-                name="color"
-                id="pink"
-                checked
-              />
-              <label
-                for="pink"
-                class="btn mx-3 border-2"
-                style="
-                  background-color: #ff00b7;
-                  height: 25px;
-                  border-radius: 50%;
-                "
-              ></label>
+              {% endfor %}
 
               <p class="montserrat-light mt-4 mb-2">Select Size</p>
               {% for same_product in all_same_product %}
                 <input type="radio"
-                class="btn-check"
+                class="btn-check size"
                 name="size"
                 id="{{same_product.uniform_size}}"
-                value="{{same_product.uniform_size}}"
+                value="{{same_product.product_id}}"
                 {% if same_product.quantity <= 0 %} disabled {% endif %} ></input>
                 <label class="btn btn-secondary col-2" for="{{same_product.uniform_size}}">{{same_product.uniform_size}}</label>
               {% endfor %}
@@ -117,10 +89,10 @@
               {% elif product.product_type == 'armor' %}
               {% for same_product in all_same_product %}
                 <input type="radio"
-                class="btn-check"
+                class="btn-check size"
                 name="size"
                 id="{{same_product.armor_size}}"
-                value="{{same_product.armor_size}}"
+                value="{{same_product.product_id}}"
                 {% if same_product.quantity <= 0 %} disabled {% endif %} ></input>
                 <label class="btn btn-secondary col-2" for="{{same_product.armor_size}}">{{same_product.armor_size}}</label>
               {% endfor %}

@@ -72,13 +72,21 @@ def product_detail_view(request, product_id: int, **kwargs):
 
         elif product.product_type == "uniform":
             all_available_color = all_same_product.values("uniform_color").distinct()
+            all_same_product = all_same_product.raw(
+                f"select * from core_product where name = '{product.name}' and product_type ='uniform' group by uniform_size"
+            )
             all_same_product = sorted(
                 all_same_product,
                 key=lambda product: size_order.index(product.uniform_size),
             )
-            available_color = Product.objects.filter(
-                    name=product.name, uniform_size=all_same_product[0].uniform_size).values("uniform_color").distinct()
-            
+            available_color = (
+                Product.objects.filter(
+                    name=product.name, uniform_size=all_same_product[0].uniform_size
+                )
+                .values("uniform_color")
+                .distinct()
+            )
+
             context["available_color"] = available_color
             context["all_available_color"] = all_available_color
 
