@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from networkx import identified_nodes
 from core.models import Product
 from django.contrib import messages
 from django.db.models import Count
@@ -64,41 +65,20 @@ def product_detail_view(request, product_id: int, **kwargs):
         context = dict()
 
         if product.product_type == "armor":
-
-            all_same_product = sorted(
-                all_same_product,
-                key=lambda product: size_order.index(product.armor_size),
-            )
+            size_quantity = [(product.armor_size, product.quantity) for product in all_same_product]
+            context["size_quantity"] = size_quantity
+            
 
         elif product.product_type == "uniform":
-            all_available_color = all_same_product.values("uniform_color").distinct()
-            all_same_product = all_same_product.raw(
-                f"select * from core_product where name = '{product.name}' and product_type ='uniform' group by uniform_size"
-            )
-            all_same_product = sorted(
-                all_same_product,
-                key=lambda product: size_order.index(product.uniform_size),
-            )
-            available_color = (
-                Product.objects.filter(
-                    name=product.name, uniform_size=all_same_product[0].uniform_size
-                )
-                .values("uniform_color")
-                .distinct()
-            )
-
-            context["available_color"] = available_color
-            context["all_available_color"] = all_available_color
-
+            size_color_quantity = [(product.uniform_size, product.uniform_color, product.quantity) for product in all_same_product]
+            context["size_color_quantity"] = size_color_quantity
+            
+            
         elif product.product_type == "sword":
-            all_same_product = sorted(
-                all_same_product, key=lambda product: product.sword_length
-            )
-
-        product = all_same_product[0]
-
+            length_quantity = [(product.sword_length, product.quantity) for product in all_same_product]
+            context["length_quantity"] = length_quantity
+            
         context["product"] = product
-        context["all_same_product"] = all_same_product
         return render(request, "core/product_detail.html", context)
 
     except Product.DoesNotExist:

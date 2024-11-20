@@ -52,9 +52,9 @@
                 </button>
               </div>
               {% if product.product_type == 'sword' %}
-              {% for same_product in all_same_product %}
-                <input type="radio" class="btn-check size" name="size" id ="{{same_product.sword_length}}" {% if same_product.quantity <= 0 %} disabled {% endif %} value="{{same_product.product_id}}"></input>
-                <label class="btn btn-secondary col-2" for="{{same_product.sword_length}}">{{same_product.sword_length}}</label>
+              {% for data in length_quantity %}
+                <input type="radio" class="btn-check size" name="size" id ="{{data[0]}}" {% if data[1] <= 0 %} disabled {% endif %} value="{{ data[0] }}"></input>
+                <label class="btn btn-secondary col-2" for="{{ data[0] }}">{{ data[0]}}</label>
 
               {% endfor %}
               {% elif product.product_type == 'uniform' %}
@@ -104,7 +104,7 @@
             </div>
             <button
               type="button"
-              value="{{ product.product_id }}"
+              value="{{ product.name }}"
               id="add-cart"
               class="btn btn-dark mt-4 w-50"
             >
