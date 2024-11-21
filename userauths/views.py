@@ -5,6 +5,7 @@ from django.contrib import messages
 from userauths.models import User
 from django.core.files import File
 from django.contrib.auth.decorators import login_required, user_passes_test
+from cart.cart import Cart
 
 
 def register_view(request):
@@ -95,6 +96,7 @@ def login_view(request):
 
                 login(request, user)
                 messages.success(request, "you are login")
+                Cart(request).load_from_database()
                 return redirect("core:home")
             else:
                 messages.error(

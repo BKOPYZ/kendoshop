@@ -94,7 +94,8 @@ class Product(models.Model):
         )
 
     def __str__(self):
-        return self.name
+        return str(self.product_id)
+
 
 class Promotion(models.Model):
     code = models.CharField(max_length=255, primary_key=True, default="HAPPY")

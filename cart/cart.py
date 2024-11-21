@@ -1,5 +1,6 @@
 from urllib import request
 from django.conf import settings
+import cart
 from cart.models import ShoppingSession, CartItem
 from userauths.models import User
 
@@ -9,6 +10,7 @@ from copy import deepcopy
 
 class Cart:
     def __init__(self, request):
+        self.request = request
         self.session = request.session
 
         cart = self.session.get(settings.CART_SESSION_ID)
@@ -17,28 +19,31 @@ class Cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def load_from_database(self, request):
+    def load_from_database(self):
         old_cart = deepcopy(self.cart)
-        if request.user.is_authenticated:
+        if self.request.user.is_authenticated:
             try:
-                user = User.objects.get(user_id=request.user.user_id)
-                cart = ShoppingSession.objects.get(user=user)
-                cartItems = CartItem.objects.filters(user=user)
+                self.cartObject = ShoppingSession.objects.get(user=self.request.user)
+                cartItems = CartItem.objects.filter(cart=self.cartObject)
                 for cartItem in cartItems:
                     self.cart[cartItem.product.product_id] = cartItem.quantity
 
             except ShoppingSession.DoesNotExist:
-                cart = ShoppingSession.objects.create(user=user)
-                cart.save()
+                self.cartObject = ShoppingSession.objects.create(user=self.request.user)
+                self.cartObject.save()
 
         if old_cart:
-            for product_id, quantity in self.cart.itmes():
+            for product_id, quantity in old_cart.items():
                 product = Product.objects.get(product_id=product_id)
-
-                cartItem = CartItem.objects.create(
-                    cart=cart, product=product, quantity=quantity
-                )
-                cartItem.save()
+                try:
+                    cartItem = CartItem.objects.get(
+                        cart=self.cartObject, product=product
+                    )
+                except CartItem.DoesNotExist:
+                    cartItem = CartItem.objects.create(
+                        cart=self.cartObject, product=product, quantity=quantity
+                    )
+                    cartItem.save()
         self.session.modified = True
 
     def add(self, product, quantity):
@@ -61,12 +66,37 @@ class Cart:
 
         self.session.modified = True
         # TODO: add to database
+        if self.request.user.is_authenticated:
+            try:
+                self.cartObject = ShoppingSession.objects.get(user=self.request.user)
+                cartItem = CartItem.objects.get(product=product, cart=self.cartObject)
+                cartItem.quantity = self.cart[product_id]
+                print("update")
+                cartItem.save()
+
+            except CartItem.DoesNotExist:
+                print("create new item")
+                cartItem = CartItem.objects.create(
+                    product=product,
+                    cart=self.cartObject,
+                    quantity=self.cart[product_id],
+                )
+                print("finish create procut")
+                cartItem.save()
+
         return status, self.cart[product_id]
 
     def delete(self, product):
         product_id = str(product.product_id)
         self.cart.pop(product_id)
         self.session.modified = True
+
+        if self.request.user.is_authenticated:
+            print("record delete")
+            self.cartObject = ShoppingSession.objects.get(user=self.request.user)
+            print(CartItem.objects.filter(product=product, cart=self.cartObject))
+            cartItem = CartItem.objects.get(product=product, cart=self.cartObject)
+            cartItem.delete()
         return 2
 
     def __len__(self):
