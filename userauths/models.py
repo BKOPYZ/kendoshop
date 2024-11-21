@@ -1,6 +1,7 @@
 from sys import prefix
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from shortuuid.django_fields import ShortUUIDField
 
 from pkg_resources import require
 from shortuuid.django_fields import ShortUUIDField
@@ -40,10 +41,9 @@ class User(AbstractUser):
 
 
 class UserAddress(models.Model):
-    member_address_id = models.AutoField(primary_key=True)
-    member = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_address_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=255)
-    road = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255)
     province = models.CharField(max_length=255)
     postal_code = models.CharField(max_length=255)
@@ -51,8 +51,8 @@ class UserAddress(models.Model):
 
 
 class UserPayment(models.Model):
-    member_payment_id = models.AutoField(primary_key=True)
-    member = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_payment_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     payment_type = models.CharField(max_length=255)
     provider = models.CharField(max_length=255)
     account_no = models.CharField(max_length=255)

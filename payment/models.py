@@ -24,16 +24,22 @@ class Payment(models.Model):
     card_status = models.BooleanField(null=True, blank=True)
     total_price = models.FloatField(default=0)
 
+    def __repr__(self):
+        return
+
 
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
-    member = models.ForeignKey(
-        User, null=True, blank=True, on_delete=models.CASCADE, default=1
-    )
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     payment = models.OneToOneField(Payment, on_delete=models.RESTRICT, default=0)
     promotion_code = models.ForeignKey(
         Promotion, on_delete=models.RESTRICT, null=True, blank=True
     )
+    address = models.CharField(max_length=255, default="100/100")
+    city = models.CharField(max_length=255, default="Parkret")
+    province = models.CharField(max_length=255, default="Nonthaburi")
+    postal_code = models.CharField(max_length=255, default="11120")
+    telephone = models.CharField(max_length=255, default="00000000")
     created_at = models.DateTimeField(default=datetime.datetime.now, blank=True)
 
 

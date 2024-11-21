@@ -26,8 +26,8 @@ class UserAdmin(admin.ModelAdmin):
 
 class UserPaymentAdmin(admin.ModelAdmin):
     list_display = [
-        "member_payment_id",
-        "member",
+        "user_payment_id",
+        "user",
         "payment_type",
         "provider",
         "expiry_date",
@@ -38,10 +38,9 @@ class UserPaymentAdmin(admin.ModelAdmin):
 
 class UserAddressAdmin(admin.ModelAdmin):
     list_display = [
-        "member_address_id",
-        "member",
+        "user_address_id",
+        "user",
         "address",
-        "road",
         "city",
         "province",
         "postal_code",

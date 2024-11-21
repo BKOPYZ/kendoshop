@@ -29,12 +29,12 @@ class Cart:
             # save an empty cart in the session
             promotion = self.session[settings.PROMOTION_SESSION_ID] = {}
 
-        payment = self.session.get(settings.PAYMENT_SESSION_ID)
-        if not payment:
-            # save an empty cart in the session
-            payment = self.session[settings.PAYMENT_SESSION_ID] = {}
+        # payment = self.session.get(settings.PAYMENT_SESSION_ID)
+        # if not payment:
+        #     # save an empty cart in the session
+        #     payment = self.session[settings.PAYMENT_SESSION_ID] = {}
 
-        self.payment = payment
+        # self.payment = payment
         self.promotion = promotion
         self.cart = cart
 
@@ -135,14 +135,10 @@ class Cart:
         cart_object.promotion = None
         cart_object.save()
 
-    def init_card_payment(self, payment_dict: dict):
-        # TODO:implenmetn
-        self.payment.update(payment_dict)
-        self.session.modified = True
-
     def delte_cart(self):
+        self.cart.clear()
+        self.promotion.clear()
         self.session.modified = True
-        pass
 
     def __len__(self):
         return len(self.cart)
@@ -155,6 +151,7 @@ class Cart:
 
         return [(product, self.cart[str(product.product_id)]) for product in products]
 
+    @property
     def calculate_total_price(self):
         total_price = 0
         for product_id, quantity in self.cart.items():

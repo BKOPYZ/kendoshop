@@ -18,7 +18,7 @@ class PaymentAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
         "order_id",
-        "member",
+        "user",
         "payment",
         "promotion_code",
         "created_at",

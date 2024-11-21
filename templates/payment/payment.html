@@ -35,7 +35,7 @@
 
                 <div class="row bg-dark text-light pt-3">
                   <p class="col-6">Total</p>
-                  <p class="col-6">21,230 Baht</p>
+                  <p class="col-6">{{cart.calculate_total_price}} Baht</p>
                 </div>
               </div>
             </div>
@@ -51,6 +51,8 @@
               data-bs-toggle="collapse"
               data-bs-target="#cash"
               aria-controls="cash"
+              value="cash"
+              required
             />
             <label
               class="btn btn-outline-dark col-8 pt-3 ms-5 d-flex justify-content-start"
@@ -68,6 +70,8 @@
               data-bs-toggle="collapse"
               data-bs-target="#qr"
               aria-controls="qr"
+              value="qr"
+              required
             />
             <label
               class="btn btn-outline-dark col-8 pt-3 ms-5 mt-3 d-flex justify-content-start"
@@ -76,7 +80,15 @@
               <p class="montserrat-light">Qr Prompt Pay</p>
             </label>
 
-            <input type="radio" class="btn-check" name="options" id="option3" />
+            <input
+              type="radio"
+              class="btn-check"
+              name="options"
+              id="option3"
+              value="card"
+              required
+            />
+
             <label
               class="btn btn-outline-dark col-8 pt-3 ms-5 mt-3 d-flex justify-content-start"
               for="option3"
@@ -94,7 +106,7 @@
                 data-bs-parent="#accordion"
               >
                 <div class="d-flex justify-content-center">
-                  <img src="../../static/assets/imgs/qr.png" alt="qr" />
+                  <img src="{% static 'assets/imgs/qr.png' %}" alt="qr" />
                 </div>
                 <p class="montserrat-light text-center mt-3">
                   Please proceed with the transaction within 1 hour
