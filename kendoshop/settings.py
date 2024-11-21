@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "core",
     "userauths",
     "cart",
+    "payment",
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "userauths.User"
 
 CART_SESSION_ID = "cart"
+PROMOTION_SESSION_ID = "promotion"
+PAYMENT_SESSION_ID = "payment"

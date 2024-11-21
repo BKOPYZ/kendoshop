@@ -29,7 +29,6 @@ def product_view(request, category: str | None = None, page: int | None = None):
         categorize_product = Product.objects.raw(
             f"Select * from core_product where product_type = '{category}' group by name"
         )
-    print(categorize_product)
 
     num_products = len(categorize_product)
 
@@ -68,7 +67,9 @@ def product_detail_view(request, product_id: int, **kwargs):
             size_quantity = [
                 (product.armor_size, product.quantity) for product in all_same_product
             ]
-            size_quantity = sorted(size_quantity, key=lambda product: size_order.index(product[0]))
+            size_quantity = sorted(
+                size_quantity, key=lambda product: size_order.index(product[0])
+            )
             context["size_quantity"] = size_quantity
 
         elif product.product_type == "uniform":

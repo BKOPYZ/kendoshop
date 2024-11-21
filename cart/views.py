@@ -1,6 +1,6 @@
 from sre_constants import SUCCESS
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from core.models import Product
 from .cart import Cart
@@ -16,11 +16,6 @@ def add_cart_view(request):
         product_name = post.get("product_name")
         product_type = post.get("product_type")
         product_qty = int(post.get("product_qty"))
-        print("----------")
-        print(product_name)
-        print(product_type)
-        print(product_qty)
-        print("----------")
 
         all_same_product = Product.objects.filter(
             name=product_name, product_type=product_type
@@ -31,8 +26,7 @@ def add_cart_view(request):
             armor_size = post.get("size")
 
             if armor_size is None:
-                print("armor length None")
-                
+
                 return JsonResponse({"Success": False})
 
             product = get_object_or_404(all_same_product, armor_size=armor_size)
@@ -41,7 +35,6 @@ def add_cart_view(request):
             sword_length = post.get("length")
 
             if sword_length is None:
-                print("sword length None")
                 return JsonResponse({"Success": False})
             product = get_object_or_404(all_same_product, sword_length=sword_length)
         elif product_type == "uniform":
@@ -49,8 +42,7 @@ def add_cart_view(request):
             uniform_color = post.get("color")
 
             if uniform_size is None or uniform_color is None:
-                print("uniform length None")
-                
+
                 return JsonResponse({"Success": False})
             product = get_object_or_404(
                 all_same_product, uniform_size=uniform_size, uniform_color=uniform_color
@@ -103,4 +95,7 @@ def remove_item_view(request):
 def cart_view(request):
     cart = Cart(request)
     products_and_quantities = cart.get_prods()
+    if request.method == "POST":
+        return redirect("payment:payment")
+
     return render(request, "cart/cart.html", {"cart_products": products_and_quantities})

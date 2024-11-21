@@ -6,19 +6,9 @@ class UserAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
-        print("request")
-        print(request)
-        print("obj")
-        print(obj)
-        print("form")
-        print(form)
-        print("change")
-        print(change)
-        print("SAVE MODEL DETECTED")
 
     def delete_model(self, request, obj):
         super().delete_model(request, obj)
-        print("DELETE MODEL DETECTED")
 
     list_display = [
         "username",

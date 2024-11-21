@@ -1,6 +1,7 @@
 from django.db import models
 from userauths.models import User
-from core.models import Product
+from core.models import Product, Promotion
+
 import datetime
 
 # Create your models here.
@@ -9,6 +10,7 @@ import datetime
 class ShoppingSession(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=datetime.datetime.now, blank=True)
+    promotion = models.ForeignKey(Promotion, null=True, on_delete=models.RESTRICT)
 
 
 class CartItem(models.Model):

@@ -1,0 +1,45 @@
+{% extends 'core/header.html' %}{% load static %} {% block wrapper %}
+
+<body class="d-flex flex-column">
+  <div id="header"></div>
+
+  <section>
+    <button class="btn mt-5 ms-5 col-3 revert" onclick="history.go(-1)">
+      <img
+        src="{% static 'assets/imgs/arrow.png' %}"
+        alt="arrow"
+        style="width: 60px"
+      />
+    </button>
+    <div class="container">
+      <div class="row d-flex justify-content-center">
+        <h1 class="montserrat-bold text-center col-8 mt-5">
+          Address Information
+        </h1>
+      </div>
+      <div class="row mt-5 d-flex justify-content-center">
+        <a href="{% url 'payment:user-address' %}">
+          <button class="btn col-5" style="background-color: #c4c4c4">
+            <h2 class="montserrat-light">Use Existing Address</h2>
+          </button>
+        </a>
+      </div>
+      <div class="row mt-5 d-flex justify-content-center">
+        <a href="{% url 'payment:new-address' %}">
+          <button class="btn col-5" style="background-color: #c4c4c4">
+            <h2 class="montserrat-light">Add New Address</h2>
+          </button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+</body>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"
+></script>
+
+{% endblock wrapper %}

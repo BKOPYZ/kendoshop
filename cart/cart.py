@@ -4,11 +4,12 @@ import cart
 from cart.models import ShoppingSession, CartItem
 from userauths.models import User
 
-from core.models import Product
+from core.models import Product, Promotion
 from copy import deepcopy
 
 
 class Cart:
+
     def __init__(self, request):
         self.request = request
         self.session = request.session
@@ -17,6 +18,19 @@ class Cart:
         if not cart:
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
+
+        promotion = self.session.get(settings.PROMOTION_SESSION_ID)
+        if not promotion:
+            # save an empty cart in the session
+            promotion = self.session[settings.PROMOTION_SESSION_ID] = ""
+
+        payment = self.session.get(settings.PAYMENT_SESSION_ID)
+        if not payment:
+            # save an empty cart in the session
+            payment = self.session[settings.PAYMENT_SESSION_ID] = {}
+
+        self.payment = payment
+        self.promotion = promotion
         self.cart = cart
 
     def load_from_database(self):
@@ -71,17 +85,14 @@ class Cart:
                 self.cartObject = ShoppingSession.objects.get(user=self.request.user)
                 cartItem = CartItem.objects.get(product=product, cart=self.cartObject)
                 cartItem.quantity = self.cart[product_id]
-                print("update")
                 cartItem.save()
 
             except CartItem.DoesNotExist:
-                print("create new item")
                 cartItem = CartItem.objects.create(
                     product=product,
                     cart=self.cartObject,
                     quantity=self.cart[product_id],
                 )
-                print("finish create procut")
                 cartItem.save()
 
         return status, self.cart[product_id]
@@ -92,12 +103,20 @@ class Cart:
         self.session.modified = True
 
         if self.request.user.is_authenticated:
-            print("record delete")
             self.cartObject = ShoppingSession.objects.get(user=self.request.user)
-            print(CartItem.objects.filter(product=product, cart=self.cartObject))
             cartItem = CartItem.objects.get(product=product, cart=self.cartObject)
             cartItem.delete()
         return 2
+
+    def use_promotion(self, promotion: str):
+        pass
+        self.session.modified = True
+
+        return 1
+
+    def init_card_payment(self, payment_dict: dict):
+        self.payment.update(payment_dict)
+        self.session.modified = True
 
     def __len__(self):
         return len(self.cart)
@@ -106,10 +125,6 @@ class Cart:
         product_ids = self.cart.keys()
         quantities = self.cart.values()
 
-        print("---------------")
-        print(product_ids)
-        print(quantities)
-        print("---------------")
 
         products = Product.objects.filter(product_id__in=product_ids)
 
