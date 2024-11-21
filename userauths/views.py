@@ -29,11 +29,11 @@ def register_view(request):
         is_valid = True
 
         if User.objects.filter(username=username).exists():
-            messages.error("error exists username")
+            messages.error(request, "error exists username")
             is_valid = False
 
         if password != confirm_password:
-            messages.error("error password not the same")
+            messages.error(request, "error password not the same")
             is_valid = False
 
         if is_valid:
@@ -137,7 +137,7 @@ def edit_profile_view(request):
 
         if user.exists() and user[0].user_id != request.user.user_id:
             context["email"] = ""
-            messages.error("this email has been used")
+            messages.error(request, "this email has been used")
 
         else:
             user = User.objects.get(user_id=request.user.user_id)

@@ -9,6 +9,7 @@ from userauths.models import User
 from core.models import Product, Promotion
 from copy import deepcopy
 from django import template
+
 register = template.Library()
 
 
@@ -154,18 +155,12 @@ class Cart:
 
         return [(product, self.cart[str(product.product_id)]) for product in products]
 
-    @register.filter
     def calculate_total_price(self):
         total_price = 0
         for product_id, quantity in self.cart.items():
             product = get_object_or_404(Product, product_id=product_id)
             total_price += product.price * quantity
-        print("promotion")
-        print(self.promotion)
-        print("code")
-        print(self.promotion.get("code"))
         if self.promotion.get("code") is None:
             return float(total_price)
-        print("totla")
 
         return float(total_price) * (1 - float(self.promotion.get("discount")))
