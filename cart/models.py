@@ -16,3 +16,4 @@ class CartItem(models.Model):
     cart = models.ForeignKey(ShoppingSession, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    
