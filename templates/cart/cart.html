@@ -1,5 +1,5 @@
 <!-- prettier-ignore-->
-{% extends 'core/header.html' %} {% load humanize %}{% block wrapper %}{% load static %}
+{% extends 'core/header.html' %} {% load humanize %}{% block wrapper %}{% load static %}{% load mathfilters %}
 <body class="d-flex flex-column">
   <div id="header"></div>
 
@@ -42,7 +42,9 @@
                 >{{quantity}}</label
               >
             </div>
-            <label class="col-2 pt-4">18,000 Baht</label>
+            <label class="col-2 pt-4" id="{{product.product_id}}_price"
+              >{{product.price|mul:quantity|intcomma}}</label
+            >
             <button
               class="col-1 my-4 btn btn-secondary"
               onclick="decrease(event, this)"
@@ -75,7 +77,13 @@
               <div class="row">
                 <p class="col-6">Coupon:</p>
                 <div class="col-6">
-                  <input class="form-control" name="coupon" />
+                  <input class="form-control" name="coupon" id="coupon" />
+                  <button name="check_coupon" onclick="checkCoupon(event)">
+                    v
+                  </button>
+                  <button name="check_coupon" onclick="unusedCoupon(event)">
+                    x
+                  </button>
                 </div>
               </div>
               <div class="row mt-4">
@@ -84,7 +92,9 @@
               </div>
               <div class="row bg-dark text-light rounded pt-3">
                 <p class="col-6">Total</p>
-                <p class="col-6">21,230 Baht</p>
+                <p class="col-6" id="totalprice">
+                  {{cart.calculate_total_price}}
+                </p>
               </div>
             </div>
           </div>
@@ -141,6 +151,9 @@
       success: function (json) {
         document.getElementById(button.value + "_quantity").textContent =
           json.Quantities;
+        document.getElementById(button.value + "_price").textContent =
+          json.Price;
+        document.getElementById("totalprice").textContent = json.TotalPrice;
       },
       error: function (xhr, errmsg, err) {
         console.log(xhr);
@@ -163,6 +176,9 @@
       success: function (json) {
         document.getElementById(button.value + "_quantity").textContent =
           json.Quantities;
+        document.getElementById(button.value + "_price").textContent =
+          json.Price;
+        document.getElementById("totalprice").textContent = json.TotalPrice;
         if (json.remove) {
           document.getElementById(button.value + "_row_product").hidden = true;
         }
@@ -188,7 +204,50 @@
       success: function (json) {
         document.getElementById(button.value + "_row_product").hidden = true;
         document.getElementById("cart_quantity").textContent = json.Quantities;
+        document.getElementById("totalprice").textContent = json.TotalPrice;
       },
+      error: function (xhr, errmsg, err) {
+        console.log(xhr);
+        console.log(errmsg);
+        console.log(err);
+      },
+    });
+  }
+  function checkCoupon(e, button) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cart:check-coupon' %}",
+      data: {
+        code: $("#coupon").val(),
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: "post",
+      },
+      success: function (json) {
+        document.getElementById("totalprice").textContent = json.TotalPrice;
+      },
+
+      error: function (xhr, errmsg, err) {
+        console.log(xhr);
+        console.log(errmsg);
+        console.log(err);
+      },
+    });
+  }
+  function unusedCoupon(e, button) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cart:clear-coupon' %}",
+      data: {
+        code: $("#coupon").val(),
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: "post",
+      },
+      success: function (json) {
+        document.getElementById("totalprice").textContent = json.TotalPrice;
+      },
+
       error: function (xhr, errmsg, err) {
         console.log(xhr);
         console.log(errmsg);

@@ -1,11 +1,15 @@
+from itertools import product
 from urllib import request
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 import cart
 from cart.models import ShoppingSession, CartItem
 from userauths.models import User
 
 from core.models import Product, Promotion
 from copy import deepcopy
+from django import template
+register = template.Library()
 
 
 class Cart:
@@ -22,7 +26,7 @@ class Cart:
         promotion = self.session.get(settings.PROMOTION_SESSION_ID)
         if not promotion:
             # save an empty cart in the session
-            promotion = self.session[settings.PROMOTION_SESSION_ID] = ""
+            promotion = self.session[settings.PROMOTION_SESSION_ID] = {}
 
         payment = self.session.get(settings.PAYMENT_SESSION_ID)
         if not payment:
@@ -79,21 +83,20 @@ class Cart:
             return self.delete(product), 0
 
         self.session.modified = True
-        # TODO: add to database
         if self.request.user.is_authenticated:
             try:
                 self.cartObject = ShoppingSession.objects.get(user=self.request.user)
-                cartItem = CartItem.objects.get(product=product, cart=self.cartObject)
-                cartItem.quantity = self.cart[product_id]
-                cartItem.save()
+                cart_item = CartItem.objects.get(product=product, cart=self.cartObject)
+                cart_item.quantity = self.cart[product_id]
+                cart_item.save()
 
             except CartItem.DoesNotExist:
-                cartItem = CartItem.objects.create(
+                cart_item = CartItem.objects.create(
                     product=product,
                     cart=self.cartObject,
                     quantity=self.cart[product_id],
                 )
-                cartItem.save()
+                cart_item.save()
 
         return status, self.cart[product_id]
 
@@ -104,19 +107,41 @@ class Cart:
 
         if self.request.user.is_authenticated:
             self.cartObject = ShoppingSession.objects.get(user=self.request.user)
-            cartItem = CartItem.objects.get(product=product, cart=self.cartObject)
-            cartItem.delete()
+            cart_item = CartItem.objects.get(product=product, cart=self.cartObject)
+            cart_item.delete()
         return 2
 
-    def use_promotion(self, promotion: str):
-        pass
+    def use_promotion(self, code: str):
+        try:
+            promotion = Promotion.objects.get(code=code)
+        except Promotion.DoesNotExist:
+            return False
+
+        self.promotion.update({"code": promotion.code, "discount": promotion.discount})
         self.session.modified = True
 
-        return 1
+        if self.request.user.is_authenticated:
+            shopping_cart = ShoppingSession.objects.get(user=self.request.user)
+            shopping_cart.promotion = promotion
+            shopping_cart.save()
+
+        return True
+
+    def unused_promotion(self):
+        self.promotion.clear()
+        self.session.modified = True
+        cart_object = ShoppingSession.objects.get(user=self.request.user)
+        cart_object.promotion = None
+        cart_object.save()
 
     def init_card_payment(self, payment_dict: dict):
+        # TODO:implenmetn
         self.payment.update(payment_dict)
         self.session.modified = True
+
+    def delte_cart(self):
+        self.session.modified = True
+        pass
 
     def __len__(self):
         return len(self.cart)
@@ -125,7 +150,22 @@ class Cart:
         product_ids = self.cart.keys()
         quantities = self.cart.values()
 
-
         products = Product.objects.filter(product_id__in=product_ids)
 
         return [(product, self.cart[str(product.product_id)]) for product in products]
+
+    @register.filter
+    def calculate_total_price(self):
+        total_price = 0
+        for product_id, quantity in self.cart.items():
+            product = get_object_or_404(Product, product_id=product_id)
+            total_price += product.price * quantity
+        print("promotion")
+        print(self.promotion)
+        print("code")
+        print(self.promotion.get("code"))
+        if self.promotion.get("code") is None:
+            return float(total_price)
+        print("totla")
+
+        return float(total_price) * (1 - float(self.promotion.get("discount")))

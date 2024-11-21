@@ -10,7 +10,9 @@ import datetime
 class ShoppingSession(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=datetime.datetime.now, blank=True)
-    promotion = models.ForeignKey(Promotion, null=True, on_delete=models.RESTRICT)
+    promotion = models.ForeignKey(
+        Promotion, null=True, blank=True, on_delete=models.RESTRICT
+    )
 
 
 class CartItem(models.Model):

@@ -107,10 +107,6 @@ def product_detail_view(request, product_id: int, **kwargs):
         return redirect("core:product")
 
 
-def select_same_product(request, product_id: int):
-    return redirect("core:product")
-
-
 def go_back(request):
 
     return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))

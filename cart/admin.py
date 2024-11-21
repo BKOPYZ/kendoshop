@@ -1,27 +1,15 @@
+from venv import create
 from django.contrib import admin
 from cart.models import CartItem, ShoppingSession
 
 
-# Register your models here.
+class ShoppingSessionAdmin(admin.ModelAdmin):
+    list_display = ["user", "created_at", "promotion"]
 
 
-# class ProductAdmin(admin.ModelAdmin):
-
-#     list_display = [
-#         "product_id",
-#         "name",
-#         "product_image",
-#         "description",
-#         "price",
-#         "quantity",
-#         "product_type",
-#         "uniform_size",
-#         "uniform_color",
-#         "sword_length",
-#         "armor_size",
-#         "product_status",
-#     ]
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ["cart_item_id", "cart", "product", "quantity"]
 
 
-admin.site.register(ShoppingSession)
-admin.site.register(CartItem)
+admin.site.register(ShoppingSession, ShoppingSessionAdmin)
+admin.site.register(CartItem, CartItemAdmin)

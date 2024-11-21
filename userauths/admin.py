@@ -1,5 +1,5 @@
 from django.contrib import admin
-from userauths.models import User
+from userauths.models import User, UserPayment, UserAddress
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -24,4 +24,31 @@ class UserAdmin(admin.ModelAdmin):
 # Register your models here.
 
 
+class UserPaymentAdmin(admin.ModelAdmin):
+    list_display = [
+        "member_payment_id",
+        "member",
+        "payment_type",
+        "provider",
+        "expiry_date",
+    ]
+
+    exclude = ["account_no"]
+
+
+class UserAddressAdmin(admin.ModelAdmin):
+    list_display = [
+        "member_address_id",
+        "member",
+        "address",
+        "road",
+        "city",
+        "province",
+        "postal_code",
+        "telephone",
+    ]
+
+
 admin.site.register(User, UserAdmin)
+admin.site.register(UserPayment, UserPaymentAdmin)
+admin.site.register(UserAddress, UserAddressAdmin)

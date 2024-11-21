@@ -1,6 +1,7 @@
 from django.contrib import admin
 from core.models import (
     Product,
+    Promotion,
     # Promotion,
     # Payment,
     # CanceledOrder,
@@ -32,4 +33,9 @@ class ProductAdmin(admin.ModelAdmin):
     ]
 
 
+class PromotionAdmin(admin.ModelAdmin):
+    list_display = ["code", "discount", "amount", "end_date"]
+
+
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Promotion, PromotionAdmin)

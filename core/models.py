@@ -1,11 +1,6 @@
-from email.policy import default
-from sys import prefix
-from unicodedata import decimal
 from django.db import models
-from userauths.models import User
 from django.utils.html import mark_safe
 from shortuuid.django_fields import ShortUUIDField
-from django.contrib.sessions.models import Session
 import datetime
 
 PRODUCT_SIZE = (

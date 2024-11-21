@@ -9,15 +9,12 @@ def payment_view(request):
     cart = Cart(request)
     if len(cart) == 0:
         return redirect("core:product")
-    
+
     if request.method == "POST":
         pass
         return redirect("payment:address")
-    
-    context = dict()
-    
-    
 
+    context = dict()
 
     return render(request, "payment/payment.html")
 
@@ -32,3 +29,7 @@ def new_address_view(request):
 
 def exists_address_view(request):
     return render(request, "payment/payment_user_address.html")
+
+
+def new_payment_view(request):
+    return render(request, "payment/payment_new_payment.html")
