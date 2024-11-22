@@ -74,6 +74,7 @@ def new_address_view(request):
         if (payment_data := request.session.get(settings.PAYMENT_SESSION_ID)) is None:
             return redirect("payment:payment")
 
+        payment_data["total_price"] = cart.calculate_total_price
         payment = Payment.objects.create(**payment_data)
         payment.save()
 
@@ -81,8 +82,9 @@ def new_address_view(request):
         if cart.promotion:
             promotion = get_object_or_404(Promotion, **cart.promotion)
 
+        user = request.user if request.user.is_authenticated else None
         order = Order.objects.create(
-            user=request.user,
+            user=user,
             payment=payment,
             promotion_code=promotion,
             address=address,
@@ -121,6 +123,8 @@ def exists_address_view(request):
         cart = Cart(request)
         if (payment_data := request.session.get(settings.PAYMENT_SESSION_ID)) is None:
             return redirect("payment:payment")
+
+        payment_data["total_price"] = cart.calculate_total_price
 
         payment = Payment.objects.create(**payment_data)
         payment.save()
