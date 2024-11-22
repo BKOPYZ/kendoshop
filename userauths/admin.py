@@ -28,12 +28,11 @@ class UserPaymentAdmin(admin.ModelAdmin):
     list_display = [
         "user_payment_id",
         "user",
-        "payment_type",
-        "provider",
+        "card_provider",
         "expiry_date",
     ]
 
-    exclude = ["account_no"]
+    exclude = ["card_no"]
 
 
 class UserAddressAdmin(admin.ModelAdmin):

@@ -7,6 +7,8 @@ from payment.models import Payment, Order, OrderItem
 from cart.models import ShoppingSession, CartItem
 from userauths.models import UserAddress, UserPayment
 from django.conf import settings
+from django.contrib import messages
+import datetime
 
 # Create your views here.
 
@@ -16,6 +18,11 @@ def payment_view(request):
 
     if len(cart) == 0:
         return redirect("core:product")
+    context = dict()
+
+    if request.user.is_authenticated:
+        user_payment = UserPayment.objects.filter(user=request.user)
+        context["user_payment"] = user_payment
 
     if request.method == "POST":
         post = request.POST
@@ -31,7 +38,34 @@ def payment_view(request):
         elif payment_type == "qr":
             param["qr_status"] = False
         elif payment_type == "card":
-            param.update(request.session[settings.CARD_SESSION_ID])
+            if request.user.is_authenticated:
+                param.update(request.session[settings.CARD_SESSION_ID])
+            else:
+                card_no = post["card_no"]
+                if card_no[0] in ("5", "2"):
+                    card_provider = "mastercard"
+                elif card_no[0] == "4":
+                    card_provider = "visa"
+                else:
+                    messages.error(request, "invalid card number")
+                    return
+                try:
+                    month = int(post["month"])
+                    year = int(post["year"])
+                except:
+                    messages.error(request, "invalid montha nad year")
+
+                    return render(request, "payment/payment.html")
+                code = post["code"]
+                name = post["name"]
+                expiry_date = datetime.datetime(year=year, month=month)
+                param.update(
+                    {
+                        "card_no": card_no,
+                        "expiry_date": expiry_date,
+                        "card_provider": card_provider,
+                    }
+                )
             param["card_status"] = False
 
         request.session[settings.PAYMENT_SESSION_ID] = param
@@ -39,7 +73,7 @@ def payment_view(request):
 
         return redirect("payment:address")
 
-    return render(request, "payment/payment.html")
+    return render(request, "payment/payment.html", context)
 
 
 def select_address_view(request):
@@ -182,6 +216,28 @@ def user_address_view(request):
 
 
 def new_payment_view(request):
+    if not request.user.is_authenticated:
+        redirect("payment:payment")
+
+    if request.method == "POST":
+        post = request.POST
+        card_provider = post["card_provider"]
+        card_no = post["card_no"]
+        try:
+            month = post["month"]
+            year = post["year"]
+        except:
+            messages.error(request, "please enter month in int and year in int")
+            return render(request, "payment/payment_new_payment.html")
+        expiry_date = datetime.datetime(int(year), int(month))
+
+        user_address = UserAddress.objects.create(
+            card_provider=card_provider, card_no=card_no, expiry_date=expiry_date
+        )
+        user_address.save()
+
+        return redirect("payment:payment")
+
     return render(request, "payment/payment_new_payment.html")
 
 

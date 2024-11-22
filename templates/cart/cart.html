@@ -23,28 +23,44 @@
           {% for product, quantity in cart_products%}
           <div class="row my-auto" id="{{product.product_id}}_row_product">
             <div class="col-3">
-              <img src="{{product.image.url}}" alt="{{product.name}}" class="img-fluid w-50" />
+              <img
+                src="{{product.image.url}}"
+                alt="{{product.name}}"
+                class="img-fluid w-50"
+              />
             </div>
             <label class="col-2 my-auto">{{product.name}} </label>
             <label class="col-2 my-auto">{{product.price|intcomma}} </label>
             <div class="col-2 d-flex">
-              <button class="col-3 my-auto btn btn-secondary" onclick="increase(event, this)"
-                value="{{product.product_id}}">
+              <button
+                class="col-3 my-auto btn btn-secondary"
+                onclick="increase(event, this)"
+                value="{{product.product_id}}"
+              >
                 +
               </button>
               <div class="mx-4 d-flex align-items-center">
-                x<label class="my-auto" id="{{product.product_id}}_quantity">{{quantity}}</label>
+                x<label class="my-auto" id="{{product.product_id}}_quantity"
+                  >{{quantity}}</label
+                >
               </div>
 
-              <button class="col-3 my-auto btn btn-secondary" onclick="decrease(event, this)"
-                value="{{product.product_id}}">
+              <button
+                class="col-3 my-auto btn btn-secondary"
+                onclick="decrease(event, this)"
+                value="{{product.product_id}}"
+              >
                 -
               </button>
             </div>
-            <label class="col-2 my-auto"
-              id="{{product.product_id}}_price">{{product.price|mul:quantity|intcomma}}</label>
-            <button class="col-1 my-auto btn btn-secondary" onclick="delete_item(event, this)"
-              value="{{product.product_id}}">
+            <label class="col-2 my-auto" id="{{product.product_id}}_price"
+              >{{product.price|mul:quantity|intcomma}}</label
+            >
+            <button
+              class="col-1 my-auto btn btn-secondary"
+              onclick="delete_item(event, this)"
+              value="{{product.product_id}}"
+            >
               X
             </button>
           </div>
@@ -52,7 +68,7 @@
         </div>
         <div class="col-lg-3 col-12 d-flex justify-content-center mt-5 mx-auto">
           <div class="card text-dark" style="background-color: #c4c4c4">
-            <div class="card-header  montserrat-bold">Order Summary</div>
+            <div class="card-header montserrat-bold">Order Summary</div>
             <div class="card-body container pb-0">
               <div class="row">
                 <p class="col-6">Subtotal:</p>
@@ -64,20 +80,42 @@
               </div>
               <div class="row">
                 <p class="col-6">Coupon:</p>
-                <div class="col-6 ">
+                <div class="col-6">
                   <input class="form-control" name="coupon" id="coupon" />
-                  <button name="check_coupon" onclick="checkCoupon(event)" class="btn btn-secondary mt-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                      class="bi bi-check-lg" viewBox="0 0 16 16">
+                  <button
+                    name="check_coupon"
+                    onclick="checkCoupon(event)"
+                    class="btn btn-secondary mt-2"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-check-lg"
+                      viewBox="0 0 16 16"
+                    >
                       <path
-                        d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z" />
+                        d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"
+                      />
                     </svg>
                   </button>
-                  <button name="check_coupon" onclick="unusedCoupon(event)" class="btn btn-secondary mt-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                      class="bi bi-x-lg" viewBox="0 0 16 16">
+                  <button
+                    name="check_coupon"
+                    onclick="unusedCoupon(event)"
+                    class="btn btn-secondary mt-2"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-x-lg"
+                      viewBox="0 0 16 16"
+                    >
                       <path
-                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -100,14 +138,24 @@
         <div class="mx-auto mt-4">
           <form action="./" method="post">
             {% csrf_token %}
-            <button class="btn btn-dark w-25 px-3 montserrat-light" type="submit" name="submit" value="True">
+            <button
+              class="btn btn-dark w-25 px-3 montserrat-light"
+              type="submit"
+              name="submit"
+              value="True"
+            >
               Make an order
             </button>
           </form>
         </div>
         <div class="mx-auto mt-4">
           <a href="{% url 'core:product' %}">
-            <button class="btn btn-secondary w-25 px-3 montserrat-light" type="submit" name="submit" value="True">
+            <button
+              class="btn btn-secondary w-25 px-3 montserrat-light"
+              type="submit"
+              name="submit"
+              value="True"
+            >
               Continue shopping
             </button>
           </a>
@@ -118,8 +166,11 @@
 
   <div id="footer"></div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"
+></script>
 <script>
   function increase(e, button) {
     $.ajax({

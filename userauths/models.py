@@ -6,8 +6,8 @@ from shortuuid.django_fields import ShortUUIDField
 from pkg_resources import require
 from shortuuid.django_fields import ShortUUIDField
 
-
 CARD_PROVIDER = (("debit", "Debit"), ("visa", "Visa"), ("mastercard", "Mastercard"))
+
 
 
 def user_directory_path(instance, filename):
@@ -60,7 +60,6 @@ class UserAddress(models.Model):
             "postal_code": self.postal_code,
             "telephone": self.telephone,
         }
-
     def __str__(self):
         return f"{self.address} {self.city} {self.province} {self.postal_code} {self.telephone}"
 
