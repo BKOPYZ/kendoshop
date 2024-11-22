@@ -11,7 +11,7 @@
       {% csrf_token %}
       <div class="container">
         <div class="row">
-          <h1 class="montserrat-bold text-center col-6 mt-5 pt-1">Payment</h1>
+          <h1 class="montserrat-bold text-center col-6 pt-1">Payment</h1>
         </div>
         <div class="row justify-content-center">
           <div class="col-lg-4 col-8 mt-5">
@@ -70,34 +70,50 @@
 
               {% if user.is_authenticated %}
               <!-- TODO :OAT PLEASE IMPLEMENT this -->
-              <div class="collapse mt-5 col-10 ms-5" id="credit" data-bs-parent="#accordion">
-                <div class="row d-flex justify-content-center">
+              <div class="collapse mt-2 col-10" id="credit" data-bs-parent="#accordion">
+                <div class="row d-flex justify-content-center my-2">
                   <input type="radio" class="btn-check" name="options" id="card1" />
-                  <label class="btn btn-outline-dark col-8" for="card1">
-                    <img src="../../static/assets/imgs/visa.png" alt="visa" style="width: 60px" />
-                    <p class="montserrat-light">Card 1:</p>
-                    <p class="montserrat-light">
-                      Card Number : xxx-xxx-xxx-<span>178</span>
-                    </p>
+                  <label class="btn btn-outline-dark col-8 d-flex" for="card1">
+                    <img src="../../static/assets/imgs/visa.png" alt="visa" style="width: auto; height:40px;" />
+                    <div>
+                      <p class="montserrat-light text-start">Card 1:</p>
+                      <p class="montserrat-light text-start">
+                        Card Number : xxx-xxx-xxx-<span>178</span>
+                      </p>
+                    </div>
                   </label>
                 </div>
-                <div class="row d-flex justify-content-center">
+                <div class="row d-flex justify-content-center my-2">
                   <input type="radio" class="btn-check" name="options" id="card2" />
-                  <label class="btn btn-outline-dark col-8" for="card2">
-                    <img src="../../static/assets/imgs/visa.png" alt="visa" style="width: 60px" />
-                    <p class="montserrat-light">Card 1:</p>
-                    <p class="montserrat-light">
-                      Card Number : xxx-xxx-xxx-<span>178</span>
-                    </p>
+                  <label class="btn btn-outline-dark col-8 d-flex" for="card2">
+                    <img src="../../static/assets/imgs/master.png" alt="master" style="width: auto; height:40px;" />
+                    <div>
+                      <p class="montserrat-light text-start">Card 2:</p>
+                      <p class="montserrat-light text-start">
+                        Card Number : xxx-xxx-xxx-<span>234</span>
+                      </p>
+                    </div>
                   </label>
+                </div>
+                <div class="row d-flex justify-content-center my-2">
+                  <!--Jeng: Pleas link this to new_payment_page-->
+                  <a href="" class="btn btn-outline-dark w-25">Add Card</a>
                 </div>
               </div>
 
               {% else %}
               <div class="collapse mt-5 col-10 ms-5" id="credit" data-bs-parent="#accordion">
-                <div class="d-flex">
-                  <img src="../../static/assets/imgs/visa.png" alt="visa" style="width: 60px" />
-                  <img src="../../static/assets/imgs/master.png" alt="visa" style="width: 60px" />
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="cardChoices" id="visa">
+                  <label class="form-check-label" for="visa">
+                    <img src="../../static/assets/imgs/visa.png" alt="visa" style="width: 60px" />
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="cardChoices" id="master" checked>
+                  <label class="form-check-label" for="master">
+                    <img src="../../static/assets/imgs/master.png" alt="visa" style="width: 60px" />
+                  </label>
                 </div>
 
                 <div class="mt-4">
@@ -134,7 +150,7 @@
                 </div>
               </div>
               {% endif %}
-              <div class="collapse mt-5 col-10" id="cash" data-bs-parent="#accordion"></div>
+              <div class="collapse col-10" id="cash" data-bs-parent="#accordion"></div>
             </div>
           </div>
         </div>
