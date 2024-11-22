@@ -41,7 +41,6 @@
                         <button class="btn btn-outline-secondary" type="submit"><img
                                 src="../../static/assets/imgs/search.svg" alt="search"></button>
                         <ul class="navbar-nav">
-                            {% if user.is_authenticated %}
                             <li class="nav-item mx-4">
                                 <!--Link to cart page-->
                                 <a href="{% url 'cart:cart' %}" class="nav-link montserrat-light">
@@ -49,6 +48,8 @@
                                         style="width:30px ;"></a>
                                 <span id="cart_quantity"">{{cart|length}}</span>
                             </li>
+                            {% if user.is_authenticated %}
+                            
                             <li class="nav-item mx-4">
                                 <!--Link to profile page-->
                                 <a href="{% url 'userauths:profile' %}" class="nav-link montserrat-light">

@@ -17,6 +17,7 @@
           Address Information
         </h1>
       </div>
+      {% if user.is_authenticated %}
       <div class="row mt-5 d-flex justify-content-center">
         <a href="{% url 'payment:user-address' %}">
           <button class="btn col-5" style="background-color: #c4c4c4">
@@ -24,6 +25,7 @@
           </button>
         </a>
       </div>
+      {% endif %}
       <div class="row mt-5 d-flex justify-content-center">
         <a href="{% url 'payment:new-address' %}">
           <button class="btn col-5" style="background-color: #c4c4c4">
