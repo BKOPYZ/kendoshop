@@ -113,6 +113,9 @@
                 </p>
               </div>
 
+              {% if user.is_authenticated %}
+              <!-- TODO :OAT PLEASE IMPLEMENT this -->
+              {% else %}
               <div
                 class="collapse mt-5 col-10 ms-5"
                 id="credit"
@@ -174,6 +177,7 @@
                   </div>
                 </div>
               </div>
+              {% endif %}
               <div
                 class="collapse mt-5 col-10"
                 id="cash"

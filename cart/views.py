@@ -76,7 +76,7 @@ def update_item_view(
             "Product_id": product_id,
             "remove": False,
             "Price": product.price * quantity,
-            "TotalPrice": cart.calculate_total_price(),
+            "TotalPrice": cart.calculate_total_price,
         }
         if status == 1:
             messages.error(request, "you can't add more than that bro")
@@ -98,7 +98,7 @@ def remove_item_view(request):
             {
                 "Product_id": product_id,
                 "Quantities": len(cart),
-                "TotalPrice": cart.calculate_total_price(),
+                "TotalPrice": cart.calculate_total_price,
             }
         )
         return response
@@ -120,15 +120,11 @@ def check_coupon_view(request):
         code = post.get("code")
         cart.use_promotion(code)
 
-        return JsonResponse(
-            {"Success": True, "TotalPrice": cart.calculate_total_price()}
-        )
+        return JsonResponse({"Success": True, "TotalPrice": cart.calculate_total_price})
 
 
 def clear_coupon_view(request):
     cart = Cart(request)
     if request.POST.get("action") == "post":
         cart.unused_promotion()
-        return JsonResponse(
-            {"Success": True, "TotalPrice": cart.calculate_total_price()}
-        )
+        return JsonResponse({"Success": True, "TotalPrice": cart.calculate_total_price})

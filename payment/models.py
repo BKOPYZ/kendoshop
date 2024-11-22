@@ -24,8 +24,8 @@ class Payment(models.Model):
     card_status = models.BooleanField(null=True, blank=True)
     total_price = models.FloatField(default=0)
 
-    def __repr__(self):
-        return
+    
+
 
 
 class Order(models.Model):
