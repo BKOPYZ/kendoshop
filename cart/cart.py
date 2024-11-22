@@ -23,7 +23,6 @@ class Cart:
         if not cart:
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
-            self.load_from_database()
 
         promotion = self.session.get(settings.PROMOTION_SESSION_ID)
         if not promotion:
@@ -40,33 +39,30 @@ class Cart:
         self.cart = cart
 
     def load_from_database(self):
-        if hasattr(self, "cart"):
-            old_cart = deepcopy(self.cart)
+        old_cart = deepcopy(self.cart)
         if self.request.user.is_authenticated:
             try:
                 self.cartObject = ShoppingSession.objects.get(user=self.request.user)
                 cartItems = CartItem.objects.filter(cart=self.cartObject)
                 for cartItem in cartItems:
                     self.cart[cartItem.product.product_id] = cartItem.quantity
-                if self.cartObject.promotion:
-                    self.promotion.update(self.cartObject.promotion.to_dict())
 
             except ShoppingSession.DoesNotExist:
                 self.cartObject = ShoppingSession.objects.create(user=self.request.user)
                 self.cartObject.save()
 
-            if hasattr(self, "cart") and old_cart:
-                for product_id, quantity in old_cart.items():
-                    product = Product.objects.get(product_id=product_id)
-                    try:
-                        cartItem = CartItem.objects.get(
-                            cart=self.cartObject, product=product
-                        )
-                    except CartItem.DoesNotExist:
-                        cartItem = CartItem.objects.create(
-                            cart=self.cartObject, product=product, quantity=quantity
-                        )
-                        cartItem.save()
+        if old_cart:
+            for product_id, quantity in old_cart.items():
+                product = Product.objects.get(product_id=product_id)
+                try:
+                    cartItem = CartItem.objects.get(
+                        cart=self.cartObject, product=product
+                    )
+                except CartItem.DoesNotExist:
+                    cartItem = CartItem.objects.create(
+                        cart=self.cartObject, product=product, quantity=quantity
+                    )
+                    cartItem.save()
         self.session.modified = True
 
     def add(self, product, quantity):
@@ -119,12 +115,10 @@ class Cart:
     def use_promotion(self, code: str):
         try:
             promotion = Promotion.objects.get(code=code)
-            if promotion.amount <= 0:
-                return False
         except Promotion.DoesNotExist:
             return False
 
-        self.promotion.update(promotion.to_dict())
+        self.promotion.update({"code": promotion.code, "discount": promotion.discount})
         self.session.modified = True
 
         if self.request.user.is_authenticated:
@@ -141,7 +135,7 @@ class Cart:
         cart_object.promotion = None
         cart_object.save()
 
-    def delete_cart(self):
+    def delte_cart(self):
         self.cart.clear()
         self.promotion.clear()
         self.session.modified = True

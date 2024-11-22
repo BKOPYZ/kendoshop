@@ -82,7 +82,6 @@ def update_item_view(
             messages.error(request, "you can't add more than that bro")
         elif status == 2:
             context["remove"] = True
-            context["CartLength"] = len(cart)
 
         response = JsonResponse(context)
         return response

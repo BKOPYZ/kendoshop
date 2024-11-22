@@ -19,23 +19,27 @@
             Use Existing Address
           </h1>
         </div>
-        {% for address in addresses %}
+
         <div class="row mt-5 d-flex justify-content-center">
-          <input
-            type="radio"
-            class="btn-check"
-            name="address"
-            id="{{address.user_address_id}}"
-            value="{{address.user_address_id}}"
-            required
-          />
-          <label class="btn btn-outline-dark col-8" for="{{address.user_address_id}}">
-            <p class="montserrat-light">Option {{forloop.counter }}:</p>
-            <p class="montserrat-light">{{address}}</p>
+          <input type="radio" class="btn-check" name="options" id="option1" />
+          <label class="btn btn-outline-dark col-8" for="option1">
+            <p class="montserrat-light">Option 1:</p>
+            <p class="montserrat-light">
+              23 Soi Suriyath 4 Nai Meuang sub district Meuang district Ubon
+              Ratchathani 34000
+            </p>
           </label>
         </div>
-        {% endfor %}
-
+        <div class="row mt-5 d-flex justify-content-center">
+          <input type="radio" class="btn-check" name="options" id="option2" />
+          <label class="btn btn-outline-dark col-8" for="option2">
+            <p class="montserrat-light">Option 2:</p>
+            <p class="montserrat-light">
+              23 Soi Suriyath 4 Nai Meuang sub district Meuang district Ubon
+              Ratchathani 34000
+            </p>
+          </label>
+        </div>
         <div class="row mt-5 d-flex justify-content-center">
           <button type="submit" name="submit" value="submit">confirm</button>
         </div>
