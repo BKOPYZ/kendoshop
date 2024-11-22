@@ -1,9 +1,11 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from cart.cart import Cart
 from core.models import Product
 from django.contrib import messages
 from django.db.models import Count
 import math
+from userauths.models import UserAddress
 
 PRODUCTS_PER_PAGE = 3
 
@@ -54,14 +56,14 @@ def product_view(request, category: str | None = None, page: int | None = None):
 
 
 def product_detail_view(request, product_id: int, **kwargs):
+
+    context = dict()
     try:
         product = Product.objects.get(product_id=product_id)
 
         size_order = ["xs", "s", "m", "l", "xl"]
 
         all_same_product = Product.objects.filter(name=product.name)
-
-        context = dict()
 
         if product.product_type == "armor":
             size_quantity = [
