@@ -26,8 +26,8 @@
             <h4 class="montserrat-bold mt-4">
               {{product.price|intcomma}} Baht
               <!-- TODO: OAT please implement such that after user click the radio button it will change how many product have left smth like that -->
-            </h4> <h4 class="montserrat-bold" name="quantity_left" id="quantity_left">({{product.quantity}})</h4>
-            <div class="d-flex gap-5">
+            </h4> 
+            <div class="d-flex gap-5 mb-5">
               <p class="montserrat-light mt-5 mb-0">quantity</p>
               <div class="input-group pt-4 mt-3">
                 <button
@@ -52,6 +52,7 @@
                   -
                 </button>
               </div>
+            </div>
               {% if product.product_type == 'sword' %}
               {% for data in length_quantity %}
                 <input type="radio" class="btn-check length" name="length" id ="{{data.0}}" {% if data.1 <= 0 %} disabled {% endif %} value="{{ data.0 }}"></input>
@@ -97,11 +98,15 @@
                 <label class="btn btn-secondary col-2" for="{{data.0}}">{{data.0}}</label>
               {% endfor %}
               {% endif %}
-            </div>
+
             <div class="d-flex gap-5 mb-4">
               <p class="montserrat-light mt-5 mb-0">Total Price</p>
               <p class="montserrat-bold mt-5 mb-0">1,200 Baht</p>
             </div>
+            <h4 class="montserrat-bold" name="quantity_left" id="quantity_left">
+              ({{product.quantity}})
+            </h4>
+            
             <button
               type="button"
               value="{{ product.name }}"
@@ -146,6 +151,48 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"
   ></script>
+
+  <script>
+    function updateRemainingQuantity() {
+      const productType = "{{ product.product_type }}"; 
+      let remaining = null;
+  
+      if (productType === "sword") {
+        const selectedLength = document.querySelector(".length:checked")?.value;
+        if (selectedLength) {
+          remaining = {{product.quantity}};
+        }
+      } else if (productType === "uniform") {
+        const selectedSize = document.querySelector(".size:checked")?.value;
+        const selectedColor = document.querySelector(".color:checked")?.value;
+        if (selectedSize && selectedColor) {
+          remaining = {{product.quantity}};
+        }
+      } else if (productType === "armor") {
+        const selectedSize = document.querySelector(".size:checked")?.value;
+        if (selectedSize) {
+          remaining = {{product.quantity}};
+        }
+      }
+  
+      const quantityMessage = document.getElementById("quantity_left");
+      if (remaining !== null) {
+        if (remaining > 0) {
+          quantityMessage.textContent = `Remaining: ${remaining}`;
+        } else {
+          quantityMessage.textContent = "Out of stock!";
+        }
+      } else {
+        quantityMessage.textContent = "";
+      }
+    }
+  
+    document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+      radio.addEventListener("change", updateRemainingQuantity);
+    });
+    updateRemainingQuantity();
+  </script>
+
   <!-- please consider under this part i dont know what is this you have to make such that if category is sword add sword lenght -->
   <script>
     $(document).on("click", "#add-cart", function (e) {
