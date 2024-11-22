@@ -70,9 +70,10 @@
                             href="{% url 'core:product_detail' category=product.product_type product_id=product.product_id%}">
                             <div>
                                 <img src="{{ product.image.url}}" alt="uniform" class="col-12 image choice">
-                                <p class="text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
+                                <p
+                                    class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
                                     {{product.name}}</p>
-                                <p class="text-center col-lg-10 col-12 pt-0 montserrat-light">
+                                <p class="mx-auto text-center col-lg-10 col-12 pt-0 montserrat-light">
                                     {{product.price|floatformat:2}} baht</p>
                             </div>
                         </a>
