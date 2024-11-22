@@ -14,8 +14,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <!--Navigation Bar-->
-    
+    <!--Navigation Bar-->
+
     <header>
         <div class="container-fluid secondary-color" style="height: 15px;"></div>
         <nav class="navbar navbar-expand-lg py-0">
@@ -37,27 +37,28 @@
                     </ul>
                     <!-- Input action and method to search product-->
                     <div class="input-group mx-4">
-                        <input class="form-control outline-secondary" type="search" placeholder="Search" />
-                        <button class="btn btn-outline-secondary" type="submit"><img
+                        <input class="form-control outline-secondary my-auto" type="search" placeholder="Search" />
+                        <button class="btn btn-outline-secondary my-auto" type="submit"><img
                                 src="../../static/assets/imgs/search.svg" alt="search"></button>
                         <ul class="navbar-nav">
                             {% if user.is_authenticated %}
-                            <li class="nav-item mx-4">
+                            <li class="nav-item mx-4 mt-3">
                                 <!--Link to cart page-->
                                 <a href="{% url 'cart:cart' %}" class="nav-link montserrat-light">
                                     <img src="{% static 'assets/imgs/cart.svg' %}" alt="cart" class="img-fluid"
                                         style="width:30px ;"></a>
-                                <span id="cart_quantity"">{{cart|length}}</span>
+                                <span id="cart_quantity"
+                                    style="position: relative; left:80%; bottom: 20%;">{{cart|length}}</span>
                             </li>
-                            <li class="nav-item mx-4">
+                            <li class="nav-item mx-4 mt-3">
                                 <!--Link to profile page-->
                                 <a href="{% url 'userauths:profile' %}" class="nav-link montserrat-light">
                                     <img src="{{user.user_profile.url}}" alt="profile" class="img-fluid"
                                         style="width:50px ; border-radius:50%;">
                                 </a>
                             </li>
-                            <li class="nav-item mx-4">
-                                <a class="nav-link montserrat-light" href="{% url 'userauths:logout' %}">logout</a>
+                            <li class="nav-item mx-4 mt-3">
+                                <a class="nav-link montserrat-light" href="{% url 'userauths:logout' %}">LOGOUT</a>
                             </li>
                             {% else %}
                             <li class="nav-item mx-4">
