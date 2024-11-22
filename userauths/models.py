@@ -51,7 +51,7 @@ class UserAddress(models.Model):
     postal_code = models.CharField(max_length=255)
     telephone = models.CharField(max_length=255)
 
-    def __dict__(self):
+    def to_dict(self):
         return {
             "address": self.address,
             "city": self.city,
@@ -59,7 +59,7 @@ class UserAddress(models.Model):
             "postal_code": self.postal_code,
             "telephone": self.telephone,
         }
-        
+
     def __str__(self):
         return f"{self.address} {self.city} {self.province} {self.postal_code} {self.telephone}"
 
@@ -73,7 +73,7 @@ class UserPayment(models.Model):
     card_no = models.CharField(null=True, blank=True, max_length=20)
     expiry_date = models.DateField(null=True, blank=True)
 
-    def __dict__(self):
+    def to_dict(self):
         return {
             "payment_type": self.payment_type,
             "provider": self.provider,

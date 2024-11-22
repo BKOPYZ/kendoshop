@@ -32,7 +32,6 @@ def payment_view(request):
         print(payment_type)
         param = {
             "payment_type": payment_type,
-            "total_price": cart.calculate_total_price,
         }
         if payment_type == "cash":
             param["cash_status"] = False
@@ -114,7 +113,12 @@ def new_address_view(request):
 
         promotion = None
         if cart.promotion:
-            promotion = get_object_or_404(Promotion, **cart.promotion)
+            promotion = get_object_or_404(Promotion, code=cart.promotion["code"])
+            if promotion.amount < 1:
+                cart.unused_promotion()
+            else:
+                promotion.amount -= 1
+                promotion.save()
 
         order = Order.objects.create(
             user=request.user,
@@ -132,19 +136,21 @@ def new_address_view(request):
             order_item = OrderItem.objects.create(
                 order=order, product=product, quantity=quantity
             )
+            product.quantity -= quantity
+            product.save()
             order_item.save()
+
         request.session[settings.CARD_SESSION_ID] = None
         request.session[settings.PAYMENT_SESSION_ID] = {}
 
-        cart.delte_cart()
+        cart.delete_cart()
 
         return redirect("core:home")
     return render(request, "payment/payment_new_address.html")
 
 
-def exists_address_view(request):
+def user_address_view(request):
     context = {"addresses": []}
-
     if request.user.is_authenticated:
         addresses = UserAddress.objects.filter(user=request.user)
         context["addresses"] = addresses
@@ -152,17 +158,27 @@ def exists_address_view(request):
     if request.method == "POST":
         post = request.POST
 
-        user_address_id = post.get("address_id")
         cart = Cart(request)
+        if cart.promotion:
+            promotion = get_object_or_404(Promotion, code=cart.promotion["code"])
+            if promotion.amount < 1:
+                cart.unused_promotion()
+            else:
+                promotion.amount -= 1
+                promotion.save()
+
+        user_address_id = post.get("address")
         if (payment_data := request.session.get(settings.PAYMENT_SESSION_ID)) is None:
             return redirect("payment:payment")
+
+        payment_data["total_price"] = (cart.calculate_total_price,)
 
         payment = Payment.objects.create(**payment_data)
         payment.save()
 
         user_address = UserAddress.objects.get(user_address_id=user_address_id)
 
-        user_address_dict = user_address.__dict__
+        user_address_dict = user_address.to_dict()
 
         promotion = None
         if cart.promotion:
@@ -178,23 +194,23 @@ def exists_address_view(request):
 
         for product_id, quantity in cart.cart.items():
             product = Product.objects.get(product_id=product_id)
-            product.quantity -= quantity
-            product.save()
             order_item = OrderItem.objects.create(
                 order=order, product=product, quantity=quantity
             )
+            product.quantity -= quantity
+            product.save()
             order_item.save()
 
         request.session[settings.CARD_SESSION_ID] = None
         request.session[settings.PAYMENT_SESSION_ID] = {}
 
-        cart.delte_cart()
+        cart.delete_cart()
         cart_object = ShoppingSession.objects.get(user=request.user)
         cart_object.delete()
 
         return redirect("core:home")
 
-    return render(request, "payment/payment_user_address.html")
+    return render(request, "payment/payment_user_address.html", context)
 
 
 def new_payment_view(request):
@@ -229,9 +245,9 @@ def select_payment_view(request):
         post = request.POST
 
         user_payment_id = post["user_payment_id"]
-        UserPayment = get_object_or_404(UserPayment, payment_id=user_payment_id)
+        user_payment = get_object_or_404(UserPayment, payment_id=user_payment_id)
 
-        request.session[settings.CARD_SESSION_ID] = UserPayment.__dict__
+        request.session[settings.CARD_SESSION_ID] = user_payment.to_dict()
 
         request.session.modified = True
 

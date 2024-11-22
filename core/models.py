@@ -98,3 +98,5 @@ class Promotion(models.Model):
     amount = models.IntegerField(default=1000)
     end_date = models.DateField(default=datetime.datetime.now, blank=True, null=True)
 
+    def to_dict(self):
+        return {"code": self.code, "discount": self.discount}
