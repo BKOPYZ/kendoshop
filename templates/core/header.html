@@ -44,7 +44,7 @@
                             <li class="nav-item mx-4">
                                 <!--Link to cart page-->
                                 <a href="{% url 'cart:cart' %}" class="nav-link montserrat-light">
-                                    <img src="{% static 'assets/imgs/cart.svg' %}" alt="cart" class="img-fluid"
+                                    <img src="{% static 'assets/imgs/cart.svg' %}" alt="cart" class="img-fluid mt-3"
                                         style="width:30px ;"></a>
                                 <span id="cart_quantity"
                                     style="position: relative; left:80%; bottom: 20%;">{{cart|length}}</span>
@@ -62,10 +62,10 @@
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:logout' %}">LOGOUT</a>
                             </li>
                             {% else %}
-                            <li class="nav-item mx-4">
+                            <li class="nav-item mx-4 d-flex align-items-center">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:login' %}">LOGIN</a>
                             </li>
-                            <li class="nav-item mx-4">
+                            <li class="nav-item mx-4 d-flex align-items-center">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:sign-up' %}">SIGNUP</a>
                             </li>
                             {% endif %}
