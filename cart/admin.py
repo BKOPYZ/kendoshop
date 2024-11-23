@@ -4,7 +4,7 @@ from cart.models import CartItem, ShoppingSession
 
 
 class ShoppingSessionAdmin(admin.ModelAdmin):
-    list_display = ["user", "created_at", "promotion"]
+    list_display = ["id", "user", "created_at", "promotion"]
 
 
 class CartItemAdmin(admin.ModelAdmin):

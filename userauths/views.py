@@ -1,12 +1,13 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from userauths.models import User
 from django.core.files import File
 from django.contrib.auth.decorators import login_required, user_passes_test
-from payment.models import Order, OrderItem, Payment
+from payment.models import Order, OrderItem, Payment, CanceledOrder
 from cart.cart import Cart
+import os
 
 
 def register_view(request):
@@ -18,12 +19,13 @@ def register_view(request):
         post = request.POST
         first_name = post.get("firstname", None)
         last_name = post.get("lastname", None)
-
+        telephone = post.get("telephone")
         username = post.get("username")
         email = post.get("email")
         password = post.get("password")
         confirm_password = post.get("confirm_password")
 
+        context["telephone"] = telephone
         context["username"] = username
         context["email"] = email
 
@@ -44,6 +46,7 @@ def register_view(request):
                     email=email,
                     first_name=first_name,
                     last_name=last_name,
+                    telephone=telephone,
                 )
                 user_profile = request.FILES.get("user_profile", None)
                 context["userprofile"] = user_profile
@@ -51,8 +54,8 @@ def register_view(request):
                 is_profile_None = False
 
                 if user_profile is None:
-                    with open("../static/assets/imgs/human.png", "rb") as f:
-                        user_profile = f.read()
+
+                    user_profile = ".media/user/user_no_img/human.png"
                     is_profile_None = True
 
                 new_user.user_profile = user_profile
@@ -116,7 +119,9 @@ def logout_view(request):
 @login_required(login_url="userauths:login")
 def profile_view(request):
     context = dict()
-    orders = Order.objects.filter(user=request.user).order_by("-order_id")
+    orders = Order.objects.raw(
+        f"select * from payment_order left join payment_canceledorder on payment_order.order_id = payment_canceledorder.order_id where user_id = {request.user.id} and payment_canceledorder.order_id is null"
+    )
     order_payment_orderItems = []
     for order in orders:
         payment = Payment.objects.get(order=order)
@@ -158,15 +163,8 @@ def edit_profile_view(request):
             user_profile = request.FILES.get("user_profile", None)
             context["userprofile"] = user_profile
 
-            is_profile_None = False
-
-            if user_profile is None:
-                with open("../static/assets/imgs/human.png", "rb") as f:
-                    user_profile = f.read()
-                is_profile_None = True
-
-            user.user_profile = user_profile
-            if not is_profile_None:
+            if user_profile is not None:
+                user.user_profile = user_profile
                 user.user_profile.save(
                     "user_profile.png",
                     File(user_profile),
@@ -176,3 +174,15 @@ def edit_profile_view(request):
             return redirect("userauths:profile")
 
     return render(request, "userauths/edit_profile.html", {})
+
+
+def cancel_order_view(request):
+    if request.method == "POST":
+        post = request.POST
+        order_id = post["order_id"]
+        order = Order.objects.get(order_id=order_id)
+        canceled_order = CanceledOrder.objects.create(order=order)
+        canceled_order.save()
+
+        return JsonResponse({"Success": True, "order_id": order_id})
+    return redirect("core:home")

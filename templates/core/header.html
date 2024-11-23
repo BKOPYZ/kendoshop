@@ -37,9 +37,12 @@
                     </ul>
                     <!-- Input action and method to search product-->
                     <div class="input-group mx-4">
-                        <input class="form-control outline-secondary my-auto" type="search" placeholder="Search" />
-                        <button class="btn btn-outline-secondary my-auto" type="submit"><img
+                        <form action="{% url 'core:product' %}" method="get">
+
+                            <input class="form-control outline-secondary my-auto" type="search" placeholder="Search" name="search"/>
+                            <button class="btn btn-outline-secondary my-auto" type="submit"><img
                                 src="../../static/assets/imgs/search.svg" alt="search"></button>
+                        </form>
                         <ul class="navbar-nav">
                             <li class="nav-item mx-4">
                                 <!--Link to cart page-->

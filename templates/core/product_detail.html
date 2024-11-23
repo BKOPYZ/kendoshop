@@ -1,5 +1,13 @@
 <!-- prettier-ignore-->
 {% extends 'core/header.html' %} {% load static %}{% load humanize %}{% block wrapper %}
+<!-- prettier ignore -->
+{% if messages %}
+    {% for message in messages  %}
+    <div>
+        <h1> {{message}} </h1>
+    </div>
+    {% endfor %}
+{% endif %}
 <body class="d-flex flex-column">
   <div id="header"></div>
 
@@ -139,7 +147,7 @@
       </h2>
       <p class="row ms-5 col-8 monserrat-light">{{product.description}}</p>
     </div>
-    <div class="container-fluid mt-5">
+    <!-- <div class="container-fluid mt-5">
       <h2
         class="row ms-5 col-lg-3 col-5 montserrat-bold pb-2"
         style="border-bottom: 5px black solid"
@@ -152,7 +160,7 @@
         <li>Suitable for both beginners and advanced users</li>
         <li>Traditional design that respects Kendo craftsmanship</li>
       </ul>
-    </div>
+    </div> -->
   </section>
 
   <div id="footer"></div>

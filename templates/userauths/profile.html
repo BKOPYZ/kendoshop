@@ -1,4 +1,12 @@
 {% extends 'core/header.html' %}{% load static %} {% block wrapper %}
+<!-- prettier ignore -->
+{% if messages %}
+    {% for message in messages  %}
+    <div>
+        <h1> {{message}} </h1>
+    </div>
+    {% endfor %}
+{% endif %}
 <body class="d-flex flex-column">
   <div id="header"></div>
 
@@ -76,7 +84,7 @@
       </h2>
       <div class="card text-dark primary-color">
         {% for data in order_payment_orderItems %}
-        <div class="card-body container pb-0">
+        <div class="card-body container pb-0" id="order_{{data.0.order_id}}">
           <h5 class="col-12 montserrat-bold">
             Order {{forloop.counter}} | {{data.0.created_at}}
           </h5>
@@ -110,6 +118,15 @@
             <p>Shipping :</p>
             <p class="ms-3">{{data.0.is_shipping_successful}}</p>
           </div>
+          {% if not data.0.shipping_status %}
+          <button
+            type="button"
+            value="{{data.0.order_id}}"
+            onclick="cancel_order(event, this)"
+          >
+            cancled order
+          </button>
+          {% endif %}
         </div>
         {% endfor %}
       </div>
@@ -123,5 +140,27 @@
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
   crossorigin="anonymous"
 ></script>
+<script>
+  function cancel_order(e, button) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "{% url 'userauths:cancel-order' %}",
+      data: {
+        order_id: button.value,
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: "post",
+      },
+      success: function (json) {
+        document.getElementById("order_" + button.value).hidden = true;
+      },
+      error: function (xhr, errmsg, err) {
+        console.log(xhr);
+        console.log(errmsg);
+        console.log(err);
+      },
+    });
+  }
+</script>
 
 {% endblock wrapper %}

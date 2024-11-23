@@ -1,5 +1,10 @@
 {% extends 'core/header.html' %}{% load static %} {% block wrapper %}
-
+<!-- prettier ignore -->
+{% if messages %} {% for message in messages %}
+<div>
+  <h1>{{message}}</h1>
+</div>
+{% endfor %} {% endif %}
 <body class="d-flex flex-column">
   <!--Main Body-->
 
@@ -57,6 +62,21 @@
             <input name="lastname" type="text" class="form-control" />
             <label class="mx-2"
               >Last name <span style="color: red">*</span></label
+            >
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+          <!-- Input action and method to lastName-->
+          <div class="col-lg-5 col-8 form-floating mt-4">
+            <input
+              class="form-control"
+              type="tel"
+              id="telephone"
+              name="telephone"
+              pattern="[0-9]{10}"
+            />
+            <label class="mx-2"
+              >Telephone <span style="color: red">*</span></label
             >
           </div>
         </div>
