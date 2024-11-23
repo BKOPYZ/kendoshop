@@ -7,6 +7,9 @@ from pkg_resources import require
 from shortuuid.django_fields import ShortUUIDField
 
 
+CARD_PROVIDER = (("debit", "Debit"), ("visa", "Visa"), ("mastercard", "Mastercard"))
+
+
 def user_directory_path(instance, filename):
     return f"user/user_{instance.user_id}/{filename}"
 
