@@ -75,10 +75,10 @@ class UserPayment(models.Model):
 
     def to_dict(self):
         return {
-            "payment_type": self.payment_type,
-            "provider": self.provider,
-            "account_no": self.account_no,
-            "expiry_date": self.expiry_date,
+            "card_provider": self.card_provider,
+            "card_no": self.card_no,
+            "year": self.expiry_date.year,
+            "month": self.expiry_date.month,
         }
 
     def __str__(self):

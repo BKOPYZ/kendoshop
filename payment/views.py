@@ -268,10 +268,10 @@ def select_payment_view(request):
         post = request.POST
 
         user_payment_id = post["user_payment_id"]
-        user_payment = get_object_or_404(UserPayment, payment_id=user_payment_id)
+        user_payment = get_object_or_404(UserPayment, user_payment_id=user_payment_id)
 
         request.session[settings.CARD_SESSION_ID] = user_payment.to_dict()
 
         request.session.modified = True
 
-    return JsonResponse()
+    return JsonResponse({"Success": True})

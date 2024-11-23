@@ -73,9 +73,10 @@
               <div class="collapse mt-2 col-10" id="credit" data-bs-parent="#accordion">
                 {% for payment in user_payment%}
                 <div class="row d-flex justify-content-center my-2">
-                  <input type="radio" class="btn-check" name="options" id="card1" />
-                  <label class="btn btn-outline-dark col-8 d-flex" for="card1">
-                    <img src="../../static/assets/imgs/{{payment.card_provider}}.png" alt="{{payment.card_provider}}" style="width: auto; height:40px;" />
+                  <!-- TODO: OATin the input it should have require and disable (it will only enable after user click card as a payment method) -->
+                  <input type="radio" class="btn-check" name="card" id="card_{{payment.user_payment_id}}" value="{{payment.user_payment_id}}" onclick="select_payment(event, this)"  />
+                  <label class="btn btn-outline-dark col-8 d-flex" for="card_{{payment.user_payment_id}}">
+                    <img src="{% static 'assets/imgs/'|add:payment.card_provider|add:'.png' %}" alt="{{payment.card_provider}}" style="width: auto; height:40px;" />
                     <div>
                       <p class="montserrat-light text-start">Card {{forloop.counter}}:</p>
                       <p class="montserrat-light text-start">
@@ -151,4 +152,25 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+  function select_payment(e, button) {
+    $.ajax({
+      type: "POST",
+      url: "{% url 'payment:select-card' %}",
+      data: {
+        user_payment_id: button.value,
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: "post",
+      },
+      success: function (json) {
+        console.log({{cart.payment}});
+      },
+      error: function (xhr, errmsg, err) {
+        console.log(xhr);
+        console.log(errmsg);
+        console.log(err);
+      },
+    });
+  }
+</script>
 {% endblock wrapper %}

@@ -10,4 +10,5 @@ urlpatterns = [
     path("address/new/", views.new_address_view, name="new-address"),
     path("address/user/", views.user_address_view, name="user-address"),
     path("card/new/", views.new_payment_view, name="new-card"),
+    path("card/select/", views.select_payment_view, name="select-card"),
 ]
