@@ -280,6 +280,78 @@
       );
     });
   </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const quantityLabel = document.getElementById("quantity");
+    
+      document.querySelectorAll("#amount").forEach((button) => {
+        button.addEventListener("click", () => {
+    
+          let currentQuantity = parseInt(quantityLabel.getAttribute("value"));
+    
+          if (button.textContent.trim() === "+") {
+            const productType = "{{ product.product_type }}"; 
+            let remaining = null;
+        
+            if (productType === "sword") {
+              const selectedLength = document.querySelector(".length:checked")?.value;
+              if (selectedLength) {
+                remaining = document.getElementById("quantity_"+selectedLength).value;
+              }
+            } else if (productType === "uniform") {
+              const selectedSize = document.querySelector(".size:checked")?.value;
+              const selectedColor = document.querySelector(".color:checked")?.value;
+              
+              if (selectedSize){
+                {% for data in size_color_quantity_price %}
+                    document.getElementById({{data.1}}.value).disabled = true;
+                {% endfor %}
+                {% for data in size_color_quantity_price %}
+                    
+                    if ({{data.0}}.value === selectedSize){
+      
+                      document.getElementById({{data.1}}.value).disabled = false;
+                      
+                    }
+                {% endfor %}          
+                }
+              if (selectedColor){
+              {% for data in size_color_quantity_price %}
+                  document.getElementById({{data.0}}.value).disabled = true;
+              {% endfor %}
+              {% for data in size_color_quantity_price %}
+                  
+                  if ({{data.1}}.value === selectedColor){
+      
+                    document.getElementById({{data.0}}.value).disabled = false;
+                    
+                  }
+              {% endfor %}          
+              }
+              if (selectedSize && selectedColor) {
+                remaining = document.getElementById("quantity_"+selectedSize+"_"+selectedColor).value;
+              }
+            } else if (productType === "armor") {
+              const selectedSize = document.querySelector(".size:checked")?.value;
+              if (selectedSize) {
+                remaining = document.getElementById("quantity_"+selectedSize).value;
+              }
+            }
+            if (currentQuantity < remaining ) {
+              currentQuantity += 1;
+            } else {
+              currentQuantity = remaining
+            }
+          } else if (button.textContent.trim() === "-" && currentQuantity > 1) {
+            currentQuantity -= 1; 
+          }
+    
+          quantityLabel.textContent = currentQuantity;
+          quantityLabel.setAttribute("value", currentQuantity);
+        });
+      });
+    });
+  </script>
 </body>
 
 {% endblock wrapper %}
