@@ -24,9 +24,6 @@ class Payment(models.Model):
     card_status = models.BooleanField(null=True, blank=True)
     total_price = models.FloatField(default=0)
 
-    
-
-
 
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
@@ -41,6 +38,11 @@ class Order(models.Model):
     postal_code = models.CharField(max_length=255, default="11120")
     telephone = models.CharField(max_length=255, default="00000000")
     created_at = models.DateTimeField(default=datetime.datetime.now, blank=True)
+    shipping_status = models.BooleanField(default=False)
+
+    @property
+    def is_shipping_successful(self):
+        return "Successful" if self.shipping_status else "Has not arrive"
 
 
 class OrderItem(models.Model):

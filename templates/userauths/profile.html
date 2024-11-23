@@ -75,33 +75,43 @@
         Order Summary
       </h2>
       <div class="card text-dark primary-color">
+        {% for data in order_payment_orderItems %}
         <div class="card-body container pb-0">
-          <h5 class="col-12 montserrat-bold">Order 1 | 4 November 2024</h5>
-          <p class="col-12 montserrat-light">Total Price : 21,330</p>
+          <h5 class="col-12 montserrat-bold">
+            Order {{forloop.counter}} | {{data.0.created_at}}
+          </h5>
+          <p class="col-12 montserrat-light">
+            Total Price : {{data.1.total_price}}
+          </p>
           <div class="row container-fluid px-5 mx-5 mt-3">
+            {% for item in data.2%}
             <div class="row">
               <img
-                src="../../static/assets/imgs/squareImage/5.png"
-                alt="hakama"
+                src="{{item.product.image.url}}"
+                alt="{{item.product.name}}"
                 class="col-5"
                 style="width: 100px; border-radius: 25%"
               />
-              <label class="col-2 pt-4">Hakama</label>
-              <label class="col-2 pt-4">18,000 Baht </label>
-              <label class="col-1 pt-4">x1</label>
-              <label class="col-2 pt-4">18,000 Baht</label>
+              <label class="col-2 pt-4">{{item.product.name}}</label>
+              <label class="col-2 pt-4">{{item.product.price}} Baht</label>
+              <label class="col-1 pt-4">x{{item.quantity}}</label>
+              <label class="col-2 pt-4"
+                >{% widthratio item.product.price 1 item.quantity %} Baht</label
+              >
             </div>
+            {% endfor %}
           </div>
           <div class="mt-4 d-flex montserrat-light">
             <p>Payment :</p>
-            <p class="ms-3">Cash on delivery</p>
+            <p class="ms-3">{{data.1.payment_type}}</p>
           </div>
 
           <div class="d-flex montserrat-light">
             <p>Shipping :</p>
-            <p class="ms-3">Successful</p>
+            <p class="ms-3">{{data.0.is_shipping_successful}}</p>
           </div>
         </div>
+        {% endfor %}
       </div>
     </div>
   </section>

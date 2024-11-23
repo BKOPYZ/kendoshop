@@ -19,16 +19,17 @@ class Cart:
         self.request = request
         self.session = request.session
 
+        promotion = self.session.get(settings.PROMOTION_SESSION_ID)
+        if not promotion:
+            # save an empty cart in the session
+            promotion = self.session[settings.PROMOTION_SESSION_ID] = {}
+        self.promotion = promotion
+
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
             self.load_from_database(cart)
-
-        promotion = self.session.get(settings.PROMOTION_SESSION_ID)
-        if not promotion:
-            # save an empty cart in the session
-            promotion = self.session[settings.PROMOTION_SESSION_ID] = {}
 
         # payment = self.session.get(settings.PAYMENT_SESSION_ID)
         # if not payment:
@@ -36,7 +37,6 @@ class Cart:
         #     payment = self.session[settings.PAYMENT_SESSION_ID] = {}
 
         # self.payment = payment
-        self.promotion = promotion
         self.cart = cart
 
     def load_from_database(self, cart: dict = dict()):
@@ -160,11 +160,26 @@ class Cart:
 
     @property
     def calculate_total_price(self):
+        total_price = self.get_total_price
+        discount = self.get_discount
+        return total_price - discount
+
+    @property
+    def get_total_price(self):
         total_price = 0
         for product_id, quantity in self.cart.items():
             product = get_object_or_404(Product, product_id=product_id)
             total_price += product.price * quantity
-        if self.promotion.get("code") is None:
-            return float(total_price)
+        return float(total_price)
 
-        return float(total_price) * (1 - float(self.promotion.get("discount")))
+    @property
+    def get_discount(self):
+        if self.promotion.get("code") is None:
+            return 0
+        return float(self.get_total_price) * float(self.promotion.get("discount"))
+
+    @property
+    def get_discount_frac(self):
+        if self.promotion.get("code") is None:
+            return 0
+        return float(self.promotion.get("discount"))

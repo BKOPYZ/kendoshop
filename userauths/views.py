@@ -5,6 +5,7 @@ from django.contrib import messages
 from userauths.models import User
 from django.core.files import File
 from django.contrib.auth.decorators import login_required, user_passes_test
+from payment.models import Order, OrderItem, Payment
 from cart.cart import Cart
 
 
@@ -114,7 +115,17 @@ def logout_view(request):
 
 @login_required(login_url="userauths:login")
 def profile_view(request):
-    return render(request, "userauths/profile.html", {})
+    context = dict()
+    orders = Order.objects.filter(user=request.user).order_by("-order_id")
+    order_payment_orderItems = []
+    for order in orders:
+        payment = Payment.objects.get(order=order)
+        order_items = OrderItem.objects.filter(order=order)
+        order_payment_orderItems.append((order, payment, order_items))
+
+    context["order_payment_orderItems"] = order_payment_orderItems
+
+    return render(request, "userauths/profile.html", context)
 
 
 @login_required(redirect_field_name="userauths:login")

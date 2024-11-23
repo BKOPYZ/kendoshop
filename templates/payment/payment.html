@@ -22,11 +22,11 @@
               <div class="card-body container pb-0">
                 <div class="row">
                   <p class="col-6">Subtotal:</p>
-                  <p class="col-6">21,230 Baht</p>
+                  <p class="col-6">{{cart.get_total_price}} Baht</p>
                 </div>
                 <div class="row pb-5">
-                  <p class="col-6">Shipping:</p>
-                  <p class="col-6">100 Baht</p>
+                  <p class="col-6">Discount:</p>
+                  <p class="col-6">-{{cart.get_discount}} Baht</p>
                 </div>
 
                 <div class="row bg-dark text-light pt-3">

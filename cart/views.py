@@ -71,12 +71,18 @@ def update_item_view(
         difference = post.get("difference")
         product = get_object_or_404(Product, product_id=product_id)
         status, quantity = cart.add(product=product, quantity=difference)
+        beforePrice = cart.get_total_price
+        discount_frac = cart.get_discount_frac
+        discount_sale = beforePrice * discount_frac
+        total_price = beforePrice - discount_sale
         context = {
             "Quantities": quantity,
             "Product_id": product_id,
             "remove": False,
             "Price": product.price * quantity,
-            "TotalPrice": cart.calculate_total_price,
+            "TotalPrice": total_price,
+            "BeforePrice": beforePrice,
+            "DiscountSale": -discount_sale,
         }
         if status == 1:
             messages.error(request, "you can't add more than that bro")
@@ -95,11 +101,17 @@ def remove_item_view(request):
         product_id = post.get("product_id")
         product = get_object_or_404(Product, product_id=product_id)
         cart.delete(product=product)
+        beforePrice = cart.get_total_price
+        discount_frac = cart.get_discount_frac
+        discount_sale = beforePrice * discount_frac
+        total_price = beforePrice - discount_sale
         response = JsonResponse(
             {
                 "Product_id": product_id,
                 "Quantities": len(cart),
-                "TotalPrice": cart.calculate_total_price,
+                "TotalPrice": total_price,
+                "BeforePrice": beforePrice,
+                "DiscountSale": -discount_sale,
             }
         )
         return response
@@ -120,12 +132,33 @@ def check_coupon_view(request):
         post = request.POST
         code = post.get("code")
         cart.use_promotion(code)
-
-        return JsonResponse({"Success": True, "TotalPrice": cart.calculate_total_price})
+        beforePrice = cart.get_total_price
+        discount_frac = cart.get_discount_frac
+        discount_sale = beforePrice * discount_frac
+        total_price = beforePrice - discount_sale
+        return JsonResponse(
+            {
+                "Success": True,
+                "TotalPrice": total_price,
+                "BeforePrice": beforePrice,
+                "DiscountSale": -discount_sale,
+            }
+        )
 
 
 def clear_coupon_view(request):
     cart = Cart(request)
     if request.POST.get("action") == "post":
         cart.unused_promotion()
-        return JsonResponse({"Success": True, "TotalPrice": cart.calculate_total_price})
+        beforePrice = cart.get_total_price
+        discount_frac = cart.get_discount_frac
+        discount_sale = beforePrice * discount_frac
+        total_price = beforePrice - discount_sale
+        return JsonResponse(
+            {
+                "Success": True,
+                "TotalPrice": total_price,
+                "BeforePrice": beforePrice,
+                "DiscountSale": -discount_sale,
+            }
+        )
