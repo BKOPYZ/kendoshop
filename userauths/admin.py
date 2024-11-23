@@ -5,6 +5,9 @@ from userauths.models import User, UserPayment, UserAddress
 class UserAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
+        obj.is_superuser = int(obj.user_privilege) > 2
+        obj.is_admin = int(obj.user_privilege) > 1
+        obj.is_user = int(obj.user_privilege) > 0
         super().save_model(request, obj, form, change)
 
     def delete_model(self, request, obj):
@@ -16,6 +19,8 @@ class UserAdmin(admin.ModelAdmin):
         "first_name",
         "last_name",
         "telephone",
+        "is_user",
+        "is_staff",
         "is_superuser",
     ]
     exclude = ["password"]

@@ -2,6 +2,7 @@ from sys import prefix
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from shortuuid.django_fields import ShortUUIDField
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from pkg_resources import require
 from shortuuid.django_fields import ShortUUIDField
@@ -17,6 +18,7 @@ def user_directory_path(instance, filename):
 
 
 class User(AbstractUser):
+
     user_id = ShortUUIDField(
         unique=True,
         length=10,
@@ -29,6 +31,9 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=20, null=True)
     last_name = models.CharField(max_length=20, null=True)
     telephone = models.CharField(max_length=13, null=True)
+    user_privilege = models.IntegerField(
+        default=1, validators=[MaxValueValidator(3), MinValueValidator(1)]
+    )
     user_profile = models.ImageField(
         upload_to=user_directory_path,
         null=True,
@@ -38,8 +43,19 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
+    def __init__(self, *args, **kwargs):
+        super(User, self).__init__(*args, **kwargs)
+        if self.is_superuser:
+            self.user_privilege = 3
+
     def __str__(self):
         return self.username
+
+    def is_user(self):
+        return self.user_privilege > 0
+    
+    def is_staff(self):
+        return self.user_privilege > 1
 
 
 class UserAddress(models.Model):
