@@ -6,7 +6,7 @@ app_name = "core"
 
 urlpatterns = [
     path("back/", views.go_back, name="back"),
-    path("shop/", views.index, name="index"),
+    path("", views.home_view, name="home"),
     path("home/", views.home_view, name="home"),
     path("product/", views.product_view, name="product"),
     path("product/page/<int:page>", views.product_view, name="product"),

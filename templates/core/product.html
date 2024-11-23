@@ -97,7 +97,7 @@
         {% for i in after %}
         {% if i == page %}
         <a href="{% url 'core:product' page=i %}" class="btn btn-light {% if i == page %} active {% endif %}">[{{i}}
-            here]</a>
+            ]</a>
         {% else %}
         <a href="{% url 'core:product' page=i %}"
             class="btn btn-light {% if i == page %} active {% endif %}">[{{i}}]</a>

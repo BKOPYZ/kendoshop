@@ -23,7 +23,7 @@
           </div>
           <div class="col-lg-5 col-6">
             <h1 class="montserrat-bold">{{product.name}}</h1>
-            <h4 class="montserrat-bold mt-4">
+            <h4 class="montserrat-bold mt-4" id="product_price">
               {{product.price|intcomma}} Baht
               <!-- TODO: OAT please implement such that after user click the radio button it will change how many product have left smth like that -->
             </h4> 
@@ -54,15 +54,18 @@
               </div>
             </div>
               {% if product.product_type == 'sword' %}
-              {% for data in length_quantity %}
-                <input type="radio" class="btn-check length" name="length" id ="{{data.0}}" {% if data.1 <= 0 %} disabled {% endif %} value="{{ data.0 }}"></input>
+              {% for data in length_quantity_price %}
+                <input required type="radio" class="btn-check length" name="length" id ="{{data.0}}" {% if data.1 <= 0 %} disabled {% endif %} value="{{ data.0 }}"></input>
                 <label class="btn btn-secondary col-2" for="{{ data.0 }}">{{ data.0}}</label>
+                <input hidden name="product_quantity" id="quantity_{{data.0}}" value="{{data.1}}"/>
+                <input hidden name="product_price" id="price_{{data.0}}" value="{{data.2}}"/>
 
               {% endfor %}
               {% elif product.product_type == 'uniform' %}
               <p class="montserrat-light mt-4 mb-2">Select Color</p>
               {% for color in distinct_color  %}
               <input
+                required
                 type="radio"
                 class="btn-check color"
                 name="color"
@@ -79,23 +82,30 @@
               <p class="montserrat-light mt-4 mb-2">Select Size</p>
               {% for size in distinct_size %}
                 <input type="radio"
+                required
                 class="btn-check size"
-                name="{{size}}"
+                name="size"
                 id="{{size}}"
                 value="{{size}}" ></input>
                 <label class="btn btn-secondary col-2" for="{{size}}">{{size}}</label>
               {% endfor %}
-
+              {% for data in size_color_quantity_price %} 
+              <input hidden name="product_quantity" id="quantity_{{data.0}}_{{data.1}}" value="{{data.2}}"/>
+              <input hidden name="product_price" id="price_{{data.0}}_{{data.1}}" value="{{data.3}}"/>
+              {% endfor %}
              
               {% elif product.product_type == 'armor' %}
-              {% for data in size_quantity %}
+              {% for data in size_quantity_price %}
                 <input type="radio"
+                required
                 class="btn-check size"
                 name="size"
                 id="{{data.0}}"
                 value="{{data.0}}"
                 {% if data.1 <= 0 %} disabled {% endif %} ></input>
                 <label class="btn btn-secondary col-2" for="{{data.0}}">{{data.0}}</label>
+                <input hidden name="product_quantity" id="quantity_{{data.0}}" value="{{data.1}}"/>
+                <input hidden name="product_price" id="price_{{data.0}}" value="{{data.2}}"/>
               {% endfor %}
               {% endif %}
 
@@ -156,22 +166,53 @@
     function updateRemainingQuantity() {
       const productType = "{{ product.product_type }}"; 
       let remaining = null;
+      let price = null;
   
       if (productType === "sword") {
         const selectedLength = document.querySelector(".length:checked")?.value;
         if (selectedLength) {
-          remaining = {{product.quantity}};
+          remaining = document.getElementById("quantity_"+selectedLength).value;
+          price = document.getElementById("price_"+selectedLength).value;
         }
       } else if (productType === "uniform") {
         const selectedSize = document.querySelector(".size:checked")?.value;
         const selectedColor = document.querySelector(".color:checked")?.value;
+        
+        if (selectedSize){
+          {% for data in size_color_quantity_price %}
+              document.getElementById({{data.1}}.value).disabled = true;
+          {% endfor %}
+          {% for data in size_color_quantity_price %}
+              
+              if ({{data.0}}.value === selectedSize){
+
+                document.getElementById({{data.1}}.value).disabled = false;
+                
+              }
+          {% endfor %}          
+          }
+        if (selectedColor){
+        {% for data in size_color_quantity_price %}
+            document.getElementById({{data.0}}.value).disabled = true;
+        {% endfor %}
+        {% for data in size_color_quantity_price %}
+            
+            if ({{data.1}}.value === selectedColor){
+
+              document.getElementById({{data.0}}.value).disabled = false;
+              
+            }
+        {% endfor %}          
+        }
         if (selectedSize && selectedColor) {
-          remaining = {{product.quantity}};
+          remaining = document.getElementById("quantity_"+selectedSize+"_"+selectedColor).value;
+          price = document.getElementById("price_"+selectedSize+"_"+selectedColor).value;
         }
       } else if (productType === "armor") {
         const selectedSize = document.querySelector(".size:checked")?.value;
         if (selectedSize) {
-          remaining = {{product.quantity}};
+          remaining = document.getElementById("quantity_"+selectedSize).value;
+          price = document.getElementById("price_"+selectedSize).value;
         }
       }
   
@@ -185,6 +226,12 @@
       } else {
         quantityMessage.textContent = "";
       }
+      if (price !== null) {
+        document.getElementById("product_price").textContent = price;
+      } else {
+        document.getElementById("product_price").textContent = ""
+      }
+
     }
   
     document.querySelectorAll('input[type="radio"]').forEach((radio) => {

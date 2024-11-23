@@ -4,24 +4,50 @@
   <div id="header"></div>
   <section>
     <div class="d-flex justify-content-center my-5">
-      <div style="width: 90%;">
-        <img src="{% static 'assets/imgs/kendopic.png' %}" alt="kendopic" class="image"
-          style="width: 100%; height:400px;" />
-        <button class="btn btn-primary montserrat-light" style="position:relative; bottom:20%; left:5%;">
-          Shop Now
-        </button>
+      <div style="width: 90%">
+        <img
+          src="{% static 'assets/imgs/kendopic.png' %}"
+          alt="kendopic"
+          class="image"
+          style="width: 100%; height: 400px"
+        />
+        <a href="{% url 'core:product' %}">
+          <button
+            class="btn btn-primary montserrat-light"
+            style="position: relative; bottom: 20%; left: 5%"
+          >
+            Shop Now
+          </button>
+        </a>
       </div>
     </div>
 
     <div class="container-fluid mb-lg-5">
       <div class="row justify-content-evenly px-lg-5 gap-0">
-        <a href="{% url 'core:product' category='sword' %}" class="ms-5 col-3 d-flex justify-content-center"><img
-            src="{% static 'assets/imgs/squareImage/1.png' %}" alt="sword" class="col-12 px-lg-4 img-fluid image" /></a>
-        <a href="{% url 'core:product' category='armor' %}" class="col-3 d-flex justify-content-center"><img
-            src="{% static 'assets/imgs/squareImage/2.png' %}" alt="armor" class="col-12 px-lg-4 img-fluid image" /></a>
-        <a href="{% url 'core:product' category='uniform' %}" class="me-5 col-3 d-flex justify-content-center"><img
-            src="{% static 'assets/imgs/squareImage/3.png' %}" alt="uniform"
-            class="col-12 px-lg-4 img-fluid image" /></a>
+        <a
+          href="{% url 'core:product' category='sword' %}"
+          class="ms-5 col-3 d-flex justify-content-center"
+          ><img
+            src="{% static 'assets/imgs/squareImage/1.png' %}"
+            alt="sword"
+            class="col-12 px-lg-4 img-fluid image"
+        /></a>
+        <a
+          href="{% url 'core:product' category='armor' %}"
+          class="col-3 d-flex justify-content-center"
+          ><img
+            src="{% static 'assets/imgs/squareImage/2.png' %}"
+            alt="armor"
+            class="col-12 px-lg-4 img-fluid image"
+        /></a>
+        <a
+          href="{% url 'core:product' category='uniform' %}"
+          class="me-5 col-3 d-flex justify-content-center"
+          ><img
+            src="{% static 'assets/imgs/squareImage/3.png' %}"
+            alt="uniform"
+            class="col-12 px-lg-4 img-fluid image"
+        /></a>
       </div>
     </div>
     <div class="container-fluid pt-5">
@@ -30,44 +56,74 @@
     <div class="container-fluid pt-5 px-5">
       <div class="row justify-content-evenly px-lg-5">
         <div class="col-2 px-1 my-3">
-          <img src="../../static/assets/imgs/squareImage/4.png" alt="uniform" class="text-center col-12 image choice" />
-          <p class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
+          <img
+            src="../../static/assets/imgs/squareImage/4.png"
+            alt="uniform"
+            class="text-center col-12 image choice"
+          />
+          <p
+            class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
+          >
             Kendo Uniform Set
           </p>
           <p class="mx-auto text-center col-lg-10 col-12 pt-0 montserrat-light">
             2,030 baht
           </p>
         </div>
-        <div class="col-2 px-1  my-3">
-          <img src="../../static/assets/imgs/squareImage/5.png" alt="hakama" class="col-12 image choice" />
-          <p class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
+        <div class="col-2 px-1 my-3">
+          <img
+            src="../../static/assets/imgs/squareImage/5.png"
+            alt="hakama"
+            class="col-12 image choice"
+          />
+          <p
+            class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
+          >
             hakama
           </p>
           <p class="mx-auto text-center col-lg-10 col-12 pt-0 montserrat-light">
             2,400 baht
           </p>
         </div>
-        <div class="col-2 px-1  my-3">
-          <img src="../../static/assets/imgs/squareImage/6.png" alt="shinai" class="col-12 image choice" />
-          <p class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
+        <div class="col-2 px-1 my-3">
+          <img
+            src="../../static/assets/imgs/squareImage/6.png"
+            alt="shinai"
+            class="col-12 image choice"
+          />
+          <p
+            class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
+          >
             Shinai - Poong Rim
           </p>
           <p class="mx-auto text-center col-lg-10 col-12 pt-0 montserrat-light">
             1200 baht
           </p>
         </div>
-        <div class="col-2 px-1  my-3 ">
-          <img src="../../static/assets/imgs/squareImage/7.png" alt="shinai" class="col-12 image choice" />
-          <p class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
+        <div class="col-2 px-1 my-3">
+          <img
+            src="../../static/assets/imgs/squareImage/7.png"
+            alt="shinai"
+            class="col-12 image choice"
+          />
+          <p
+            class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
+          >
             Hakama National Team
           </p>
           <p class="mx-auto text-center col-lg-10 col-12 pt-0 montserrat-light">
             1200 baht
           </p>
         </div>
-        <div class="col-2 px-1  my-3">
-          <img src="../../static/assets/imgs/squareImage/8.png" alt="shinai" class="col-12 image choice" />
-          <p class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
+        <div class="col-2 px-1 my-3">
+          <img
+            src="../../static/assets/imgs/squareImage/8.png"
+            alt="shinai"
+            class="col-12 image choice"
+          />
+          <p
+            class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
+          >
             Chung Un 2.5 mm
           </p>
           <p class="mx-auto text-center col-lg-10 col-12 pt-0 montserrat-light">
@@ -76,9 +132,15 @@
         </div>
       </div>
       <div class="row justify-content-evenly px-lg-5">
-        <div class="col-2 px-1  my-3">
-          <img src="../../static/assets/imgs/squareImage/9.png" alt="shinai" class="col-12 image choice" />
-          <p class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom">
+        <div class="col-2 px-1 my-3">
+          <img
+            src="../../static/assets/imgs/squareImage/9.png"
+            alt="shinai"
+            class="col-12 image choice"
+          />
+          <p
+            class="mx-auto text-center col-lg-10 col-12 mt-3 mb-2 py-2 montserrat-light border-bottom"
+          >
             5 mm DO
           </p>
           <p class="mx-auto text-center col-lg-10 col-12 pt-0 montserrat-light">

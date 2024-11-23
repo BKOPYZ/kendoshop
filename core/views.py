@@ -8,11 +8,6 @@ import math
 PRODUCTS_PER_PAGE = 3
 
 
-# Create your views here.
-def index(request):
-    return render(request, "core/index.html")
-
-
 def home_view(request):
     return render(request, "core/home.html")
 
@@ -64,22 +59,28 @@ def product_detail_view(request, product_id: int, **kwargs):
         context = dict()
 
         if product.product_type == "armor":
-            size_quantity = [
-                (product.armor_size, product.quantity) for product in all_same_product
+            size_quantity_price = [
+                (product.armor_size, product.quantity, product.price)
+                for product in all_same_product
             ]
-            size_quantity = sorted(
-                size_quantity, key=lambda product: size_order.index(product[0])
+            size_quantity_price = sorted(
+                size_quantity_price, key=lambda product: size_order.index(product[0])
             )
-            context["size_quantity"] = size_quantity
+            context["size_quantity_price"] = size_quantity_price
 
         elif product.product_type == "uniform":
             distinct_color = set()
             distinct_size = set()
-            size_color_quantity = []
+            size_color_quantity_price = []
 
             for product in all_same_product:
-                size_color_quantity.append(
-                    (product.uniform_size, product.uniform_color, product.quantity)
+                size_color_quantity_price.append(
+                    (
+                        product.uniform_size,
+                        product.uniform_color,
+                        product.quantity,
+                        product.price,
+                    )
                 )
                 distinct_color.add(product.uniform_color)
                 distinct_size.add(product.uniform_size)
@@ -88,16 +89,19 @@ def product_detail_view(request, product_id: int, **kwargs):
                 distinct_size, key=lambda size: size_order.index(size)
             )
 
-            context["size_color_quantity"] = size_color_quantity
+            context["size_color_quantity_price"] = size_color_quantity_price
             context["distinct_color"] = distinct_color
             context["distinct_size"] = distinct_size
 
         elif product.product_type == "sword":
-            length_quantity = [
-                (product.sword_length, product.quantity) for product in all_same_product
+            length_quantity_price = [
+                (product.sword_length, product.quantity, product.price)
+                for product in all_same_product
             ]
-            length_quantity = sorted(length_quantity, key=lambda product: product[0])
-            context["length_quantity"] = length_quantity
+            length_quantity_price = sorted(
+                length_quantity_price, key=lambda product: product[0]
+            )
+            context["length_quantity_price"] = length_quantity_price
 
         context["product"] = product
         return render(request, "core/product_detail.html", context)
