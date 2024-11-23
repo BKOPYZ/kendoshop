@@ -231,20 +231,31 @@ def new_payment_view(request):
 
     if request.method == "POST":
         post = request.POST
-        card_provider = post["card_provider"]
         card_no = post["card_no"]
-        try:
-            month = post["month"]
-            year = post["year"]
-        except:
-            messages.error(request, "please enter month in int and year in int")
+        if card_no[0] in ("5", "2"):
+            card_provider = "mastercard"
+        elif card_no[0] == "4":
+            card_provider = "visa"
+        else:
+            messages.error(request, "invalid card number")
             return render(request, "payment/payment_new_payment.html")
-        expiry_date = datetime.datetime(int(year), int(month))
+        try:
+            month = int(post["month"])
+            year = int(post["year"])
+            expiry_date = datetime.datetime(year=int(year), month=int(month), day=1)
 
-        user_address = UserAddress.objects.create(
-            card_provider=card_provider, card_no=card_no, expiry_date=expiry_date
+        except:
+            messages.error(request, "invalid montha nad year")
+
+            return render(request, "payment/payment_new_payment.html")
+
+        user_payment = UserPayment.objects.create(
+            user=request.user,
+            card_provider=card_provider,
+            card_no=card_no,
+            expiry_date=expiry_date,
         )
-        user_address.save()
+        user_payment.save()
 
         return redirect("payment:payment")
 

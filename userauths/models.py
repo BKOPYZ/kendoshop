@@ -9,7 +9,6 @@ from shortuuid.django_fields import ShortUUIDField
 CARD_PROVIDER = (("debit", "Debit"), ("visa", "Visa"), ("mastercard", "Mastercard"))
 
 
-
 def user_directory_path(instance, filename):
     return f"user/user_{instance.user_id}/{filename}"
 
@@ -60,6 +59,7 @@ class UserAddress(models.Model):
             "postal_code": self.postal_code,
             "telephone": self.telephone,
         }
+
     def __str__(self):
         return f"{self.address} {self.city} {self.province} {self.postal_code} {self.telephone}"
 
@@ -82,4 +82,4 @@ class UserPayment(models.Model):
         }
 
     def __str__(self):
-        return f"xxx-xxx-xxx-{self.card_no[-3:]}"
+        return f"xxxx-xxxx-xxxx-x{self.card_no[-3:]}"
