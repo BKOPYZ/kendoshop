@@ -96,7 +96,7 @@ def login_view(request):
 
                 login(request, user)
                 messages.success(request, "you are login")
-                Cart(request).load_from_database()
+                Cart(request).load_from_database
                 return redirect("core:home")
             else:
                 messages.error(

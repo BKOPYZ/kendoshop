@@ -23,7 +23,7 @@ class Cart:
         if not cart:
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
-            self.load_from_database()
+            self.load_from_database(cart)
 
         promotion = self.session.get(settings.PROMOTION_SESSION_ID)
         if not promotion:
@@ -39,9 +39,10 @@ class Cart:
         self.promotion = promotion
         self.cart = cart
 
-    def load_from_database(self):
-        if hasattr(self, "cart"):
-            old_cart = deepcopy(self.cart)
+    def load_from_database(self, cart: dict = dict()):
+        if not hasattr(self, "cart"):
+            self.cart = cart
+        old_cart = deepcopy(self.cart)
         if self.request.user.is_authenticated:
             try:
                 self.cartObject = ShoppingSession.objects.get(user=self.request.user)
