@@ -2,6 +2,9 @@
     height: 100px;
     width: auto;
 }
+.circle {
+    background-color: white; width: 100px; height: 100px; border-radius: 50%;
+}
 
 .primary-color {
     background-color: #DFDDDA;

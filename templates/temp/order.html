@@ -1,0 +1,47 @@
+<section class="col-10 container-fluid mx-0 px-0">
+    <div class="secondary-color row mx-0 px-0">
+        <h2 class="montserrat-bold mb-5" style="color: white;">Order</h2>
+        <p class="montserrat-light mb-5" style="color: white;">Remark : Past order kept up to past 14 days</p>
+        <div class="container mt-5">
+            <h3 class="row col-lg-3 col-5 montserrat-bold pb-2" style="color:white">
+                <!-- TODO: retreive order record from the database and construct them here -->
+                23 NoVEMBER 2024
+                </h2>
+                <div class="card text-dark primary-color">
+                    <div class="card-body container pb-0">
+                        <h5 class="col-12 montserrat-bold">
+                            <!--Pleas add username-->
+                            User: Username
+                        </h5>
+                        <p class="col-12 montserrat-light">
+                            Total Price : {{data.1.total_price}}
+                        </p>
+                        <div class="row container-fluid px-5 mx-5 mt-3">
+                            {% for item in data.2%}
+                            <div class="row">
+                                <img src="{{item.product.image.url}}" alt="{{item.product.name}}" class="col-5"
+                                    style="width: 100px; border-radius: 25%" />
+                                <label class="col-2 pt-4">{{item.product.name}}</label>
+                                <label class="col-2 pt-4">{{item.product.price}} Baht</label>
+                                <label class="col-1 pt-4">x{{item.quantity}}</label>
+                                <label class="col-2 pt-4">{% widthratio item.product.price 1 item.quantity %}
+                                    Baht</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="mt-4 d-flex montserrat-light">
+                            <p>Payment :</p>
+                            <p class="ms-3">{{data.1.payment_type}}</p>
+                        </div>
+
+                        <div class="d-flex montserrat-light">
+                            <p>Shipping :</p>
+                            <p class="ms-3">{{data.0.is_shipping_successful}}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+        </div>
+    </div>
+
+</section>

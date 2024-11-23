@@ -1,0 +1,161 @@
+<section class="col-10 container-fluid mx-0 px-0 montserrat-bold secondary-color">
+    <a href="javascript:history.go(-1)" class="btn mt-5 ms-5">
+        <img src="{% static 'assets/imgs/arrow.png' %}" alt="arrow" style="width: 60px" />
+    </a>
+    <div class="secondary-color row mx-0 px-0" style="color: white;">
+        <h2 class="montserrat-bold mb-5" style="color: white;"> ADD PROMOTION CODE</h2>
+    </div>
+    <div class="secondary-color px-5 px-0 d-flex" style="color: white;">
+        <h3>CODE</h3>
+        <input class="form-control w-25 ms-5" type="text" placeholder="Default input">
+    </div>
+    <div class="secondary-color px-5 mx-0 px-0 d-flex py-3" style="color: white;">
+        <h3>PRODUCT TYPE</h3>
+        <!--Select product-->
+        <div class="dropdown ms-5">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Dropdown button
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="secondary-color px-5 mx-0 px-0 d-flex py-3" style="color: white;">
+        <div>
+            <h3>PRODUCT NAME</h3>
+            Remark : Available after
+            choosing product category
+        </div>
+        <!--Select product-->
+        <div class="dropdown ms-5">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Dropdown button
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="secondary-color px-5 mx-0 px-0 d-flex py-3" style="color: white;">
+        <h3>DISCOUNT DETAIL</h3>
+        <!--Select product-->
+        <div class="dropdown ms-5">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Dropdown button
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="secondary-color px-5 mx-0 px-0 d-flex py-3 gap-3" style="color: white;">
+        <h3>EXPIRING DATE</h3>
+        <!--Select EXP DATE-->
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dayDropdown" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Select Day
+            </button>
+            <ul class="dropdown-menu" id="dayList" aria-labelledby="dayDropdown"></ul>
+        </div>
+
+
+        <!-- Dropdown for Month -->
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="monthDropdown" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Select Month
+            </button>
+            <ul class="dropdown-menu" id="monthList" aria-labelledby="monthDropdown"></ul>
+        </div>
+
+
+        <!-- Dropdown for Year -->
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="yearDropdown" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Select Year
+            </button>
+            <ul class="dropdown-menu" id="yearList" aria-labelledby="yearDropdown"></ul>
+        </div>
+
+
+        <script>
+            // Populate Day Dropdown (1-31)
+            function populateDays() {
+                const dayList = document.getElementById('dayList');
+                dayList.innerHTML = ''; // Clear previous items
+                for (let day = 1; day <= 31; day++) {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.className = 'dropdown-item';
+                    a.href = '#';
+                    a.textContent = day;
+                    li.appendChild(a);
+                    dayList.appendChild(li);
+                }
+            }
+
+            // Populate Month Dropdown (January - December)
+            function populateMonths() {
+                const monthList = document.getElementById('monthList');
+                monthList.innerHTML = ''; // Clear previous items
+                const months = [
+                    'January', 'February', 'March', 'April', 'May',
+                    'June', 'July', 'August', 'September', 'October',
+                    'November', 'December'
+                ];
+                months.forEach((month, index) => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.className = 'dropdown-item';
+                    a.href = '#';
+                    a.textContent = month;
+                    li.appendChild(a);
+                    monthList.appendChild(li);
+                });
+            }
+
+            // Populate Year Dropdown (2000 - 2030)
+            function populateYears(startYear, endYear) {
+                const yearList = document.getElementById('yearList');
+                yearList.innerHTML = ''; // Clear previous items
+                for (let year = startYear; year <= endYear; year++) {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.className = 'dropdown-item';
+                    a.href = '#';
+                    a.textContent = year;
+                    li.appendChild(a);
+                    yearList.appendChild(li);
+                }
+            }
+
+            // Initialize Dropdowns
+            populateDays();
+            populateMonths();
+            populateYears(2000, 2030);
+        </script>
+    </div>
+    <div class="secondary-color row mx-0 px-0 justify-content-center py-5">
+        <button class="btn btn-light w-25 px-3 montserrat-light" type="submit" name="submit" value="True">
+            Confirm
+        </button>
+    </div>
+
+
+</section>
