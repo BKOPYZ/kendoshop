@@ -56,13 +56,13 @@ def payment_view(request):
                     messages.error(request, "invalid montha nad year")
 
                     return render(request, "payment/payment.html")
-                code = post["code"]
-                name = post["name"]
-                expiry_date = datetime.datetime(year=year, month=month)
+                # code = post["code"]
+                # name = post["name"]
                 param.update(
                     {
                         "card_no": card_no,
-                        "expiry_date": expiry_date,
+                        "year": year,
+                        "month": month,
                         "card_provider": card_provider,
                     }
                 )
@@ -108,7 +108,12 @@ def new_address_view(request):
         if (payment_data := request.session.get(settings.PAYMENT_SESSION_ID)) is None:
             return redirect("payment:payment")
 
+        year = payment_data.pop("year")
+        month = payment_data.pop("month")
+        expiry_date = datetime.datetime(year=year, month=month, day=1)
+
         payment_data["total_price"] = cart.calculate_total_price
+        payment_data["expiry_date"] = expiry_date
         payment = Payment.objects.create(**payment_data)
         payment.save()
 
@@ -173,7 +178,12 @@ def user_address_view(request):
         if (payment_data := request.session.get(settings.PAYMENT_SESSION_ID)) is None:
             return redirect("payment:payment")
 
+        year = payment_data.pop("year")
+        month = payment_data.pop("month")
+        expiry_date = datetime.datetime(year=year, month=month, day=1)
+
         payment_data["total_price"] = cart.calculate_total_price
+        payment_data["expiry_date"] = expiry_date
 
         payment = Payment.objects.create(**payment_data)
         payment.save()
