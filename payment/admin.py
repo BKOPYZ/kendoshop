@@ -8,11 +8,12 @@ class PaymentAdmin(admin.ModelAdmin):
     list_display = [
         "payment_id",
         "payment_type",
+        "card_provider",
         "qr_status",
         "cash_status",
         "card_status",
     ]
-    exclude = ["card_provider", "expiry_date"]
+    exclude = ["expiry_date"]
 
 
 class OrderAdmin(admin.ModelAdmin):
