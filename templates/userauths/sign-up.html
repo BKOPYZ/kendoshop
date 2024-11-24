@@ -41,7 +41,7 @@
         <div class="row d-flex justify-content-center">
           <!-- Input action and method to firstName-->
           <div class="col-lg-5 col-8 form-floating">
-            <input name="firstname" type="text" class="form-control" />
+            <input name="firstname" type="text" class="form-control" required />
             <label class="mx-2"
               >First name <span style="color: red">*</span></label
             >
@@ -50,7 +50,7 @@
         <div class="row d-flex justify-content-center">
           <!-- Input action and method to lastName-->
           <div class="col-lg-5 col-8 form-floating mt-4">
-            <input name="lastname" type="text" class="form-control" />
+            <input name="lastname" type="text" class="form-control" required />
             <label class="mx-2"
               >Last name <span style="color: red">*</span></label
             >
@@ -65,6 +65,7 @@
               id="telephone"
               name="telephone"
               pattern="[0-9]{10}"
+              required
             />
             <label class="mx-2"
               >Telephone <span style="color: red">*</span></label
@@ -74,14 +75,14 @@
         <div class="row d-flex justify-content-center">
           <!-- Input action and method to email-->
           <div class="col-lg-5 col-8 form-floating mt-4">
-            <input name="email" type="email" class="form-control" />
+            <input name="email" type="email" class="form-control" required/>
             <label class="mx-2">Email<span style="color: red">*</span></label>
           </div>
         </div>
         <div class="row d-flex justify-content-center">
           <!-- Input action and method to email-->
           <div class="col-lg-5 col-8 form-floating mt-4">
-            <input name="username" type="text" class="form-control" />
+            <input name="username" type="text" class="form-control" required/>
             <label class="mx-2"
               >username<span style="color: red">*</span></label
             >
@@ -90,7 +91,7 @@
         <div class="row d-flex justify-content-center">
           <!-- Input action and method to password-->
           <div class="col-lg-5 col-8 form-floating mt-4">
-            <input name="password" type="password" class="form-control" />
+            <input name="password" type="password" class="form-control" required />
             <label class="mx-2"
               >Password <span style="color: red">*</span></label
             >
@@ -103,6 +104,7 @@
               name="confirm_password"
               type="password"
               class="form-control"
+              required
             />
             <label class="mx-2"
               >Confirm Password <span style="color: red">*</span></label

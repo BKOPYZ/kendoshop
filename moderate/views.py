@@ -276,6 +276,7 @@ def update_product_view(request):
 
     try:
         post = request.POST
+
         quantity = int(post["product_quantity"])
         price = float(post["product_price"])
         product_type = post["product_type"]
@@ -392,16 +393,15 @@ def add_promotion_view(request):
 
 
 @login_required(login_url="userauths:login")
-def delete_promotion_view(request):
+def delete_promotion_view(request, code):
     if request.user.user_privilege < 2:
         return redirect("core:home")
-    if request.method == "POST":
-        post = request.POST
-        code = post["code"]
+
+    try:
 
         promotion = Promotion.objects.get(code=code)
         promotion.delete()
-
-        return JsonResponse({"Sucess": "successful delete"})
-
-    return render(request, "moderate/add_promotion.html")
+        messages.success(request, "successfully done")
+    except Exception as e:
+        messages.error(request, f"[ERROR]: {e}")
+    return redirect(request, "moderate/promotion.html")

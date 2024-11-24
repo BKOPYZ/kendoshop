@@ -35,7 +35,7 @@ urlpatterns = [
         "promotion/edit/<str:code>/", views.edit_promotion_view, name="edit-promotion"
     ),
     path(
-        "promotion/delete/",
+        "promotion/delete/<str:code>/",
         views.delete_promotion_view,
         name="delete-promotion",
     ),

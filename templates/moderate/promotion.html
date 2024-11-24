@@ -1,19 +1,11 @@
 {% extends 'moderate/header.html' %}{% load static %} {% block wrapper %}
 <div class="secondary-color row mx-0 px-0" style="color: white">
-  <h2 class="montserrat-bold mb-5" style="color: white">PROMOTION CODE</h2>
+  <h2 class="montserrat-bold mb-5 mt-5" style="color: white">PROMOTION CODE</h2>
   <div>
-    <a href="{% url 'moderate:add-promotion' %}" class="btn btn-light"
-      ><svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-plus"
-        viewBox="0 0 16 16"
-      >
+    <a href="{% url 'moderate:add-promotion' %}" class="btn btn-light"><svg xmlns="http://www.w3.org/2000/svg"
+        width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
         <path
-          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
-        />
+          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
       </svg>
     </a>
   </div>
@@ -26,7 +18,7 @@
     </div>
     <!--Pleas add code product detail exipiring date.-->
     {% for promotion in promotions %}
-    <div class="row my-auto" id="{{product.product_id}}_row_product">
+    <div class="row my-3" id="{{product.product_id}}_row_product">
       <!--code-->
       <label class="col-2 my-auto">{{promotion.code}} </label>
       <label class="col-2 my-auto">{{promotion.discount}} </label>
@@ -34,17 +26,13 @@
       <label class="col-2 my-auto">{{promotion.end_date}} </label>
 
       <div class="col-2 d-flex">
-        <a href="{% url 'moderate:edit-promotion' code=promotion.code %}">
-          <button class="col-1 my-auto btn btn-secondary">
-            <img src="../../static/assets/imgs/edit.svg" alt="" />
+        <a href="{% url 'moderate:edit-promotion' code=promotion.code %}" class="w-25 mx-2">
+          <button class=" btn btn-secondary">
+            <img src="../../static/assets/imgs/edit.svg" alt="" style="background-color:white;" />
           </button>
         </a>
-        <a href="{% url 'moderate:delete-promotion' code=promotion.code %}">
-          <button
-            class="col-1 my-auto btn btn-secondary"
-            onclick=""
-            value="{{product.product_id}}"
-          >
+        <a href="{% url 'moderate:delete-promotion' code=promotion.code %}" class="w-25 mx-2">
+          <button class="btn btn-secondary" onclick="" value="{{product.product_id}}">
             X
           </button>
         </a>
