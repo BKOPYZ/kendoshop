@@ -27,24 +27,25 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item mx-4">
+                    <ul class="navbar-nav mx-5">
+                        <li class="nav-item mx-5">
                             <a class="nav-link active montserrat-light" href="{% url 'core:home' %}">HOME</a>
                         </li>
-                        <li class="nav-item mx-4">
+                        <li class="nav-item mx-5">
                             <a class="nav-link active montserrat-light" href="{% url 'core:product' %}">PRODUCT</a>
                         </li>
                     </ul>
                     <!-- Input action and method to search product-->
-                    <div class="input-group mx-4">
-                        <form action="{% url 'core:product' %}" method="get">
+                    <div class="input-group ">
+                        <form action="{% url 'core:product' %}" method="get" class="d-flex navbar-nav w-50 mx-5">
 
-                            <input class="form-control outline-secondary my-auto" type="search" placeholder="Search" name="search"/>
+                            <input class="form-control outline-secondary my-auto" type="search" placeholder="Search"
+                                name="search" />
                             <button class="btn btn-outline-secondary my-auto" type="submit"><img
-                                src="../../static/assets/imgs/search.svg" alt="search"></button>
+                                    src="../../static/assets/imgs/search.svg" alt="search"></button>
                         </form>
-                        <ul class="navbar-nav">
-                            <li class="nav-item mx-4">
+                        <ul class="navbar-nav mx-5">
+                            <li class="nav-item mx-5">
                                 <!--Link to cart page-->
                                 <a href="{% url 'cart:cart' %}" class="nav-link montserrat-light">
                                     <img src="{% static 'assets/imgs/cart.svg' %}" alt="cart" class="img-fluid mt-3"

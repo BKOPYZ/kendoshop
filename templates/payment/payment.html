@@ -1,12 +1,13 @@
 {% extends 'core/header.html' %}{% load static %} {% block wrapper %}
 <!-- prettier ignore -->
 {% if messages %}
-    {% for message in messages  %}
-    <div>
-        <h1> {{message}} </h1>
-    </div>
-    {% endfor %}
+{% for message in messages %}
+<div>
+  <h1> {{message}} </h1>
+</div>
+{% endfor %}
 {% endif %}
+
 <body class="d-flex flex-column">
   <div id="header"></div>
 
@@ -81,9 +82,13 @@
                 {% for payment in user_payment%}
                 <div class="row d-flex justify-content-center my-2">
                   <!-- TODO: OATin the input it should have require and disable (it will only enable after user click card as a payment method) -->
-                  <input type="radio" class="btn-check" name="card" id="card_{{payment.user_payment_id}}" value="{{payment.user_payment_id}}" onclick="select_payment(event, this)"  />
+                  
+                  <!--From Oat: Done the enable and disab part but the picture is not updated properly -->
+                  <input type="radio" class="btn-check" name="card" id="card_{{payment.user_payment_id}}"
+                    value="{{payment.user_payment_id}}" onclick="select_payment(event, this)" />
                   <label class="btn btn-outline-dark col-8 d-flex" for="card_{{payment.user_payment_id}}">
-                    <img src="{% static 'assets/imgs/'|add:payment.card_provider|add:'.png' %}" alt="{{payment.card_provider}}" style="width: auto; height:40px;" />
+                    <img src="{% static 'assets/imgs/'|add:payment.card_provider|add:'.png' %}"
+                      alt="{{payment.card_provider}}" style="width: auto; height:40px;" />
                     <div>
                       <p class="montserrat-light text-start">Card {{forloop.counter}}:</p>
                       <p class="montserrat-light text-start">
@@ -102,12 +107,12 @@
                   <div class="d-flex">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <img src="../../static/assets/imgs/visa.png" alt="visa" style="width: 60px" />
+                        <img src="{% static 'assets/imgs/visa.png' %}" alt="visa" style="width: 60px" />
                       </label>
                     </div>
                     <div class="form-check">
-                      <label class="form-check-label" >
-                        <img src="../../static/assets/imgs/master.png" alt="visa" style="width: 60px" />
+                      <label class="form-check-label">
+                        <img src="{% static 'assets/imgs/mastercard.png' %}" alt="mastercard" style="width: 60px" />
                       </label>
                     </div>
                   </div>
@@ -115,8 +120,8 @@
 
                   <div class="mt-4">
                     <div class="col-8 form-floating">
-                      <input name="card_no" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" 
-                       maxlength="19" placeholder="xxxx xxxx xxxx xxxx" required />
+                      <input name="card_no" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" maxlength="19"
+                        placeholder="xxxx xxxx xxxx xxxx" required />
                       <label class="mx-2">Card number <span style="color: red">*</span></label>
                     </div>
                   </div>
@@ -136,7 +141,8 @@
 
                   <div class="mt-4">
                     <div class="col-4 form-floating">
-                      <input name="code" type="password" inputmode="numeric" minlength="3" maxlength="3" class="form-control" required/>
+                      <input name="code" type="password" inputmode="numeric" minlength="3" maxlength="3"
+                        class="form-control" required />
                       <label class="mx-2">Security Code <span style="color: red">*</span></label>
                     </div>
                   </div>
@@ -170,14 +176,37 @@
         action: "post",
       },
       success: function (json) {
-        console.log({{cart.payment}});
-      },
-      error: function (xhr, errmsg, err) {
-        console.log(xhr);
-        console.log(errmsg);
-        console.log(err);
-      },
+        console.log({{ cart.payment }});
+  },
+  error: function (xhr, errmsg, err) {
+    console.log(xhr);
+    console.log(errmsg);
+    console.log(err);
+  },
     });
   }
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const paymentOptions = document.querySelectorAll("input[name='options']");
+    const cardRadios = document.querySelectorAll("input[name='card']");
+  
+    paymentOptions.forEach((option) => {
+      option.addEventListener("change", function () {
+        if (this.value === "card") {
+          // Enable card radio buttons when "Credit Card" is selected
+          cardRadios.forEach((radio) => {
+            radio.disabled = false;
+          });
+        } else {
+          // Disable card radio buttons when another option is selected
+          cardRadios.forEach((radio) => {
+            radio.disabled = true;
+            radio.checked = false; // Uncheck any selected card
+          });
+        }
+      });
+    });
+  });
 </script>
 {% endblock wrapper %}

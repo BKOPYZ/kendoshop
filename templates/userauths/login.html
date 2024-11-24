@@ -1,10 +1,11 @@
 {% extends 'core/header.html' %}{% load static %} {% block wrapper %}
 <!-- prettier ignore -->
 {% if messages %} {% for message in messages %}
-<div>
-  <h1>{{message}}</h1>
+<div class="d-flex justify-content-center my-4 montserrat-bold">
+  <h1 class="bg-danger px-3 py-3 rounded" style="color: white">{{message}}</h1>
 </div>
 {% endfor %} {% endif %}
+
 <body class="d-flex flex-column">
   <div id="header"></div>
 
@@ -29,12 +30,7 @@
         </div>
         <div class="row d-flex justify-content-center">
           <div class="mx-auto mt-4">
-            <button
-              class="btn btn-dark px-3 montserrat-light"
-              type="submit"
-              name="submit"
-              value="True"
-            >
+            <button class="btn btn-dark px-3 montserrat-light" type="submit" name="submit" value="True">
               Login
             </button>
           </div>

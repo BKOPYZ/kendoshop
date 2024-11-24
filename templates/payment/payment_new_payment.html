@@ -1,60 +1,40 @@
 {% extends 'core/header.html' %}{% load static %} {% block wrapper %}
 <!-- prettier ignore -->
 {% if messages %}
-    {% for message in messages  %}
-    <div>
-        <h1> {{message}} </h1>
-    </div>
-    {% endfor %}
+{% for message in messages %}
+<div>
+  <h1> {{message}} </h1>
+</div>
+{% endfor %}
 {% endif %}
+
 <body class="d-flex flex-column">
   <div id="header"></div>
   <section>
     <button class="btn mt-5 col-3" onclick="history.go(-1)">
-      <img
-        src="{% static 'assets/imgs/arrow.png' %}"
-        alt="arrow"
-        style="width: 60px"
-      />
+      <img src="{% static 'assets/imgs/arrow.png' %}" alt="arrow" style="width: 60px" />
     </button>
-    <form action="./" method="post">
+    <form action="./" method="post" class="container">
       {% csrf_token %}
       <div class="mt-5 col-10 ms-5" id="credit">
         <div class="d-flex">
           <div class="form-check">
             <label class="form-check-label">
-              <img
-                src="{% static 'assets/imgs/visa.png' %}"
-                alt="visa"
-                style="width: 60px"
-              />
+              <img src="{% static 'assets/imgs/visa.png' %}" alt="visa" style="width: 60px" />
             </label>
           </div>
           <div class="form-check">
             <label class="form-check-label">
-              <img
-                src="{% static 'assets/imgs/mastercard.png' %}"
-                alt="mastercard"
-                style="width: 60px"
-              />
+              <img src="{% static 'assets/imgs/mastercard.png' %}" alt="mastercard" style="width: 60px" />
             </label>
           </div>
         </div>
 
         <div class="mt-4">
           <div class="col-8 form-floating">
-            <input
-              name="card_no"
-              type="tel"
-              inputmode="numeric"
-              pattern="[0-9\s]{13,19}"
-              maxlength="19"
-              placeholder="xxxx xxxx xxxx xxxx"
-              required
-            />
-            <label class="mx-2"
-              >Card number <span style="color: red">*</span></label
-            >
+            <input class="form-control" name="card_no" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}"
+              maxlength="19" placeholder="xxxx xxxx xxxx xxxx" required />
+            <label class="mx-2">Card number <span style="color: red">*</span></label>
           </div>
         </div>
         <p class="montserrat-light ms-2 mt-4">
@@ -73,28 +53,21 @@
 
         <div class="mt-4">
           <div class="col-4 form-floating">
-            <input
-              name="code"
-              type="password"
-              inputmode="numeric"
-              minlength="3"
-              maxlength="3"
-              class="form-control"
-              required
-            />
-            <label class="mx-2"
-              >Security Code <span style="color: red">*</span></label
-            >
+            <input name="code" type="password" inputmode="numeric" minlength="3" maxlength="3" class="form-control"
+              required />
+            <label class="mx-2">Security Code <span style="color: red">*</span></label>
           </div>
         </div>
-        <button type="submit" name="submit" value="submit">confirm</button>
+        <div class="row justify-content-center mt-5">
+          <button class="btn btn-dark w-25 px-3 montserrat-light" type="submit" name="submit" value="submit">
+            Confirm
+          </button>
+        </div>
+      </div>
     </form>
   </section>
   <div id="footer"></div>
 </body>
-<script
-  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-  crossorigin="anonymous"
-></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 {% endblock wrapper %}
