@@ -404,4 +404,4 @@ def delete_promotion_view(request, code):
         messages.success(request, "successfully done")
     except Exception as e:
         messages.error(request, f"[ERROR]: {e}")
-    return redirect(request, "moderate/promotion.html")
+    return redirect("moderate:promotion")
