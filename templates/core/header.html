@@ -64,6 +64,12 @@
                             <li class="nav-item mx-4 d-flex align-items-center">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:logout' %}">LOGOUT</a>
                             </li>
+                            <!--If ADMIN Link to admin page-->
+                            <li class="nav-item mx-4 d-flex align-items-center">
+                                <a class="nav-link montserrat-light bg-primary rounded"
+                                    href="{% url 'userauths:logout' %}" style="color: white;">ADMIN</a>
+                            </li>
+
                             {% else %}
                             <li class="nav-item mx-4 d-flex align-items-center">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:login' %}">LOGIN</a>

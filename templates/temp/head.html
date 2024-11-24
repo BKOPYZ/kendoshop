@@ -19,9 +19,14 @@
 <body class="container-fluid">
     <div class="row">
         <section class="col-2 container-fluid mx-0 px-0" style="height: 750px;">
+
             <div class="primary-color mb-5">
-                <img src="../../static/assets/imgs/kendoshop.png" alt="kendoshop icon"
-                    class="navbar-brand icon ms-lg-5" />
+                <!--link to home page of customers-->
+                <a href="">
+                    <img src="../../static/assets/imgs/kendoshop.png" alt="kendoshop icon"
+                        class="navbar-brand icon ms-lg-5" />
+                </a>
+
                 <div class="d-flex flex-column align-items-center">
                     <img src="{{user.user_profile.url}}" alt="profile" class="img-fluid mt-3"
                         style="width:100px ; border-radius:50%;">
@@ -46,8 +51,120 @@
         </section>
         <!--I am going to creat these separate page in the othe html-->
         <section class="col-10 container-fluid mx-0 px-0 montserrat-bold secondary-color" style="color:white;">
-            <!--put each page here-->
+            <form id="product-form" action="" method="POST">
+                {% csrf_token %}
+                <a href="" class="btn mt-5 ms-5">
+                    <img src="{% static 'assets/imgs/arrow.png' %}" alt="arrow" style="width: 60px" />
+                </a>
+                <!-- Delete -->
+                <button type="button" class="col-1 my-auto btn btn-secondary" onclick="">
+                    X
+                </button>
+                <!-- Edit -->
+                <button type="button" id="edit-button" class="col-1 my-auto btn btn-secondary"
+                    onclick="enableAllInputs()">
+                    <img src="../../static/assets/imgs/edit.svg" alt="" />
+                </button>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6 ps-lg-5 ms-lg-5">
+                            <img src="{{product.image.url}}" alt="{{product.name}}"
+                                class="col-lg-8 ms-lg-5 ps-lg-5 col-12" />
+                        </div>
+                        <div class="col-lg-5 col-6">
+                            <h1 class="montserrat-bold">{{product.name}}</h1>
+                            <p class="montserrat-light mt-5 mb-0">Product Detail</p>
+                            <p class="montserrat-light mt-5 mb-0">Quantity</p>
+
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-6 text-center"> Size S</div>
+                                    <input class="col-6 form-control w-25" type="number" placeholder="30"
+                                        name="quantity" disabled />
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-5 mb-4">
+                                <p class="montserrat-light mt-5 mb-0">Price per amount</p>
+                                <p class="montserrat-bold mt-5 mb-0">1,200 Baht</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="container-fluid mt-5">
+                <h2 class="row ms-5 col-lg-3 col-5 montserrat-bold pb-2" style="border-bottom: 5px white solid">
+                    Product Description
+                </h2>
+                <p class="row ms-5 col-8 monserrat-light">{{product.description}}</p>
+            </div>
+            <div class="container-fluid mt-5">
+                <h2 class="row ms-5 col-lg-3 col-5 montserrat-bold pb-2" style="border-bottom: 5px white solid">
+                    Key Feature
+                </h2>
+                <ul class="row ms-5 col-8 monserrat-light">
+                    <li>High-quality bamboo for enhanced durability</li>
+                    <li>Balanced weight for control and precision</li>
+                    <li>Suitable for both beginners and advanced users</li>
+                    <li>Traditional design that respects Kendo craftsmanship</li>
+                </ul>
+            </div>
+            <div class="container-fluid mt-5">
+                <h2 class="row ms-5 col-lg-3 col-5 montserrat-bold pb-2" style="border-bottom: 5px white solid">
+                    Promotion Code Available
+                </h2>
+                <ul class="row ms-5 col-8 monserrat-light">
+                    <li>High-quality bamboo for enhanced durability</li>
+                    <li>Balanced weight for control and precision</li>
+                    <li>Suitable for both beginners and advanced users</li>
+                    <li>Traditional design that respects Kendo craftsmanship</li>
+                </ul>
+            </div>
+
+            <!-- Confirm Button -->
+            <div class="secondary-color row mx-0 px-0 justify-content-center py-5">
+                <button type="button" class="btn btn-light w-25 px-3 montserrat-light" onclick="resetFormState()"
+                    id="confirm-section" style="display: none;">
+                    Confirm
+                </button>
+            </div>
         </section>
+
+        <script>
+            function enableAllInputs() {
+                // Select all input elements inside the form
+                const inputs = document.querySelectorAll('form input');
+
+                // Enable all input fields
+                inputs.forEach(input => {
+                    input.disabled = false;
+                });
+
+                // Show the confirm button section
+                document.getElementById("confirm-section").style.display = "block";
+
+                // Disable the Edit button
+                document.getElementById("edit-button").disabled = true;
+            }
+
+            function resetFormState() {
+                // Select all input elements inside the form
+                const inputs = document.querySelectorAll('form input');
+
+                // Disable all input fields
+                inputs.forEach(input => {
+                    input.disabled = true;
+                });
+
+                // Hide the confirm button section
+                document.getElementById("confirm-section").style.display = "none";
+
+                // Re-enable the Edit button
+                document.getElementById("edit-button").disabled = false;
+            }
+        </script>
     </div>
 
 
