@@ -1,0 +1,251 @@
+{% extends 'moderate/header.html' %}{% load static %}{% block wrapper %}
+<div class="d-flex justify-content-center my-4 montserrat-bold">
+  <h1 class="bg-danger px-3 py-3 rounded" id="error-message" style="color: white" hidden>
+  </h1>
+</div>
+<div class="d-flex justify-content-center my-4 montserrat-bold">
+  <h1 class="bg-success px-3 py-3 rounded" id="success-message" style="color: white" hidden>
+  </h1>
+</div>
+<a href="javascript:history.go(-1)" class="btn mt-5 ms-5">
+  <img
+    src="{% static 'assets/imgs/arrow.png' %}"
+    alt="arrow"
+    style="width: 60px"
+  />
+</a>
+  <img src="{% static 'assets/imgs/edit.svg' %}" alt="" />
+</button>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6 ps-lg-5 ms-lg-5">
+      <img
+        src="{{product.image.url}}"
+        alt="{{product.name}}"
+        class="col-lg-8 ms-lg-5 ps-lg-5 col-12"
+      />
+    </div>
+    <div class="col-lg-5 col-6">
+      <h1 class="montserrat-bold">{{product.name}}</h1>
+
+      <div class="container">
+        {% if product.product_type == 'sword' %}
+
+        <!-- prettier-ignore -->
+        {% for product_id, length, quantity, price in id_length_quantity_price %}
+        <div class="row" id="{{product.product_type}}_{{product_id}}">
+          <h4 class="col-6 text-center">Length: {{length}}</h4>
+          <div class="row">
+            <label class="col-6 text-center" for="quantity_{{product_id}}"
+              >Quantity</label
+            >
+            <input
+              class="col-4 form-control w-25"
+              type="number"
+              step="1"
+              min="0"
+              name="quantity_{{product_id}}"
+              id="quantity_{{product_id}}"
+              value="{{quantity}}"
+              required
+            />
+          </div>
+
+          <div class="row">
+            <label class="col-6 text-center" for="price_{{product_id}}"
+              >Price</label
+            >
+            <input
+              class="col-4 form-control w-25"
+              type="number"
+              step="1"
+              min="0"
+              name="price_{{product_id}}"
+              id="price_{{product_id}}"
+              value="{{price}}"
+              required
+            />
+          </div>
+
+          <input
+            type="text"
+            name="length_{{product_id}}"
+            value="{{length}}"
+            hidden
+          />
+          <button name="update" onclick="updateProduct(event,this)" value="{{product_id}}">
+            V
+          </button>
+          <button name="delete" onclick="deleteProduct(event,this)" value="{{product_id}}">
+            X
+          </button>
+        </div>
+        {% endfor %}
+        <!-- prettier-ignore -->
+        {% elif product.product_type == 'armor' %}
+        {% for product_id, size, quantity, price in id_size_quantity_price %}
+        <div class="row" id="{{product.product_type}}_{{product_id}}">
+          <h4 class="col-6 text-center">Size: {{size}}</h4>
+          <div class="row">
+            <label class="col-6 text-center" for="quantity_{{product_id}}"
+              >Quantity</label
+            >
+            <input
+              class="col-4 form-control w-25"
+              type="number"
+              step="1"
+              min="0"
+              name="quantity_{{product_id}}"
+              id="quantity_{{product_id}}"
+              value="{{quantity}}"
+              required
+            />
+          </div>
+
+          <div class="row">
+            <label class="col-6 text-center" for="price_{{product_id}}"
+              >Price</label
+            >
+            <input
+              class="col-4 form-control w-25"
+              type="number"
+              step="1"
+              min="0"
+              name="price_{{product_id}}"
+              id="price_{{product_id}}"
+              value="{{price}}"
+              required
+            />
+          </div>
+
+          <input type="text" name="product_id" value="{{product_id}}" hidden />
+          <input type="text" name="length" value="{{length}}" hidden />
+          <button onclick="updateProduct(event,this)" value="{{product_id}}">
+            V
+          </button>
+          <button onclick="deleteProduct(event,this)" value="{{product_id}}">
+            X
+          </button>
+        </div>
+        {% endfor %}
+        <!-- prettier-ignore -->
+        {% elif product.product_type == 'uniform' %} 
+        {% for product_id, size, color, quantity, price in id_size_color_quantity_price %}
+        <div class="row" id="{{product.product_type}}_{{product_id}}">
+          <h4 class="col-6 text-center">Size: {{size}} | Color: {{color}}</h4>
+          <div class="row">
+            <label class="col-6 text-center" for="quantity_{{product_id}}"
+              >Quantity</label
+            >
+            <input
+              class="col-4 form-control w-25"
+              type="number"
+              step="1"
+              min="0"
+              name="quantity_{{product_id}}"
+              id="quantity_{{product_id}}"
+              value="{{quantity}}"
+              required
+            />
+          </div>
+
+          <div class="row">
+            <label class="col-6 text-center" for="price_{{product_id}}"
+              >Price</label
+            >
+            <input
+              class="col-4 form-control w-25"
+              type="number"
+              step="1"
+              min="0"
+              name="price_{{product_id}}"
+              id="price_{{product_id}}"
+              value="{{price}}"
+              required
+            />
+          </div>
+
+          <input type="text" id="product_id" value="{{product_id}}" hidden />
+          <input type="text" id="length" value="{{length}}" hidden />
+          <button onclick="updateProduct(event,this)" value="{{product_id}}">
+            V
+          </button>
+          <button onclick="deleteProduct(event,this)" value="{{product_id}}">
+            X
+          </button>
+        </div>
+        {% endfor %} {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateProduct(e, button) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "{% url 'moderate:edit-product' %}",
+      data: {
+        product_id: button.value,
+        product_type: "{{product.product_type}}",
+        product_quantity: document.getElementById("quantity_" + button.value).value,
+        product_price: document.getElementById("price_" + button.value).value,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: "post",
+      },
+      success: function (json) {
+        document.getElementById("success-message").hidden = true;
+        document.getElementById("error-message").hidden = true;
+
+        if (json.Success){
+          document.getElementById("quantity_" +json.Product_id).value = json.Quantity;
+          document.getElementById("price_" + json.Product_id).value = json.Price;
+          document.getElementById("success-message").hidden = false;
+          document.getElementById("success-message").textContent = json.Message;
+        }
+        else{
+          document.getElementById("error-message").hidden = false;
+          document.getElementById("error-message").textContent = json.Message;
+        }
+        
+      },
+      error: function (xhr, errmsg, err) {
+        console.log(xhr);
+        console.log(errmsg);
+        console.log(err);
+      },
+    });
+  }
+  function deleteProduct(e, button) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "{% url 'moderate:delete-product' %}",
+      data: {
+        product_id: button.value,
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: "post",
+      },
+      success: function (json) {
+        document.getElementById("success-message").hidden = true;
+        document.getElementById("error-message").hidden = true;
+        if (json.Success){
+          document.getElementById("{{product.product_type}}"+"_"+button.value).hidden = true
+        document.getElementById("success-message").hidden = false;
+        document.getElementById("success-message").textContent = json.Message;
+        }
+        else{
+          document.getElementById("error-message").hidden = false;
+          document.getElementById("error-message").textContent = json.Message;
+        }
+      },
+      error: function (xhr, errmsg, err) {
+        console.log(xhr);
+        console.log(errmsg);
+        console.log(err);
+      },
+    });
+  }
+</script>
+{% endblock wrapper %}

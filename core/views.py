@@ -7,7 +7,7 @@ from django.db.models import Count
 import math
 from userauths.models import UserAddress
 
-PRODUCTS_PER_PAGE = 3
+PRODUCTS_PER_PAGE = 5
 
 
 def home_view(request):
@@ -62,7 +62,7 @@ def product_detail_view(request, product_id: int, **kwargs):
     try:
         product = Product.objects.get(product_id=product_id)
 
-        size_order = ["xs", "s", "m", "l", "xl"]
+        size_order = [None, "xs", "s", "m", "l", "xl"]
 
         all_same_product = Product.objects.filter(name=product.name)
 

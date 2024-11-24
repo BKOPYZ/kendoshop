@@ -1,56 +1,42 @@
-{% extends 'core/header.html' %}{% load static %} {% block wrapper %}
-<body class="d-flex flex-column">
-  <div id="header"></div>
-  <section>
-    <div class="d-flex justify-content-center my-5">
-      <div style="width: 90%">
-        <img
-          src="{% static 'assets/imgs/kendopic.png' %}"
-          alt="kendopic"
-          class="image"
-          style="width: 100%; height: 400px"
-        />
-        <a href="{% url 'core:product' %}">
-          <button
-            class="btn btn-primary montserrat-light"
-            style="position: relative; bottom: 15%; left: 18%"
-          >
-            Shop Now
-          </button>
-        </a>
-      </div>
-    </div>
+{% extends 'moderate/header.html' %}{% load static %} {% block wrapper %}
 
-    <div class="container-fluid mb-lg-5">
-      <div class="row justify-content-evenly px-lg-5 gap-0">
-        <a
-          href="{% url 'core:product' category='sword' %}"
-          class="ms-5 col-3 d-flex justify-content-center"
-          ><img
-            src="{% static 'assets/imgs/squareImage/1.png' %}"
-            alt="sword"
-            class="col-12 px-lg-4 img-fluid image"
-        /></a>
-        <a
-          href="{% url 'core:product' category='armor' %}"
-          class="col-3 d-flex justify-content-center"
-          ><img
-            src="{% static 'assets/imgs/squareImage/2.png' %}"
-            alt="armor"
-            class="col-12 px-lg-4 img-fluid image"
-        /></a>
-        <a
-          href="{% url 'core:product' category='uniform' %}"
-          class="me-5 col-3 d-flex justify-content-center"
-          ><img
-            src="{% static 'assets/imgs/squareImage/3.png' %}"
-            alt="uniform"
-            class="col-12 px-lg-4 img-fluid image"
-        /></a>
+<section class="col-10 container-fluid mx-0 px-0">
+  <div class="secondary-color row mx-0 px-0">
+    <h2 class="montserrat-bold mb-5" style="color: white">DASHBOARD</h2>
+    <div class="col-12 row">
+      <div class="col-4 d-flex flex-column align-items-center">
+        <!--Update-->
+        <div
+          class="montserrat-bold circle d-flex justify-content-center align-items-center mb-5"
+        >
+          31
+        </div>
+        <h3 style="color: white">Number OF PRODUCT</h3>
+      </div>
+      <div class="col-4 d-flex flex-column align-items-center">
+        <div
+          class="montserrat-bold circle d-flex justify-content-center align-items-center mb-5"
+        >
+          2
+        </div>
+        <h3 style="color: white">Number OF PRODUCT</h3>
+      </div>
+      <div class="col-4 d-flex flex-column align-items-center">
+        <div
+          class="montserrat-bold circle d-flex justify-content-center align-items-center mb-5"
+        >
+          10
+        </div>
+        <h3 style="color: white">Number OF PRODUCT</h3>
       </div>
     </div>
+  </div>
+  <div class="secondary-color row mx-0 px-0 mt-1" style="color: white">
     <div class="container-fluid pt-5">
-      <h2 class="montserrat-bold text-center">Most Popular</h2>
+      <h2 class="montserrat-bold text-start ms-5">Product information</h2>
+      <h4 class="montserrat-light text-start ms-5 mt-3">
+        Most Popular Product
+      </h4>
     </div>
     <div class="container-fluid pt-5 px-5">
       <div class="row justify-content-evenly px-lg-5">
@@ -148,8 +134,6 @@
         </div>
       </div>
     </div>
-  </section>
-
-  <div id="footer"></div>
-</body>
-{% endblock wrapper %}
+  </div>
+  {% endblock wrapper %}
+</section>

@@ -1,12 +1,4 @@
 {% extends 'core/header.html' %}{% load static %} {% block wrapper %}
-<!-- prettier ignore -->
-{% if messages %}
-    {% for message in messages  %}
-    <div>
-        <h1> {{message}} </h1>
-    </div>
-    {% endfor %}
-{% endif %}
 <body class="d-flex flex-column">
   <div id="header"></div>
 
@@ -36,7 +28,10 @@
             value="{{address.user_address_id}}"
             required
           />
-          <label class="btn btn-outline-dark col-8" for="{{address.user_address_id}}">
+          <label
+            class="btn btn-outline-dark col-8"
+            for="{{address.user_address_id}}"
+          >
             <p class="montserrat-light">Option {{forloop.counter }}:</p>
             <p class="montserrat-light">{{address}}</p>
           </label>

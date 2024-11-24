@@ -1,13 +1,5 @@
 <!-- prettier-ignore-->
 {% extends 'core/header.html' %} {% load static %}{% load humanize %}{% block wrapper %}
-<!-- prettier ignore -->
-{% if messages %}
-    {% for message in messages  %}
-    <div>
-        <h1> {{message}} </h1>
-    </div>
-    {% endfor %}
-{% endif %}
 <body class="d-flex flex-column">
   <div id="header"></div>
 
@@ -33,7 +25,6 @@
             <h1 class="montserrat-bold">{{product.name}}</h1>
             <h4 class="montserrat-bold mt-4" id="product_price">
               {{product.price|intcomma}} Baht
-              <!-- TODO: OAT please implement such that after user click the radio button it will change how many product have left smth like that -->
             </h4> 
             <div class="d-flex gap-5 mb-5">
               <p class="montserrat-light mt-5 mb-0">quantity</p>

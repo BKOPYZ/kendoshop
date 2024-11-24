@@ -42,7 +42,7 @@
                             <input class="form-control outline-secondary my-auto" type="search" placeholder="Search"
                                 name="search" />
                             <button class="btn btn-outline-secondary my-auto" type="submit"><img
-                                    src="../../static/assets/imgs/search.svg" alt="search"></button>
+                                    src="{% static 'assets/imgs/search.svg' %}" alt="search"></button>
                         </form>
                         <ul class="navbar-nav mx-5">
                             <li class="nav-item mx-5">
@@ -64,11 +64,13 @@
                             <li class="nav-item mx-4 d-flex align-items-center">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:logout' %}">LOGOUT</a>
                             </li>
-                            <!--If ADMIN Link to admin page-->
+                            
+                            {% if request.user.user_privilege > 1 %}
                             <li class="nav-item mx-4 d-flex align-items-center">
                                 <a class="nav-link montserrat-light bg-primary rounded"
-                                    href="{% url 'userauths:logout' %}" style="color: white;">ADMIN</a>
+                                    href="{% url 'moderate:product' %}" style="color: white;">ADMIN</a>
                             </li>
+                            {% endif %}
 
                             {% else %}
                             <li class="nav-item mx-4 d-flex align-items-center">
@@ -85,6 +87,23 @@
     </header>
 
 </head>
+         <!-- prettier ignore -->
+
+         {% if messages %} {% for message in messages %}
+         <!-- prettier ignore -->
+         {% if message.tags == 'error' %}
+         <div class="d-flex justify-content-center my-4 montserrat-bold">
+           <h1 class="bg-danger px-3 py-3 rounded" style="color: white">
+             {{message}}
+           </h1>
+         </div>
+         {% elif message.tags == 'success' %}
+         <div class="d-flex justify-content-center my-4 montserrat-bold">
+           <h1 class="bg-success px-3 py-3 rounded" style="color: white">
+             {{message}}
+           </h1>
+         </div>
+         {% endif %} {% endfor %} {% endif %}
 {%block wrapper%}
 {%endblock wrapper%}
 <section class="mt-5">
@@ -106,9 +125,9 @@
             </div>
             <div class="col-6">
                 <div class="d-flex flex-row-reverse">
-                    <a href=""><img src="../../static/assets/imgs/facebook.png" alt="facebook" class="px-2 me-lg-5"></a>
-                    <a href=""><img src="../../static/assets/imgs/line.png" alt="line" class="px-2"></a>
-                    <a href=""><img src="../../static/assets/imgs/instragram.png" alt="instragram" class="px-2"></a>
+                    <a href=""><img src="{% static 'assets/imgs/facebook.png' %}" alt="facebook" class="px-2 me-lg-5"></a>
+                    <a href=""><img src="{% static 'assets/imgs/line.png' %}" alt="line" class="px-2"></a>
+                    <a href=""><img src="{% static 'assets/imgs/instragram.png' %}" alt="instragram" class="px-2"></a>
                 </div>
                 <div class="d-flex flex-row-reverse me-lg-5">
                     <a href="" class="montserrat-light mt-3 me-5" style="color: white; ">Tel : +66 63 4527855</a>

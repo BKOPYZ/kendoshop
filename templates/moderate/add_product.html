@@ -1,0 +1,192 @@
+{% extends 'moderate/header.html' %}{% load static %} {% block wrapper %}
+
+<section
+  class="col-10 container-fluid mx-0 px-0 montserrat-bold secondary-color"
+>
+  <a href="javascript:history.go(-1)" class="btn mt-5 ms-5">
+    <img
+      src="{% static 'assets/imgs/arrow.png' %}"
+      alt="arrow"
+      style="width: 60px"
+    />
+  </a>
+  <div class="secondary-color row mx-0 px-0" style="color: white">
+    <h2 class="montserrat-bold mb-5" style="color: white">ADD PRODUCT</h2>
+  </div>
+  <form action="./" method="post">
+    {% csrf_token %}
+    <div
+      class="secondary-color px-5 mx-0 px-0 d-flex py-3"
+      style="color: white"
+    >
+      <input name="image" type="file" />
+      <h3>PRODUCT TYPE</h3>
+      <select
+        class="form-select ms-3 w-25"
+        id="product-type"
+        name="product_type"
+        required
+      >
+        <option selected>Select type</option>
+        <option value="sword">Sword</option>
+        <option value="uniform">Uniform</option>
+        <option value="armor">Armor</option>
+      </select>
+    </div>
+    <div
+      class="secondary-color px-5 mx-0 px-0 d-flex py-3"
+      style="color: white"
+    >
+      <div>
+        <h3>PRODUCT NAME</h3>
+      </div>
+      <input
+        class="form-control w-25 ms-5"
+        name="name"
+        type="text"
+        placeholder="Default input"
+        required
+      />
+    </div>
+    <div
+      class="secondary-color px-5 mx-0 px-0 d-flex py-3"
+      style="color: white"
+    >
+      <div>
+        <h3>PRODUCT DESCRIPTION</h3>
+      </div>
+      <input
+        class="form-control w-25 ms-5"
+        name="description"
+        type="text"
+        placeholder="Default input"
+      />
+    </div>
+    <div
+      class="secondary-color px-5 mx-0 px-0 d-flex py-3"
+      style="color: white"
+    >
+      <div>
+        <h3>Price</h3>
+      </div>
+      <input
+        class="form-control w-25 ms-5"
+        name="price"
+        type="number"
+        placeholder="Default input"
+      />
+    </div>
+    <div
+      class="secondary-color px-5 mx-0 px-0 d-flex py-3"
+      style="color: white"
+    >
+      <div>
+        <h3>Quantity</h3>
+      </div>
+      <input
+        class="form-control w-25 ms-5"
+        name="quantity"
+        type="number"
+        placeholder="Default input"
+      />
+    </div>
+    <!-- Sword Section -->
+    <div
+      class="secondary-color px-5 mx-0 px-0 d-flex py-3 sword-length-section d-none"
+      style="color: white"
+    >
+      <h3>Sword Length</h3>
+      <select class="form-select ms-3 w-25" name="sword_length" required>
+        <option selected>Sword Length</option>
+        <option value="32">32</option>
+        <option value="33">33</option>
+        <option value="34">34</option>
+      </select>
+    </div>
+
+    <!-- Uniform Section -->
+    <div
+      class="secondary-color px-5 mx-0 px-0 d-flex py-3 uniform-section d-none"
+      style="color: white"
+    >
+      <h3>Uniform Size</h3>
+      <select class="form-select ms-3 w-25" name="uniform_size" required>
+        <option selected>Uniform Size</option>
+        <option value="s">S</option>
+        <option value="m">m</option>
+        <option value="l">l</option>
+      </select>
+
+      <h3 class="ms-5">Uniform Color</h3>
+      <input
+        type="color"
+        class="form-control form-control-color ms-3"
+        id="color-picker"
+        value="#ff0000"
+        title="Choose your color"
+        name="uniform_color"
+        required
+      />
+    </div>
+
+    <!-- Armor Section -->
+    <div
+      class="secondary-color px-5 mx-0 px-0 d-flex py-3 armor-section d-none"
+      style="color: white"
+    >
+      <h3>Armor Size</h3>
+      <select class="form-select ms-3 w-25" name="armor_size" required>
+        <option selected>Armor Size</option>
+        <option value="s">S</option>
+        <option value="m">M</option>
+        <option value="l">L</option>
+      </select>
+    </div>
+
+    <div class="secondary-color row mx-0 px-0 justify-content-center py-5">
+      <button
+        class="btn btn-light w-25 px-3 montserrat-light"
+        type="submit"
+        name="submit"
+        value="True"
+      >
+        Confirm
+      </button>
+    </div>
+  </form>
+</section>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const productTypeSelect = document.getElementById("product-type");
+    const sections = {
+      sword: document.querySelector(".sword-length-section"),
+      uniform: document.querySelector(".uniform-section"),
+      armor: document.querySelector(".armor-section"),
+    };
+
+    // Hide all sections initially
+    Object.values(sections).forEach((section) => {
+      if (section) section.classList.add("d-none");
+    });
+
+    // Add event listener to the product type dropdown
+    productTypeSelect.addEventListener("change", (event) => {
+      const selectedValue = event.target.value;
+
+      // Hide all sections
+      Object.values(sections).forEach((section) => {
+        section.classList.add("d-none");
+      });
+
+      // Show the relevant section based on selected value
+      if (selectedValue === "sword") {
+        sections.sword.classList.remove("d-none");
+      } else if (selectedValue === "uniform") {
+        sections.uniform.classList.remove("d-none");
+      } else if (selectedValue === "armor") {
+        sections.armor.classList.remove("d-none");
+      }
+    });
+  });
+</script>
+{% endblock wrapper %}

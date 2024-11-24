@@ -186,6 +186,11 @@ def cancel_order_view(request):
         order = Order.objects.get(order_id=order_id)
         canceled_order = CanceledOrder.objects.create(order=order)
         canceled_order.save()
+        order_items = OrderItem.objects.filter(order=order)
+        for order_item in order_items:
+            product = order_item.product
+            product.quantity += order_item.quantity
+            product.save()
 
         return JsonResponse({"Success": True, "order_id": order_id})
     return redirect("core:home")

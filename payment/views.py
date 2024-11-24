@@ -274,3 +274,5 @@ def select_payment_view(request):
         request.session.modified = True
 
     return JsonResponse({"Success": True})
+
+
