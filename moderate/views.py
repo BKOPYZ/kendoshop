@@ -392,16 +392,16 @@ def add_promotion_view(request):
 
 
 @login_required(login_url="userauths:login")
-def delete_promotion_view(request):
+def delete_promotion_view(request, code):
     if request.user.user_privilege < 2:
         return redirect("core:home")
-    if request.method == "POST":
-        post = request.POST
-        code = post["code"]
+    
+    try:
 
         promotion = Promotion.objects.get(code=code)
         promotion.delete()
 
         return JsonResponse({"Sucess": "successful delete"})
-
+    except Exception as e:
+        messages.error(request, f"[ERROR]: {e}")
     return render(request, "moderate/add_promotion.html")
