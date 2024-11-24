@@ -8,22 +8,14 @@
   </h1>
 </div>
 <a href="javascript:history.go(-1)" class="btn mt-5 ms-5">
-  <img
-    src="{% static 'assets/imgs/arrow.png' %}"
-    alt="arrow"
-    style="width: 60px"
-  />
+  <img src="{% static 'assets/imgs/arrow.png' %}" alt="arrow" style="width: 60px" />
 </a>
-  <img src="{% static 'assets/imgs/edit.svg' %}" alt="" />
+
 </button>
-<div class="container-fluid">
+<div class="container-fluid" style="color: white;">
   <div class="row">
     <div class="col-6 ps-lg-5 ms-lg-5">
-      <img
-        src="{{product.image.url}}"
-        alt="{{product.name}}"
-        class="col-lg-8 ms-lg-5 ps-lg-5 col-12"
-      />
+      <img src="{{product.image.url}}" alt="{{product.name}}" class="col-lg-8 ms-lg-5 ps-lg-5 col-12" />
     </div>
     <div class="col-lg-5 col-6">
       <h1 class="montserrat-bold">{{product.name}}</h1>
@@ -36,43 +28,18 @@
         <div class="row" id="{{product.product_type}}_{{product_id}}">
           <h4 class="col-6 text-center">Length: {{length}}</h4>
           <div class="row">
-            <label class="col-6 text-center" for="quantity_{{product_id}}"
-              >Quantity</label
-            >
-            <input
-              class="col-4 form-control w-25"
-              type="number"
-              step="1"
-              min="0"
-              name="quantity_{{product_id}}"
-              id="quantity_{{product_id}}"
-              value="{{quantity}}"
-              required
-            />
+            <label class="col-6 text-center" for="quantity_{{product_id}}">Quantity</label>
+            <input class="col-4 form-control w-25" type="number" step="1" min="0" name="quantity_{{product_id}}"
+              id="quantity_{{product_id}}" value="{{quantity}}" required />
           </div>
 
           <div class="row">
-            <label class="col-6 text-center" for="price_{{product_id}}"
-              >Price</label
-            >
-            <input
-              class="col-4 form-control w-25"
-              type="number"
-              step="1"
-              min="0"
-              name="price_{{product_id}}"
-              id="price_{{product_id}}"
-              value="{{price}}"
-              required
-            />
+            <label class="col-6 text-center" for="price_{{product_id}}">Price</label>
+            <input class="col-4 form-control w-25" type="number" step="1" min="0" name="price_{{product_id}}"
+              id="price_{{product_id}}" value="{{price}}" required />
           </div>
 
-          <input
-            type="text"
-            name="length_{{product_id}}"
-            value="{{length}}"
-            hidden
-          />
+          <input type="text" name="length_{{product_id}}" value="{{length}}" hidden />
           <button name="update" onclick="updateProduct(event,this)" value="{{product_id}}">
             V
           </button>
@@ -87,82 +54,53 @@
         <div class="row" id="{{product.product_type}}_{{product_id}}">
           <h4 class="col-6 text-center">Size: {{size}}</h4>
           <div class="row">
-            <label class="col-6 text-center" for="quantity_{{product_id}}"
-              >Quantity</label
-            >
-            <input
-              class="col-4 form-control w-25"
-              type="number"
-              step="1"
-              min="0"
-              name="quantity_{{product_id}}"
-              id="quantity_{{product_id}}"
-              value="{{quantity}}"
-              required
-            />
+            <label class="col-6 text-center" for="quantity_{{product_id}}">Quantity</label>
+            <input class="col-4 form-control w-25" type="number" step="1" min="0" name="quantity_{{product_id}}"
+              id="quantity_{{product_id}}" value="{{quantity}}" required />
           </div>
 
           <div class="row">
-            <label class="col-6 text-center" for="price_{{product_id}}"
-              >Price</label
-            >
-            <input
-              class="col-4 form-control w-25"
-              type="number"
-              step="1"
-              min="0"
-              name="price_{{product_id}}"
-              id="price_{{product_id}}"
-              value="{{price}}"
-              required
-            />
+            <label class="col-6 text-center" for="price_{{product_id}}">Price</label>
+            <input class="col-4 form-control w-25" type="number" step="1" min="0" name="price_{{product_id}}"
+              id="price_{{product_id}}" value="{{price}}" required />
           </div>
 
           <input type="text" name="product_id" value="{{product_id}}" hidden />
           <input type="text" name="length" value="{{length}}" hidden />
-          <button onclick="updateProduct(event,this)" value="{{product_id}}">
-            V
-          </button>
-          <button onclick="deleteProduct(event,this)" value="{{product_id}}">
-            X
-          </button>
+          <div class="d-flex justify-content-center mt-3">
+            <button onclick="updateProduct(event,this)" value="{{product_id}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg"
+                viewBox="0 0 16 16">
+                <path
+                  d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z" />
+              </svg>
+            </button>
+            <button onclick="deleteProduct(event,this)" value="{{product_id}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
+                viewBox="0 0 16 16">
+                <path
+                  d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+              </svg>
+            </button>
+          </div>
+
         </div>
         {% endfor %}
         <!-- prettier-ignore -->
-        {% elif product.product_type == 'uniform' %} 
+        {% elif product.product_type == 'uniform' %}
         {% for product_id, size, color, quantity, price in id_size_color_quantity_price %}
         <div class="row" id="{{product.product_type}}_{{product_id}}">
           <h4 class="col-6 text-center">Size: {{size}} | Color: {{color}}</h4>
           <div class="row">
-            <label class="col-6 text-center" for="quantity_{{product_id}}"
-              >Quantity</label
-            >
-            <input
-              class="col-4 form-control w-25"
-              type="number"
-              step="1"
-              min="0"
-              name="quantity_{{product_id}}"
-              id="quantity_{{product_id}}"
-              value="{{quantity}}"
-              required
-            />
+            <label class="col-6 text-center" for="quantity_{{product_id}}">Quantity</label>
+            <input class="col-4 form-control w-25" type="number" step="1" min="0" name="quantity_{{product_id}}"
+              id="quantity_{{product_id}}" value="{{quantity}}" required />
           </div>
 
           <div class="row">
-            <label class="col-6 text-center" for="price_{{product_id}}"
-              >Price</label
-            >
-            <input
-              class="col-4 form-control w-25"
-              type="number"
-              step="1"
-              min="0"
-              name="price_{{product_id}}"
-              id="price_{{product_id}}"
-              value="{{price}}"
-              required
-            />
+            <label class="col-6 text-center" for="price_{{product_id}}">Price</label>
+            <input class="col-4 form-control w-25" type="number" step="1" min="0" name="price_{{product_id}}"
+              id="price_{{product_id}}" value="{{price}}" required />
           </div>
 
           <input type="text" id="product_id" value="{{product_id}}" hidden />
@@ -198,17 +136,17 @@
         document.getElementById("success-message").hidden = true;
         document.getElementById("error-message").hidden = true;
 
-        if (json.Success){
-          document.getElementById("quantity_" +json.Product_id).value = json.Quantity;
+        if (json.Success) {
+          document.getElementById("quantity_" + json.Product_id).value = json.Quantity;
           document.getElementById("price_" + json.Product_id).value = json.Price;
           document.getElementById("success-message").hidden = false;
           document.getElementById("success-message").textContent = json.Message;
         }
-        else{
+        else {
           document.getElementById("error-message").hidden = false;
           document.getElementById("error-message").textContent = json.Message;
         }
-        
+
       },
       error: function (xhr, errmsg, err) {
         console.log(xhr);
@@ -230,12 +168,12 @@
       success: function (json) {
         document.getElementById("success-message").hidden = true;
         document.getElementById("error-message").hidden = true;
-        if (json.Success){
-          document.getElementById("{{product.product_type}}"+"_"+button.value).hidden = true
-        document.getElementById("success-message").hidden = false;
-        document.getElementById("success-message").textContent = json.Message;
+        if (json.Success) {
+          document.getElementById("{{product.product_type}}" + "_" + button.value).hidden = true
+          document.getElementById("success-message").hidden = false;
+          document.getElementById("success-message").textContent = json.Message;
         }
-        else{
+        else {
           document.getElementById("error-message").hidden = false;
           document.getElementById("error-message").textContent = json.Message;
         }
