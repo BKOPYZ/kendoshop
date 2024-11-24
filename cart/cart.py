@@ -45,13 +45,13 @@ class Cart:
         old_cart = deepcopy(self.cart)
         if self.request.user.is_authenticated:
             try:
+
                 self.cartObject = ShoppingSession.objects.get(user=self.request.user)
                 cartItems = CartItem.objects.filter(cart=self.cartObject)
                 for cartItem in cartItems:
                     self.cart[cartItem.product.product_id] = cartItem.quantity
                 if self.cartObject.promotion:
                     self.promotion.update(self.cartObject.promotion.to_dict())
-
             except ShoppingSession.DoesNotExist:
                 self.cartObject = ShoppingSession.objects.create(user=self.request.user)
                 self.cartObject.save()

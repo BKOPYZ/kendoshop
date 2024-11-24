@@ -55,7 +55,7 @@ def register_view(request):
 
                 if user_profile is None:
 
-                    user_profile = ".media/user/user_no_img/human.png"
+                    user_profile = "/user/user_no_img/human.png"
                     is_profile_None = True
 
                 new_user.user_profile = user_profile
@@ -72,6 +72,8 @@ def register_view(request):
                     password=password,
                 )
                 login(request, new_user)
+                cart = Cart(request)
+                cart.load_from_database(cart.cart)
                 return redirect("core:home")
             except Exception as e:
                 print(e)
@@ -100,7 +102,8 @@ def login_view(request):
 
                 login(request, user)
                 messages.success(request, "you are login")
-                Cart(request).load_from_database
+                cart = Cart(request)
+                cart.load_from_database(cart.cart)
                 return redirect("core:home")
             else:
                 messages.error(

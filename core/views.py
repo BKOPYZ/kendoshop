@@ -16,8 +16,6 @@ def home_view(request):
 
 def product_view(request, category: str | None = None, page: int | None = None):
     if product_name := request.GET.get("search"):
-        print("-" * 10)
-        print(product_name)
         categorize_product = Product.objects.raw(
             f"Select * from core_product where name like '%{product_name}%' group by name"
         )
