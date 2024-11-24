@@ -11,9 +11,7 @@ PAYMENT_TYPE = (("cash", "Cash"), ("qr", "QrCode"), ("card", "Card"))
 # Create your models here.
 class Payment(models.Model):
     payment_id = models.AutoField(primary_key=True)
-    payment_type = models.CharField(
-        null=True, blank=True, choices=PAYMENT_TYPE, max_length=15
-    )
+    payment_type = models.CharField(choices=PAYMENT_TYPE, max_length=15, default="cash")
     card_provider = models.CharField(
         null=True, blank=True, choices=CARD_PROVIDER, max_length=15
     )
@@ -35,9 +33,9 @@ class Order(models.Model):
     address = models.CharField(max_length=255, default="100/100")
     city = models.CharField(max_length=255, default="Parkret")
     province = models.CharField(max_length=255, default="Nonthaburi")
-    postal_code = models.CharField(max_length=255, default="11120")
-    telephone = models.CharField(max_length=255, default="00000000")
-    created_at = models.DateTimeField(default=datetime.datetime.now, blank=True)
+    postal_code = models.CharField(max_length=5, default="11120")
+    telephone = models.CharField(max_length=10, default="00000000")
+    created_at = models.DateTimeField(default=datetime.datetime.now)
     shipping_status = models.BooleanField(default=False)
 
     @property
@@ -54,4 +52,4 @@ class OrderItem(models.Model):
 
 class CanceledOrder(models.Model):
     canceled_order_id = models.AutoField(primary_key=True)
-    order = models.OneToOneField(Order, on_delete=models.DO_NOTHING, default=0)
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, default=0)

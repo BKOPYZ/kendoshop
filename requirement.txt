@@ -5,3 +5,5 @@ pillow
 shortuuid
 django-shortuuidfield
 django-mathfilters
+django-phonenumber-field
+phonenumbers

@@ -96,7 +96,9 @@ class Promotion(models.Model):
     code = models.CharField(max_length=255, primary_key=True, default="HAPPY")
     discount = models.FloatField(default=0.15)
     amount = models.IntegerField(default=1000)
-    end_date = models.DateField(default=datetime.datetime.now, blank=True, null=True)
+    end_date = models.DateField(
+        default=datetime.datetime.now() + datetime.timedelta(days=365),
+    )
 
     def to_dict(self):
         return {"code": self.code, "discount": self.discount}

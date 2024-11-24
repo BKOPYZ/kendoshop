@@ -1,11 +1,13 @@
-from sys import prefix
+from enum import unique
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.forms import CharField
 from shortuuid.django_fields import ShortUUIDField
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-from pkg_resources import require
 from shortuuid.django_fields import ShortUUIDField
+from phonenumber_field.modelfields import PhoneNumberField
+from pathlib import Path
 
 CARD_PROVIDER = (("debit", "Debit"), ("visa", "Visa"), ("mastercard", "Mastercard"))
 
@@ -28,20 +30,20 @@ class User(AbstractUser):
     )
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=20, unique=True)
-    first_name = models.CharField(max_length=20, null=True)
-    last_name = models.CharField(max_length=20, null=True)
-    telephone = models.CharField(max_length=13, null=True)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+    telephone = models.CharField(max_length=10, unique=True)
     user_privilege = models.IntegerField(
         default=1, validators=[MaxValueValidator(3), MinValueValidator(1)]
     )
     user_profile = models.ImageField(
         upload_to=user_directory_path,
         null=True,
-        default="../static/assets/imgs/human.png",
+        default="./static/assets/imgs/human.png",
     )
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = ["username", "first_name", "last_name", "telephone"]
 
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
@@ -51,12 +53,6 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-    def is_user(self):
-        return self.user_privilege > 0
-    
-    def is_staff(self):
-        return self.user_privilege > 1
-
 
 class UserAddress(models.Model):
     user_address_id = models.AutoField(primary_key=True)
@@ -64,8 +60,24 @@ class UserAddress(models.Model):
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     province = models.CharField(max_length=255)
-    postal_code = models.CharField(max_length=255)
-    telephone = models.CharField(max_length=255)
+    postal_code = models.CharField(max_length=5)
+    telephone = models.CharField(max_length=10)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    "user_address_id",
+                    "user",
+                    "address",
+                    "city",
+                    "province",
+                    "postal_code",
+                    "telephone",
+                ],
+                name="unique_user_address",
+            )
+        ]
 
     def to_dict(self):
         return {
@@ -83,11 +95,23 @@ class UserAddress(models.Model):
 class UserPayment(models.Model):
     user_payment_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    card_provider = models.CharField(
-        null=True, blank=True, choices=CARD_PROVIDER, max_length=15
-    )
-    card_no = models.CharField(null=True, blank=True, max_length=20)
-    expiry_date = models.DateField(null=True, blank=True)
+    card_provider = models.CharField(choices=CARD_PROVIDER, max_length=15)
+    card_no = models.CharField(max_length=20)
+    expiry_date = models.DateField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    "user_payment_id",
+                    "user",
+                    "card_provider",
+                    "card_no",
+                    "expiry_date",
+                ],
+                name="unique_user_payment",
+            )
+        ]
 
     def to_dict(self):
         return {

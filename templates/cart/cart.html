@@ -177,6 +177,7 @@
 ></script>
 <script>
   function increase(e, button) {
+    e.preventDefault();
     $.ajax({
       type: "POST",
       url: "{% url 'cart:update_cart' %}",

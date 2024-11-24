@@ -15,7 +15,15 @@ def home_view(request):
 
 
 def product_view(request, category: str | None = None, page: int | None = None):
-    if category is None:
+    if product_name := request.GET.get("search"):
+        print("-" * 10)
+        print(product_name)
+        categorize_product = Product.objects.raw(
+            f"Select * from core_product where name like '%{product_name}%' group by name"
+        )
+        category = product_name
+
+    elif category is None:
 
         categorize_product = Product.objects.raw(
             "Select * from core_product group by name"

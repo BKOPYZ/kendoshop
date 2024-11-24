@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "jazzmin",
+    "phonenumber_field",
     "django.contrib.humanize",
     "mathfilters",
     "django.contrib.admin",

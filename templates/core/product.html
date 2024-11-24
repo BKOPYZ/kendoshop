@@ -1,5 +1,12 @@
 {% extends 'core/header.html' %}{% load static %}{% block wrapper %}
-
+<!-- prettier ignore -->
+{% if messages %}
+    {% for message in messages  %}
+    <div>
+        <h1> {{message}} </h1>
+    </div>
+    {% endfor %}
+{% endif %}
 <body class="d-flex flex-column">
     <div id="header"></div>
 
