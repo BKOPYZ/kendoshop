@@ -153,3 +153,8 @@ PROMOTION_SESSION_ID = "promotion"
 PAYMENT_SESSION_ID = "payment"
 CARD_SESSION_ID = "card"
 ADDRESS_SESSION_ID = "address"
+
+
+
+
+

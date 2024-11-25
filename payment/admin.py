@@ -13,7 +13,7 @@ class PaymentAdmin(admin.ModelAdmin):
         "cash_status",
         "card_status",
     ]
-    exclude = ["expiry_date"]
+    exclude = ["card_no"]
 
 
 class OrderAdmin(admin.ModelAdmin):

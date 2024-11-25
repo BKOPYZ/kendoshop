@@ -30,9 +30,9 @@ class User(AbstractUser):
     )
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=20, unique=True)
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    telephone = models.CharField(max_length=10, unique=True)
+    first_name = models.CharField(max_length=20, default="John")
+    last_name = models.CharField(max_length=20, default="Mayer")
+    telephone = models.CharField(max_length=13, default="000000000")
     user_privilege = models.IntegerField(
         default=1, validators=[MaxValueValidator(3), MinValueValidator(1)]
     )
