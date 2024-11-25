@@ -129,7 +129,7 @@ def profile_view(request):
     orders = Order.objects.filter(
         order_id__in=RawSQL(
             f"select payment_order.order_id from payment_order left join payment_canceledorder on payment_order.order_id = payment_canceledorder.order_id where user_id = %s and payment_canceledorder.order_id is null",
-            (request.user.id,),
+            (request.user.user_id,),
         )
     )
     order_payment_orderItems = []

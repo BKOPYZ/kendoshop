@@ -3,6 +3,7 @@ from urllib import request
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 import cart
+
 from cart.models import ShoppingSession, CartItem
 from userauths.models import User
 
@@ -11,6 +12,7 @@ from copy import deepcopy
 from django import template
 
 register = template.Library()
+
 
 class Cart:
 

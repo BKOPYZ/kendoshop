@@ -27,6 +27,7 @@ class User(AbstractUser):
         max_length=20,
         prefix="user",
         alphabet="abcdefhghijklmnopqrtuvwxyz1234567890",
+        primary_key=True,
     )
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=20, unique=True)
