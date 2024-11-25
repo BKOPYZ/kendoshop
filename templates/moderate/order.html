@@ -5,35 +5,44 @@
     Remark : Past order kept up to past 14 days
   </p>
   <div class="container mt-5">
-    <h2 class="row col-lg-3 col-5 montserrat-bold pb-2 mx-5" style="border-bottom: 5px white solid; color:white">
+    <h2
+      class="row col-lg-3 col-5 montserrat-bold pb-2 mx-5"
+      style="border-bottom: 5px white solid; color: white"
+    >
       <!-- TODO: retreive order record from the database and construct them here -->
       Order Summary
     </h2>
     <div class="card text-dark primary-color">
-      {% for data in order_payment_orderItems %}
+      {% for data in order_orderItems %}
       <div class="card-body container pb-0 border">
         <h5 class="col-12 montserrat-bold">
           Order User: {{data.0.user.username}} | {{data.0.created_at}}
         </h5>
         <p class="col-12 montserrat-light">
-          Total Price : {{data.1.total_price}}
+          Total Price : {{data.0.payment.total_price}}
         </p>
         <div class="row container-fluid px-5 mx-5 mt-3">
-          {% for item in data.2%}
+          {% for item in data.1 %}
           <div class="row">
-            <img src="{{item.product.image.url}}" alt="{{item.product.name}}" class="col-5"
-              style="width: 100px; border-radius: 25%" />
+            <img
+              src="{{item.product.image.url}}"
+              alt="{{item.product.name}}"
+              class="col-5"
+              style="width: 100px; border-radius: 25%"
+            />
             <label class="col-2 pt-4">{{item.product.name}}</label>
             <label class="col-2 pt-4">{{item.product.price}} Baht</label>
             <label class="col-1 pt-4">x{{item.quantity}}</label>
-            <label class="col-2 pt-4">{% widthratio item.product.price 1 item.quantity %} Baht</label>
+            <label class="col-2 pt-4"
+              >{% widthratio item.product.price 1 item.quantity %} Baht</label
+            >
           </div>
 
           {% endfor %}
         </div>
         <div class="mt-4 d-flex montserrat-light">
           <p>Payment :</p>
-          <p class="ms-3">{{data.1.payment_type}}</p>
+          <p class="ms-3">{{data.0.payment.payment_type}}</p>
         </div>
 
         <div class="d-flex montserrat-light">
@@ -54,17 +63,37 @@
 </div>
 <div class="d-flex justify-content-center">
   {% if page|add:-2 > 1 %}
-  <a href="{% url 'moderate:order' page=1 %}" class="btn btn-light {% if i == page %} active {% endif %}">[1]</a>
+  <a
+    href="{% url 'moderate:order' page=1 %}"
+    class="btn btn-light {% if i == page %} active {% endif %}"
+    >[1]</a
+  >
   ... {% endif %} {% for i in before %}
-  <a href="{% url 'moderate:order' page=i %}" class="btn btn-light {% if i == page %} active {% endif %}">[{{i}}]</a>
+  <a
+    href="{% url 'moderate:order' page=i %}"
+    class="btn btn-light {% if i == page %} active {% endif %}"
+    >[{{i}}]</a
+  >
   {% endfor %} {% for i in after %} {% if i == page %}
-  <a href="{% url 'moderate:order' page=i %}" class="btn btn-light {% if i == page %} active {% endif %}">[{{i}} ]</a>
+  <a
+    href="{% url 'moderate:order' page=i %}"
+    class="btn btn-light {% if i == page %} active {% endif %}"
+    >[{{i}} ]</a
+  >
   {% else %}
-  <a href="{% url 'moderate:order' page=i %}" class="btn btn-light {% if i == page %} active {% endif %}">[{{i}}]</a>
-  {% endif %} {% endfor %} {% if page|add:2 < num_pages %} ... <a href="{% url 'moderate:order' page=num_pages %}"
-    class="btn btn-light {% if i == page %} active {% endif %}">
-    [{{num_pages}}]</a>
+  <a
+    href="{% url 'moderate:order' page=i %}"
+    class="btn btn-light {% if i == page %} active {% endif %}"
+    >[{{i}}]</a
+  >
+  {% endif %} {% endfor %} {% if page|add:2 < num_pages %} ...
+  <a
+    href="{% url 'moderate:order' page=num_pages %}"
+    class="btn btn-light {% if i == page %} active {% endif %}"
+  >
+    [{{num_pages}}]</a
+  >
 
-    {% endif %}
+  {% endif %}
 </div>
 {% endblock wrapper %}

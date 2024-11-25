@@ -65,7 +65,6 @@ def update_item_view(
     request,
 ):
     cart = Cart(request)
-    print("asdfasdfasdf")
     if request.POST.get("action") == "post":
         post = request.POST
         product_id = post.get("product_id")

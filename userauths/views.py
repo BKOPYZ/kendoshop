@@ -2,11 +2,13 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
+from pkg_resources import require
 from userauths.models import User
 from django.core.files import File
 from django.contrib.auth.decorators import login_required, user_passes_test
 from payment.models import Order, OrderItem, Payment, CanceledOrder
 from cart.cart import Cart
+from django.db.models.expressions import RawSQL
 import os
 
 
@@ -67,7 +69,7 @@ def register_view(request):
                 new_user.set_password(password)
                 # insert into user
                 new_user.save()
-                
+
                 messages.info(request, "Thanks for registering. You are now logged in.")
                 new_user = authenticate(
                     username=email,
@@ -124,8 +126,11 @@ def logout_view(request):
 @login_required(login_url="userauths:login")
 def profile_view(request):
     context = dict()
-    orders = Order.objects.raw(
-        f"select * from payment_order left join payment_canceledorder on payment_order.order_id = payment_canceledorder.order_id where user_id = {request.user.id} and payment_canceledorder.order_id is null"
+    orders = Order.objects.filter(
+        order_id__in=RawSQL(
+            f"select payment_order.order_id from payment_order left join payment_canceledorder on payment_order.order_id = payment_canceledorder.order_id where user_id = %s and payment_canceledorder.order_id is null",
+            (request.user.id,),
+        )
     )
     order_payment_orderItems = []
     for order in orders:

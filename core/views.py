@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.db.models import Count
 import math
 from userauths.models import UserAddress
+from django.db.models.expressions import RawSQL
 
 PRODUCTS_PER_PAGE = 5
 
@@ -16,9 +17,13 @@ def home_view(request):
 
 def product_view(request, category: str | None = None, page: int | None = None):
     if product_name := request.GET.get("search"):
-        categorize_product = Product.objects.raw(
-            f"Select * from core_product where  `name` like '%{product_name}%' group by name"
+        categorize_product = Product.objects.filter(
+            product_id__in=RawSQL(
+                "Select product_id from core_product where `name` like %s group by name",
+                (f"%{product_name}%",),
+            )
         )
+
         category = product_name
 
     elif category is None:
@@ -29,8 +34,11 @@ def product_view(request, category: str | None = None, page: int | None = None):
         category = "all product"
 
     else:
-        categorize_product = Product.objects.raw(
-            f"Select * from core_product where product_type = '{category}' group by name"
+        categorize_product = Product.objects.filter(
+            product_id__in=RawSQL(
+                "Select product_id from core_product where product_type like %s group by name",
+                (f"%{category}%",),
+            )
         )
 
     num_products = len(categorize_product)
@@ -106,7 +114,7 @@ def product_detail_view(request, product_id: int, **kwargs):
                 (product.sword_length, product.quantity, product.price)
                 for product in all_same_product
             ]
-            
+
             length_quantity_price = sorted(
                 length_quantity_price, key=lambda product: product[0]
             )

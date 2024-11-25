@@ -8,6 +8,7 @@ import math
 from django.core.files import File
 from core.views import PRODUCTS_PER_PAGE
 from django.contrib import messages
+from django.db.models.expressions import RawSQL
 
 ORDERS_PER_PAGE = 3
 PROMOTIONS_PER_PAGE = 10
@@ -23,11 +24,10 @@ def order_view(request, page: int | None = None):
         "select * from payment_order left join payment_canceledorder on payment_order.order_id = payment_canceledorder.order_id"
     )
 
-    order_payment_orderItems = []
+    order_orderItems = []
     for order in all_order_cancelordered:
-        payment = Payment.objects.get(order=order)
         order_items = OrderItem.objects.filter(order=order)
-        order_payment_orderItems.append((order, payment, order_items))
+        order_orderItems.append((order, order_items))
 
     num_order = len(all_order_cancelordered)
 
@@ -35,14 +35,14 @@ def order_view(request, page: int | None = None):
 
     page = 1 if page is None else page
 
-    page_orders = order_payment_orderItems[
+    page_orders = order_orderItems[
         (page - 1) * ORDERS_PER_PAGE : max(num_pages, ORDERS_PER_PAGE * page)
     ]
     before = range(max(1, page - 2), page)
     after = range(page, min(page + 3, num_pages + 1))
 
     context = {
-        "order_payment_orderItems": page_orders,
+        "order_orderItems": page_orders,
         "num_pages": num_pages,
         "page": page,
         "before": before,
@@ -71,8 +71,11 @@ def product_view(request, category: str | None = None, page: int | None = None):
         category = "all product"
 
     else:
-        categorize_product = Product.objects.raw(
-            f"Select * from core_product where product_type = '{category}' group by name"
+        categorize_product = Product.objects.filter(
+            product_id__in=RawSQL(
+                "Select product_id from core_product where product_type like %s group by name",
+                (f"%{category}%",),
+            )
         )
 
     num_products = len(categorize_product)
