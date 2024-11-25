@@ -164,7 +164,9 @@ def user_address_view(request):
 
     if request.method == "POST":
         post = request.POST
-
+        user_address_id = post.get("address")
+        if not user_address_id:
+            return redirect("payment:new-address")
         cart = Cart(request)
         if cart.promotion:
             promotion = get_object_or_404(Promotion, code=cart.promotion["code"])
@@ -174,7 +176,6 @@ def user_address_view(request):
                 promotion.amount -= 1
                 promotion.save()
 
-        user_address_id = post.get("address")
         if (payment_data := request.session.get(settings.PAYMENT_SESSION_ID)) is None:
             return redirect("payment:payment")
 
