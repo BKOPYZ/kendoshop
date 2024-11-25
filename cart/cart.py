@@ -12,7 +12,6 @@ from django import template
 
 register = template.Library()
 
-
 class Cart:
 
     def __init__(self, request):

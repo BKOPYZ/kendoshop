@@ -65,7 +65,9 @@ def register_view(request):
                         File(user_profile),
                     )
                 new_user.set_password(password)
+                # insert into user
                 new_user.save()
+                
                 messages.info(request, "Thanks for registering. You are now logged in.")
                 new_user = authenticate(
                     username=email,

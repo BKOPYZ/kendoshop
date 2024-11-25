@@ -102,6 +102,7 @@ def remove_item_view(request):
         product_id = post.get("product_id")
         product = get_object_or_404(Product, product_id=product_id)
         cart.delete(product=product)
+        
         beforePrice = cart.get_total_price
         discount_frac = cart.get_discount_frac
         discount_sale = beforePrice * discount_frac
@@ -116,7 +117,6 @@ def remove_item_view(request):
             }
         )
         return response
-
 
 def cart_view(request):
     cart = Cart(request)
@@ -133,6 +133,7 @@ def check_coupon_view(request):
         post = request.POST
         code = post.get("code")
         cart.use_promotion(code)
+        
         beforePrice = cart.get_total_price
         discount_frac = cart.get_discount_frac
         discount_sale = beforePrice * discount_frac
@@ -151,6 +152,7 @@ def clear_coupon_view(request):
     cart = Cart(request)
     if request.POST.get("action") == "post":
         cart.unused_promotion()
+        
         beforePrice = cart.get_total_price
         discount_frac = cart.get_discount_frac
         discount_sale = beforePrice * discount_frac

@@ -28,7 +28,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     payment = models.OneToOneField(Payment, on_delete=models.RESTRICT, default=0)
     promotion_code = models.ForeignKey(
-        Promotion, on_delete=models.RESTRICT, null=True, blank=True
+        Promotion, on_delete=models.SET_NULL, null=True, blank=True
     )
     address = models.CharField(max_length=255, default="100/100")
     city = models.CharField(max_length=255, default="Parkret")

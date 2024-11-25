@@ -54,3 +54,4 @@ class UserAddressAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(UserPayment, UserPaymentAdmin)
 admin.site.register(UserAddress, UserAddressAdmin)
+filter

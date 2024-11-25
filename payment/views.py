@@ -99,9 +99,6 @@ def new_address_view(request):
             )
             user_address.save()
 
-            cart_object = ShoppingSession.objects.get(user=request.user)
-            cart_object.delete()
-
         cart = Cart(request)
         if (payment_data := request.session.get(settings.PAYMENT_SESSION_ID)) is None:
             return redirect("payment:payment")
@@ -111,10 +108,9 @@ def new_address_view(request):
             month = payment_data.pop("month")
             expiry_date = datetime.datetime(year=year, month=month, day=1)
 
-            payment_data["total_price"] = cart.calculate_total_price
             payment_data["expiry_date"] = expiry_date
+        payment_data["total_price"] = cart.calculate_total_price
         payment = Payment.objects.create(**payment_data)
-        payment.save()
 
         promotion = None
         if cart.promotion:
@@ -136,7 +132,7 @@ def new_address_view(request):
             postal_code=postal_code,
             telephone=telephone,
         )
-        order.save()
+
         for product_id, quantity in cart.cart.items():
             product = Product.objects.get(product_id=product_id)
             order_item = OrderItem.objects.create(
@@ -146,10 +142,15 @@ def new_address_view(request):
             product.save()
             order_item.save()
 
+        order.save()
+        payment.save()
         request.session[settings.CARD_SESSION_ID] = None
         request.session[settings.PAYMENT_SESSION_ID] = {}
-
         cart.delete_cart()
+
+        if request.user.is_authenticated:
+            cart_object = ShoppingSession.objects.get(user=request.user)
+            cart_object.delete()
 
         return redirect("core:home")
     return render(request, "payment/payment_new_address.html")
@@ -182,9 +183,9 @@ def user_address_view(request):
             month = payment_data.pop("month")
             expiry_date = datetime.datetime(year=year, month=month, day=1)
 
-            payment_data["total_price"] = cart.calculate_total_price
             payment_data["expiry_date"] = expiry_date
 
+        payment_data["total_price"] = cart.calculate_total_price
         payment = Payment.objects.create(**payment_data)
         payment.save()
 

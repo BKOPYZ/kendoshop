@@ -17,7 +17,7 @@ def home_view(request):
 def product_view(request, category: str | None = None, page: int | None = None):
     if product_name := request.GET.get("search"):
         categorize_product = Product.objects.raw(
-            f"Select * from core_product where name like '%{product_name}%' group by name"
+            f"Select * from core_product where  `name` like '%{product_name}%' group by name"
         )
         category = product_name
 
@@ -37,13 +37,13 @@ def product_view(request, category: str | None = None, page: int | None = None):
 
     num_pages = math.ceil(num_products / PRODUCTS_PER_PAGE)
 
-    page = 1 if page is None else page
+    page = 1 if page is None else page  # PAGE NUMBER
 
     page_products = categorize_product[
         (page - 1) * PRODUCTS_PER_PAGE : max(num_pages, PRODUCTS_PER_PAGE * page)
-    ]
-    before = range(max(1, page - 2), page)
-    after = range(page, min(page + 3, num_pages + 1))
+    ]  # LIMIT OFFSET
+    before = range(max(1, page - 2), page)  # PAGE - 2
+    after = range(page, min(page + 3, num_pages + 1))  # PAGE + 2
 
     context = {
         "products": page_products,
@@ -106,6 +106,7 @@ def product_detail_view(request, product_id: int, **kwargs):
                 (product.sword_length, product.quantity, product.price)
                 for product in all_same_product
             ]
+            
             length_quantity_price = sorted(
                 length_quantity_price, key=lambda product: product[0]
             )

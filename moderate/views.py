@@ -281,10 +281,13 @@ def update_product_view(request):
         price = float(post["product_price"])
         product_type = post["product_type"]
         product_id = post["product_id"]
+
         product = Product.objects.get(product_id=product_id)
+
         assert product_type == product.product_type
         product.quantity = quantity
         product.price = price
+
         product.save()
         return JsonResponse(
             {
@@ -357,6 +360,12 @@ def edit_promotion_view(request, code: str | None = None):
             edit_promotion.amount = post["amount"]
             edit_promotion.discount = post["discount"]
             edit_promotion.end_date = post["end_date"]
+            print(
+                post["code"],
+                post["amount"],
+                post["discount"],
+                post["end_date"],
+            )
             edit_promotion.save()
             messages.success(request, f"[INFO]: successfully modify promotion")
             return redirect("moderate:promotion")
