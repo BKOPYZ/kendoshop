@@ -27,11 +27,11 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mx-5">
-                        <li class="nav-item mx-5">
+                    <ul class="navbar-nav mx-2">
+                        <li class="nav-item mx-2">
                             <a class="nav-link active montserrat-light" href="{% url 'core:home' %}">HOME</a>
                         </li>
-                        <li class="nav-item mx-5">
+                        <li class="nav-item mx-2">
                             <a class="nav-link active montserrat-light" href="{% url 'core:product' %}">PRODUCT</a>
                         </li>
                     </ul>
@@ -44,8 +44,8 @@
                             <button class="btn btn-outline-secondary my-auto" type="submit"><img
                                     src="{% static 'assets/imgs/search.svg' %}" alt="search"></button>
                         </form>
-                        <ul class="navbar-nav mx-5">
-                            <li class="nav-item mx-5">
+                        <ul class="navbar-nav mx-2">
+                            <li class="nav-item mx-2">
                                 <!--Link to cart page-->
                                 <a href="{% url 'cart:cart' %}" class="nav-link montserrat-light">
                                     <img src="{% static 'assets/imgs/cart.svg' %}" alt="cart" class="img-fluid mt-3"
@@ -54,29 +54,29 @@
                                     style="position: relative; left:80%; bottom: 20%;">{{cart|length}}</span>
                             </li>
                             {% if user.is_authenticated %}
-                            <li class="nav-item mx-4">
+                            <li class="nav-item mx-2">
                                 <!--Link to profile page-->
                                 <a href="{% url 'userauths:profile' %}" class="nav-link montserrat-light">
                                     <img src="{{user.user_profile.url}}" alt="profile" class="img-fluid mt-3"
                                         style="width:50px ; border-radius:50%;">
                                 </a>
                             </li>
-                            <li class="nav-item mx-4 d-flex align-items-center">
+                            <li class="nav-item mx-2 d-flex align-items-center">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:logout' %}">LOGOUT</a>
                             </li>
-                            
+
                             {% if request.user.user_privilege > 1 %}
-                            <li class="nav-item mx-4 d-flex align-items-center">
+                            <li class="nav-item mx-2 d-flex align-items-center">
                                 <a class="nav-link montserrat-light bg-primary rounded"
                                     href="{% url 'moderate:product' %}" style="color: white;">ADMIN</a>
                             </li>
                             {% endif %}
 
                             {% else %}
-                            <li class="nav-item mx-4 d-flex align-items-center">
+                            <li class="nav-item mx-2 d-flex align-items-center">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:login' %}">LOGIN</a>
                             </li>
-                            <li class="nav-item mx-4 d-flex align-items-center">
+                            <li class="nav-item mx-2 d-flex align-items-center">
                                 <a class="nav-link montserrat-light" href="{% url 'userauths:sign-up' %}">SIGNUP</a>
                             </li>
                             {% endif %}
@@ -87,23 +87,23 @@
     </header>
 
 </head>
-         <!-- prettier ignore -->
+<!-- prettier ignore -->
 
-         {% if messages %} {% for message in messages %}
-         <!-- prettier ignore -->
-         {% if message.tags == 'error' %}
-         <div class="d-flex justify-content-center my-4 montserrat-bold">
-           <h1 class="bg-danger px-3 py-3 rounded" style="color: white">
-             {{message}}
-           </h1>
-         </div>
-         {% elif message.tags == 'success' %}
-         <div class="d-flex justify-content-center my-4 montserrat-bold">
-           <h1 class="bg-success px-3 py-3 rounded" style="color: white">
-             {{message}}
-           </h1>
-         </div>
-         {% endif %} {% endfor %} {% endif %}
+{% if messages %} {% for message in messages %}
+<!-- prettier ignore -->
+{% if message.tags == 'error' %}
+<div class="d-flex justify-content-center my-4 montserrat-bold">
+    <h1 class="bg-danger px-3 py-3 rounded" style="color: white">
+        {{message}}
+    </h1>
+</div>
+{% elif message.tags == 'success' %}
+<div class="d-flex justify-content-center my-4 montserrat-bold">
+    <h1 class="bg-success px-3 py-3 rounded" style="color: white">
+        {{message}}
+    </h1>
+</div>
+{% endif %} {% endfor %} {% endif %}
 {%block wrapper%}
 {%endblock wrapper%}
 <section class="mt-5">
@@ -125,7 +125,8 @@
             </div>
             <div class="col-6">
                 <div class="d-flex flex-row-reverse">
-                    <a href=""><img src="{% static 'assets/imgs/facebook.png' %}" alt="facebook" class="px-2 me-lg-5"></a>
+                    <a href=""><img src="{% static 'assets/imgs/facebook.png' %}" alt="facebook"
+                            class="px-2 me-lg-5"></a>
                     <a href=""><img src="{% static 'assets/imgs/line.png' %}" alt="line" class="px-2"></a>
                     <a href=""><img src="{% static 'assets/imgs/instragram.png' %}" alt="instragram" class="px-2"></a>
                 </div>
