@@ -1,0 +1,194 @@
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "cart_cartitem" (
+	"cart_item_id"	integer NOT NULL,
+	"quantity"	integer NOT NULL,
+	"product_id"	integer NOT NULL,
+	"cart_id"	bigint NOT NULL,
+	PRIMARY KEY("cart_item_id" AUTOINCREMENT),
+	FOREIGN KEY("cart_id") REFERENCES "cart_shoppingsession"("id") DEFERRABLE INITIALLY DEFERRED,
+	FOREIGN KEY("product_id") REFERENCES "core_product"("product_id") DEFERRABLE INITIALLY DEFERRED
+);
+CREATE TABLE IF NOT EXISTS "cart_shoppingsession" (
+	"id"	integer NOT NULL,
+	"created_at"	datetime NOT NULL,
+	"promotion_id"	varchar(255),
+	"user_id"	varchar(20) NOT NULL UNIQUE,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("promotion_id") REFERENCES "core_promotion"("code") DEFERRABLE INITIALLY DEFERRED,
+	FOREIGN KEY("user_id") REFERENCES "userauths_user"("user_id") DEFERRABLE INITIALLY DEFERRED
+);
+CREATE TABLE IF NOT EXISTS "core_product" (
+	"product_id"	integer NOT NULL,
+	"name"	varchar(100) NOT NULL,
+	"description"	text,
+	"image"	varchar(100) NOT NULL,
+	"price"	decimal NOT NULL,
+	"quantity"	integer NOT NULL,
+	"product_type"	varchar(20) NOT NULL,
+	"sword_length"	varchar(10),
+	"armor_size"	varchar(3),
+	"product_status"	varchar(20) NOT NULL,
+	"uniform_color"	varchar(20),
+	"uniform_size"	varchar(3),
+	PRIMARY KEY("product_id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "core_promotion" (
+	"code"	varchar(255) NOT NULL,
+	"discount"	real NOT NULL,
+	"amount"	integer NOT NULL,
+	"end_date"	date NOT NULL,
+	PRIMARY KEY("code")
+);
+CREATE TABLE IF NOT EXISTS "payment_canceledorder" (
+	"canceled_order_id"	integer NOT NULL,
+	"order_id"	integer NOT NULL UNIQUE,
+	PRIMARY KEY("canceled_order_id" AUTOINCREMENT),
+	FOREIGN KEY("order_id") REFERENCES "payment_order"("order_id") DEFERRABLE INITIALLY DEFERRED
+);
+CREATE TABLE IF NOT EXISTS "payment_order" (
+	"order_id"	integer NOT NULL,
+	"address"	varchar(255) NOT NULL,
+	"city"	varchar(255) NOT NULL,
+	"province"	varchar(255) NOT NULL,
+	"postal_code"	varchar(5) NOT NULL,
+	"telephone"	varchar(10) NOT NULL,
+	"created_at"	datetime NOT NULL,
+	"shipping_status"	bool NOT NULL,
+	"payment_id"	integer NOT NULL UNIQUE,
+	"promotion_code_id"	varchar(255),
+	"user_id"	varchar(20),
+	PRIMARY KEY("order_id" AUTOINCREMENT),
+	FOREIGN KEY("payment_id") REFERENCES "payment_payment"("payment_id") DEFERRABLE INITIALLY DEFERRED,
+	FOREIGN KEY("promotion_code_id") REFERENCES "core_promotion"("code") DEFERRABLE INITIALLY DEFERRED,
+	FOREIGN KEY("user_id") REFERENCES "userauths_user"("user_id") DEFERRABLE INITIALLY DEFERRED
+);
+CREATE TABLE IF NOT EXISTS "payment_orderitem" (
+	"order_item_id"	integer NOT NULL,
+	"quantity"	integer NOT NULL,
+	"order_id"	integer NOT NULL,
+	"product_id"	integer NOT NULL,
+	PRIMARY KEY("order_item_id" AUTOINCREMENT),
+	FOREIGN KEY("order_id") REFERENCES "payment_order"("order_id") DEFERRABLE INITIALLY DEFERRED,
+	FOREIGN KEY("product_id") REFERENCES "core_product"("product_id") DEFERRABLE INITIALLY DEFERRED
+);
+CREATE TABLE IF NOT EXISTS "payment_payment" (
+	"payment_id"	integer NOT NULL,
+	"total_price"	real NOT NULL,
+	"card_no"	varchar(20),
+	"card_provider"	varchar(15),
+	"card_status"	bool,
+	"cash_status"	bool,
+	"expiry_date"	date,
+	"qr_status"	bool,
+	"payment_type"	varchar(15) NOT NULL,
+	PRIMARY KEY("payment_id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "userauths_user" (
+	"password"	varchar(128) NOT NULL,
+	"last_login"	datetime,
+	"is_superuser"	bool NOT NULL,
+	"is_staff"	bool NOT NULL,
+	"is_active"	bool NOT NULL,
+	"date_joined"	datetime NOT NULL,
+	"email"	varchar(254) NOT NULL UNIQUE,
+	"username"	varchar(20) NOT NULL UNIQUE,
+	"first_name"	varchar(20) NOT NULL,
+	"last_name"	varchar(20) NOT NULL,
+	"telephone"	varchar(13) NOT NULL,
+	"user_profile"	varchar(100),
+	"user_privilege"	integer NOT NULL,
+	"user_id"	varchar(20) NOT NULL,
+	PRIMARY KEY("user_id")
+);
+CREATE TABLE IF NOT EXISTS "userauths_useraddress" (
+	"user_address_id"	integer NOT NULL,
+	"address"	varchar(255) NOT NULL,
+	"city"	varchar(255) NOT NULL,
+	"province"	varchar(255) NOT NULL,
+	"postal_code"	varchar(5) NOT NULL,
+	"telephone"	varchar(10) NOT NULL,
+	"user_id"	varchar(20) NOT NULL,
+	PRIMARY KEY("user_address_id" AUTOINCREMENT),
+	CONSTRAINT "unique_user_address" UNIQUE("user_address_id","user_id","address","city","province","postal_code","telephone"),
+	FOREIGN KEY("user_id") REFERENCES "userauths_user"("user_id") DEFERRABLE INITIALLY DEFERRED
+);
+CREATE TABLE IF NOT EXISTS "userauths_userpayment" (
+	"user_payment_id"	integer NOT NULL,
+	"card_provider"	varchar(15) NOT NULL,
+	"card_no"	varchar(20) NOT NULL,
+	"expiry_date"	date NOT NULL,
+	"user_id"	varchar(20) NOT NULL,
+	PRIMARY KEY("user_payment_id" AUTOINCREMENT),
+	CONSTRAINT "unique_user_payment" UNIQUE("user_payment_id","user_id","card_provider","card_no","expiry_date"),
+	FOREIGN KEY("user_id") REFERENCES "userauths_user"("user_id") DEFERRABLE INITIALLY DEFERRED
+);
+INSERT INTO "cart_shoppingsession" VALUES (2,'2024-11-25 12:56:02.970137',NULL,'userkddunwa3jl');
+INSERT INTO "cart_shoppingsession" VALUES (4,'2024-11-25 12:59:04.588299',NULL,'useruolehlj5ld');
+INSERT INTO "cart_shoppingsession" VALUES (5,'2024-11-25 13:02:59.953372',NULL,'useruqd85h9k6z');
+INSERT INTO "core_product" VALUES (5,'Shinai - Poong Rim','Master your Kendo practice with the Shinai Poong Rim. Crafted with durability and balance in mind, this shinai is ideal for both beginners and experienced practitioners. Made from high-quality bamboo, it provides the perfect weight and feel, allowing for precise movements and control. Equip yourself with this essential training tool to elevate your Kendo skills.','product/6.png',1200,35,'sword','36',NULL,'available',NULL,NULL);
+INSERT INTO "core_product" VALUES (7,'Shinai - Poong Rim','Master your Kendo practice with the Shinai Poong Rim. Crafted with durability and balance in mind, this shinai is ideal for both beginners and experienced practitioners. Made from high-quality bamboo, it provides the perfect weight and feel, allowing for precise movements and control. Equip yourself with this essential training tool to elevate your Kendo skills.','product/6_x12dY1J.png',1200,30,'sword','37',NULL,'available',NULL,NULL);
+INSERT INTO "core_product" VALUES (8,'Shinai - Poong Rim','Master your Kendo practice with the Shinai Poong Rim. Crafted with durability and balance in mind, this shinai is ideal for both beginners and experienced practitioners. Made from high-quality bamboo, it provides the perfect weight and feel, allowing for precise movements and control. Equip yourself with this essential training tool to elevate your Kendo skills.','product/6_LFtOCgd.png',1200,27,'sword','34',NULL,'available',NULL,NULL);
+INSERT INTO "core_product" VALUES (9,'Chung Un 2.5 mm','Protect yourself in style with the Chung Un 2.5 mm Armor Set, crafted for durability and comfort. This set includes a Men, Do, Kote, and Tare, all designed to provide robust protection while allowing for agility and flexibility. The 2.5 mm stitching ensures excellent impact resistance, making it perfect for intense training sessions or competitions. Experience superior protection with premium materials that stand the test of time.','product/8.png',18000,16,'armor',NULL,'s','available',NULL,NULL);
+INSERT INTO "core_product" VALUES (10,'Chung Un 2.5 mm','Protect yourself in style with the Chung Un 2.5 mm Armor Set, crafted for durability and comfort. This set includes a Men, Do, Kote, and Tare, all designed to provide robust protection while allowing for agility and flexibility. The 2.5 mm stitching ensures excellent impact resistance, making it perfect for intense training sessions or competitions. Experience superior protection with premium materials that stand the test of time.','product/8_awhzd6V.png',18000,19,'armor',NULL,'m','available',NULL,NULL);
+INSERT INTO "core_product" VALUES (12,'Kendo Uniform Set','Achieve a traditional Kendo look with this Kendo Uniform Set, combining comfort, durability, and style. Made from breathable, high-quality fabric, this set keeps you comfortable during rigorous training sessions. With color and size options available, this uniform can be tailored to fit your personal style and preference. Perfect for both beginners and advanced practitioners, this uniform set is an essential addition to your Kendo gear.','product/4_ajz5S3Q.png',2030,19,'uniform',NULL,NULL,'available','Black','m');
+INSERT INTO "core_product" VALUES (13,'Kendo Uniform Set','Achieve a traditional Kendo look with this Kendo Uniform Set, combining comfort, durability, and style. Made from breathable, high-quality fabric, this set keeps you comfortable during rigorous training sessions. With color and size options available, this uniform can be tailored to fit your personal style and preference. Perfect for both beginners and advanced practitioners, this uniform set is an essential addition to your Kendo gear.','product/4_2TH99Al.png',2030,8,'uniform',NULL,NULL,'available','Black','s');
+INSERT INTO "core_product" VALUES (14,'Kendo Uniform Set','Achieve a traditional Kendo look with this Kendo Uniform Set, combining comfort, durability, and style. Made from breathable, high-quality fabric, this set keeps you comfortable during rigorous training sessions. With color and size options available, this uniform can be tailored to fit your personal style and preference. Perfect for both beginners and advanced practitioners, this uniform set is an essential addition to your Kendo gear.','product/4_vJJPEDJ.png',2030,15,'uniform',NULL,NULL,'available','Navy','m');
+INSERT INTO "core_product" VALUES (15,'Shinai - Sojin 6 parts','Crafted for precision and durability, the Sojin 6 Parts Shinai is designed to elevate your kendo practice. Featuring six meticulously crafted components, this shinai offers enhanced flexibility, balance, and strength for practitioners seeking superior performance.
+
+Ideal for both training and competition, its ergonomic design ensures comfort and control during extended sessions. Whether you''re perfecting your strikes or engaging in spirited keiko, the Sojin 6 Parts Shinai delivers the reliability and craftsmanship every kendoka deserves.','product/10.png',1500,10,'sword','34',NULL,'available',NULL,NULL);
+INSERT INTO "core_product" VALUES (16,'Shinai - Sojin 6 parts','Crafted for precision and durability, the Sojin 6 Parts Shinai is designed to elevate your kendo practice. Featuring six meticulously crafted components, this shinai offers enhanced flexibility, balance, and strength for practitioners seeking superior performance.
+
+Ideal for both training and competition, its ergonomic design ensures comfort and control during extended sessions. Whether you''re perfecting your strikes or engaging in spirited keiko, the Sojin 6 Parts Shinai delivers the reliability and craftsmanship every kendoka deserves.','product/10_U01ys0t.png',1500,9,'sword','36',NULL,'available',NULL,NULL);
+INSERT INTO "core_promotion" VALUES ('PLEASESALE',0.2,996,'2026-04-30');
+INSERT INTO "payment_order" VALUES (1,'Enim tenetur consequ','Maiores sapiente nul','Beatae perferendis a','54','35','2024-11-25 12:59:04.567429',0,16,NULL,'useruolehlj5ld');
+INSERT INTO "payment_order" VALUES (2,'Quia omnis do labore','Aut dolor necessitat','Magnam natus vel quo','8','9','2024-11-25 13:02:59.933613',0,18,'PLEASESALE','useruqd85h9k6z');
+INSERT INTO "payment_orderitem" VALUES (1,5,1,13);
+INSERT INTO "payment_orderitem" VALUES (2,1,2,9);
+INSERT INTO "payment_payment" VALUES (5,21600.0,NULL,NULL,NULL,0,NULL,NULL,'cash');
+INSERT INTO "payment_payment" VALUES (6,76500.0,NULL,NULL,NULL,0,NULL,NULL,'cash');
+INSERT INTO "payment_payment" VALUES (7,2030.0,NULL,NULL,NULL,NULL,NULL,0,'qr');
+INSERT INTO "payment_payment" VALUES (8,1200.0,'5555555555555555','mastercard',0,NULL,'2025-12-01',NULL,'card');
+INSERT INTO "payment_payment" VALUES (9,2030.0,'4590459045904590','visa',0,NULL,'2050-12-01',NULL,'card');
+INSERT INTO "payment_payment" VALUES (10,8627.5,'4590459045904590','visa',0,NULL,'2050-12-01',NULL,'card');
+INSERT INTO "payment_payment" VALUES (11,0.0,NULL,NULL,NULL,NULL,NULL,0,'qr');
+INSERT INTO "payment_payment" VALUES (12,20030.0,'5555555555555555','mastercard',0,NULL,'1982-06-01',NULL,'card');
+INSERT INTO "payment_payment" VALUES (13,0.0,NULL,NULL,NULL,0,NULL,NULL,'cash');
+INSERT INTO "payment_payment" VALUES (14,29350.0,'4590459045904590','visa',0,NULL,'2050-12-01',NULL,'card');
+INSERT INTO "payment_payment" VALUES (15,0.0,NULL,NULL,NULL,0,NULL,NULL,'cash');
+INSERT INTO "payment_payment" VALUES (16,10150.0,NULL,NULL,NULL,NULL,NULL,0,'qr');
+INSERT INTO "payment_payment" VALUES (17,14400.0,'5555555555555555','mastercard',0,NULL,'2025-08-01',NULL,'card');
+INSERT INTO "payment_payment" VALUES (18,14400.0,'5555555555555555','mastercard',0,NULL,'2025-08-01',NULL,'card');
+INSERT INTO "userauths_user" VALUES ('pbkdf2_sha256$870000$zGQXtUxBjqh1p6XeMvt6dk$EO8gih/yBSmfpo4oM3I7ZncHb7VwjbiZTPFjixGS95I=','2024-11-25 12:59:22.865900',1,1,1,'2024-11-25 12:43:59.784923','breakoff1530@gmail.com','bkopyz','Dechathron','Dasri','0981131445','user/user_useruqd85h9k6z/user_profile.png',3,'useruqd85h9k6z');
+INSERT INTO "userauths_user" VALUES ('pbkdf2_sha256$870000$H3wDeKryc96BlCnyxo08vl$a4ERDzFz6r27PdiKnX/8yoBPTlIpw0u+HK/+dQD3Hz0=','2024-11-25 12:56:02.967949',0,0,1,'2024-11-25 12:56:02.509808','sasu@mailinator.com','woziba','Griffith','Burton','0981131445','/user/user_no_img/human.png',1,'userkddunwa3jl');
+INSERT INTO "userauths_user" VALUES ('pbkdf2_sha256$870000$8j3kOzQnugOas5Anzr5BuZ$/XVhruoxnb0to0qsPCZwtPQV3lCwQniLUlo6ALpLp10=','2024-11-25 12:57:19.849740',0,0,1,'2024-11-25 12:57:19.392750','dojiqesire@mailinator.com','xaderenuto','Keiko','Mack','0132456879','/user/user_no_img/human.png',1,'useruolehlj5ld');
+INSERT INTO "userauths_useraddress" VALUES (1,'Enim tenetur consequ','Maiores sapiente nul','Beatae perferendis a','54','35','useruolehlj5ld');
+INSERT INTO "userauths_useraddress" VALUES (2,'Quia omnis do labore','Aut dolor necessitat','Magnam natus vel quo','8','9','useruqd85h9k6z');
+INSERT INTO "userauths_userpayment" VALUES (1,'mastercard','5555555555555555','2025-08-01','useruqd85h9k6z');
+CREATE INDEX IF NOT EXISTS "cart_cartitem_cart_id_370ad265" ON "cart_cartitem" (
+	"cart_id"
+);
+CREATE INDEX IF NOT EXISTS "cart_cartitem_product_id_b24e265a" ON "cart_cartitem" (
+	"product_id"
+);
+CREATE INDEX IF NOT EXISTS "cart_shoppingsession_promotion_id_99ee93ad" ON "cart_shoppingsession" (
+	"promotion_id"
+);
+CREATE INDEX IF NOT EXISTS "payment_order_promotion_code_id_e90aa0fd" ON "payment_order" (
+	"promotion_code_id"
+);
+CREATE INDEX IF NOT EXISTS "payment_order_user_id_5d749f62" ON "payment_order" (
+	"user_id"
+);
+CREATE INDEX IF NOT EXISTS "payment_orderitem_order_id_32d59828" ON "payment_orderitem" (
+	"order_id"
+);
+CREATE INDEX IF NOT EXISTS "payment_orderitem_product_id_6a98ebcd" ON "payment_orderitem" (
+	"product_id"
+);
+CREATE INDEX IF NOT EXISTS "userauths_useraddress_user_id_1edd5810" ON "userauths_useraddress" (
+	"user_id"
+);
+CREATE INDEX IF NOT EXISTS "userauths_userpayment_user_id_c7905cd7" ON "userauths_userpayment" (
+	"user_id"
+);
+COMMIT;

@@ -10,7 +10,7 @@ PAYMENT_TYPE = (("cash", "Cash"), ("qr", "QrCode"), ("card", "Card"))
 
 # Create your models here.
 class Payment(models.Model):
-    payment_id = models.AutoField(primary_key=True)
+    payment_id = models.AutoField(primary_key=True, max_length=9)
     payment_type = models.CharField(choices=PAYMENT_TYPE, max_length=15, default="cash")
     card_provider = models.CharField(
         null=True, blank=True, choices=CARD_PROVIDER, max_length=15
@@ -20,11 +20,11 @@ class Payment(models.Model):
     qr_status = models.BooleanField(null=True, blank=True)
     cash_status = models.BooleanField(null=True, blank=True)
     card_status = models.BooleanField(null=True, blank=True)
-    total_price = models.FloatField(default=0)
+    total_price = models.FloatField(default=0, max_length=9)
 
 
 class Order(models.Model):
-    order_id = models.AutoField(primary_key=True)
+    order_id = models.AutoField(primary_key=True, max_length=9)
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     payment = models.OneToOneField(Payment, on_delete=models.RESTRICT, default=0)
     promotion_code = models.ForeignKey(
@@ -44,12 +44,12 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order_item_id = models.AutoField(primary_key=True)
+    order_item_id = models.AutoField(primary_key=True, max_length=9)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, default=0)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, default=0)
-    quantity = models.IntegerField(default=1)
+    quantity = models.IntegerField(default=1, max_length=9)
 
 
 class CanceledOrder(models.Model):
-    canceled_order_id = models.AutoField(primary_key=True)
+    canceled_order_id = models.AutoField(primary_key=True, max_length=9)
     order = models.OneToOneField(Order, on_delete=models.CASCADE, default=0)

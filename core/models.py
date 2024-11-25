@@ -52,12 +52,12 @@ RATING = (
 class Product(models.Model):
     _image_width: int = 50
     _image_height: int = 50
-    product_id = models.AutoField(primary_key=True)
+    product_id = models.AutoField(primary_key=True, max_length=9)
     name = models.CharField(max_length=100, default="name of a product")
     description = models.TextField(null=True, blank=True, default="This is a product")
     image = models.ImageField(upload_to="product/", default="product.png")
-    price = models.DecimalField(max_digits=99999999, decimal_places=2, default=0.0)
-    quantity = models.IntegerField(default=0)
+    price = models.DecimalField(max_digits=99999999, decimal_places=2, default=0.0, max_length=8)
+    quantity = models.IntegerField(default=0, max_length=9)
 
     product_type = models.CharField(
         choices=PRODUCT_TYPE, max_length=20, default="sword"
@@ -94,8 +94,8 @@ class Product(models.Model):
 
 class Promotion(models.Model):
     code = models.CharField(max_length=255, primary_key=True, default="HAPPY")
-    discount = models.FloatField(default=0.15)
-    amount = models.IntegerField(default=1000)
+    discount = models.FloatField(default=0.15, max_length=5)
+    amount = models.IntegerField(default=1000, max_length=9)
     end_date = models.DateField(
         default=datetime.datetime.now() + datetime.timedelta(days=365),
     )
